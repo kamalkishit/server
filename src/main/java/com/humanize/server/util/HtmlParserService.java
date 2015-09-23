@@ -21,13 +21,13 @@ import com.humanize.server.data.Content;
 @Service
 public class HtmlParserService {
 
-	private Content parseURL(String url) {
-		Content content = null;
+	private Content parseURL(Content content) {
 		try {
-			Document document = Jsoup.connect(url).userAgent("Mozilla").get();
-			content = new Content();
+			Document document = Jsoup.connect(content.getContentURL())
+					.userAgent("Mozilla").get();
 
-			content.setContentURL(url);
+			System.out.println(content.getContentId());
+
 			content.setContentId(UUID.randomUUID().toString());
 			content.setTitle(document.select("meta[property=og:title]").first()
 					.attr("content"));
@@ -38,10 +38,11 @@ public class HtmlParserService {
 					.first().attr("content"));
 			content.setImageURL(document.select("meta[property=og:image]")
 					.first().attr("content"));
-			if (downloadImage(content.getImageURL(), content.getContentId())) {
-				return content;
-			}
-			return null;
+			/*
+			 * if (downloadImage(content.getImageURL(), content.getContentId()))
+			 * { return content; } return null;
+			 */
+			return content;
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 			return null;
@@ -74,11 +75,7 @@ public class HtmlParserService {
 	}
 
 	public Content parse(Content content) {
-		return parseURL(content.getContentURL());
-	}
-
-	public Content parse(String url) {
-		return parseURL(url);
+		return parseURL(content);
 	}
 
 	public ArrayList<Content> parse(ArrayList<Content> contents) {

@@ -38,7 +38,7 @@ public class ExcelToJson {
 				Content content = new Content();
 
 				content.setContentURL(row.getCell(0).getStringCellValue());
-				// content.setCategory(row.getCell(1).getStringCellValue());
+				content.setCategory(row.getCell(1).getStringCellValue());
 				contents.add(content);
 			}
 		} catch (Exception ex) {

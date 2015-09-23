@@ -37,7 +37,8 @@ public class ContentService {
 	}
 
 	public void populateContent() {
-		ExcelToJson excelToJson = new ExcelToJson("/Users/Kamal/DEV/temp.xlsx");
+		ExcelToJson excelToJson = new ExcelToJson(
+				"/Users/Kamal/Desktop/temp.xlsx");
 		ArrayList<Content> contents = excelToJson.toJson();
 		HtmlParserService htmlParserService = new HtmlParserService();
 		contents = htmlParserService.parse(contents);
