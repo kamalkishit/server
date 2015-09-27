@@ -12,6 +12,7 @@ import com.humanize.server.dao.ContentRepository;
 import com.humanize.server.data.Content;
 import com.humanize.server.data.Contents;
 import com.humanize.server.service.ContentService;
+import com.humanize.server.util.HtmlParserService;
 
 @SpringBootApplication
 public class App extends SpringBootServletInitializer {
@@ -29,10 +30,16 @@ public class App extends SpringBootServletInitializer {
 	}
 
 	public static void main(String[] args) {
+		try {
+			App.run(args);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		SpringApplication.run(App.class, args);
 	}
 
-	public void run(String... args) throws Exception {
+	public static void run(String... args) throws Exception {
 
 		System.out.println("i m here");
 
@@ -46,9 +53,13 @@ public class App extends SpringBootServletInitializer {
 		contents.setContents(contentList);
 		;
 
-		boolean result = contentService.updateContents(contents);
-		if (result) {
-			System.out.println("success");
-		}
+		HtmlParserService htmlParserService = new HtmlParserService();
+		htmlParserService
+				.parse("http://thelogicalindian.com/news/video-saudi-arabia-to-head-the-u-n-human-rights-council-even-their-own-citizens-will-disagree/");
+
+		/*
+		 * boolean result = contentService.updateContents(contents); if (result)
+		 * { System.out.println("success"); }
+		 */
 	}
 }

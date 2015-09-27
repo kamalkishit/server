@@ -38,6 +38,11 @@ public class HtmlParserService {
 					.first().attr("content"));
 			content.setImageURL(document.select("meta[property=og:image]")
 					.first().attr("content"));
+
+			// String url = document
+			// .select("a[href~=https://www.facebook.com/*/videos*")
+			// .select("a[href=https://www.facebook.com/ajplusenglish/videos/622919697849541/")
+			// .first().attr("href").toString();
 			/*
 			 * if (downloadImage(content.getImageURL(), content.getContentId()))
 			 * { return content; } return null;
@@ -78,11 +83,20 @@ public class HtmlParserService {
 		return parseURL(content);
 	}
 
+	public Content parse(String url) {
+		Content content = new Content();
+		content.setContentURL(url);
+		return parse(content);
+	}
+
 	public ArrayList<Content> parse(ArrayList<Content> contents) {
 		ArrayList<Content> returnArray = new ArrayList<Content>();
 		for (Content content : contents) {
 			Content tempContent = parse(content);
-			returnArray.add(tempContent);
+			if (tempContent != null) {
+				returnArray.add(tempContent);
+			}
+
 		}
 
 		return returnArray;

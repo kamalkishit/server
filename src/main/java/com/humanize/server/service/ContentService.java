@@ -1,8 +1,6 @@
 package com.humanize.server.service;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,19 +40,8 @@ public class ContentService {
 		ArrayList<Content> contents = excelToJson.toJson();
 		HtmlParserService htmlParserService = new HtmlParserService();
 		contents = htmlParserService.parse(contents);
-		System.out.println("contents");
 		repository.save(contents);
 	}
-
-	/*
-	 * public ArrayList<Content> findAll() { PageRequest pageRequest = new
-	 * PageRequest(0, 20, new Sort(new Order( Direction.DESC, "createdDate")));
-	 * ArrayList<Content> contents = repository.findAll(pageRequest);
-	 * 
-	 * if (contents != null) { return contents; }
-	 * 
-	 * return null; }
-	 */
 
 	public Content createContent(Content content) {
 		content = htmlParser.parse(content);
@@ -110,12 +97,8 @@ public class ContentService {
 	}
 
 	public ArrayList<Content> getMoreContent(long startDate) {
-		System.out.println(new Date(new Timestamp(startDate).getTime()));
-		PageRequest pageRequest = new PageRequest(0, 20); /*
-														 * , new Sort(new Order(
-														 * Direction.ASC,
-														 * "createdDate")));
-														 */
+		Pageable pageRequest = new PageRequest(0, 20, new Sort(Direction.DESC,
+				"createdDate"));
 		ArrayList<Content> contents = repository.findByCreatedDateLessThan(
 				startDate, pageRequest);
 
@@ -127,8 +110,8 @@ public class ContentService {
 	}
 
 	public ArrayList<Content> getNewContent(long endDate) {
-		Pageable pageRequest = new PageRequest(0, 20, new Sort(new Order(
-				Direction.DESC, "createdDate")));
+		Pageable pageRequest = new PageRequest(0, 20, new Sort(Direction.DESC,
+				"createdDate"));
 		ArrayList<Content> contents = repository.findByCreatedDateGreaterThan(
 				endDate, pageRequest);
 
