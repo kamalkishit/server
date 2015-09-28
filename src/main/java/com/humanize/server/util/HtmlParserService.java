@@ -15,7 +15,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
-import com.humanize.server.config.Config;
 import com.humanize.server.data.Content;
 
 @Service
@@ -43,11 +42,13 @@ public class HtmlParserService {
 			// .select("a[href~=https://www.facebook.com/*/videos*")
 			// .select("a[href=https://www.facebook.com/ajplusenglish/videos/622919697849541/")
 			// .first().attr("href").toString();
-			/*
-			 * if (downloadImage(content.getImageURL(), content.getContentId()))
-			 * { return content; } return null;
-			 */
-			return content;
+
+			if (downloadImage(content.getImageURL(), content.getContentId())) {
+				return content;
+			}
+			return null;
+
+			// return content;
 		} catch (IOException ioException) {
 			ioException.printStackTrace();
 			return null;
@@ -59,7 +60,7 @@ public class HtmlParserService {
 			URL url = new URL(imageURL);
 			URLConnection urlConnection = url.openConnection();
 			urlConnection.setRequestProperty("User-Agent", "Mozilla");
-			String imageFilename = Config.IMAGE_FOLDER + destinationFilename
+			String imageFilename = "/root/images/" + destinationFilename
 					+ imageURL.substring(imageURL.lastIndexOf('.'));
 			System.out.println(imageFilename);
 			InputStream in = new BufferedInputStream(
