@@ -20,7 +20,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
-import com.humanize.server.config.Config;
 import com.humanize.server.data.Content;
 
 @Service
@@ -68,11 +67,11 @@ public class HtmlParserService {
 			URL url = new URL(content.getOriginalImageURL());
 			URLConnection urlConnection = url.openConnection();
 			urlConnection.setRequestProperty("User-Agent", "Mozilla");
-			String tempImageFilename = Config.IMAGE_FOLDER
+			String tempImageFilename = "/root/images/"
 					+ "temp"
 					+ content.getOriginalImageURL().substring(
 							content.getOriginalImageURL().lastIndexOf('.'));
-			String imageFilename = Config.IMAGE_FOLDER
+			String imageFilename = "/root/images/"
 					+ content.getContentId()
 					+ content.getOriginalImageURL().substring(
 							content.getOriginalImageURL().lastIndexOf('.'));
