@@ -54,8 +54,8 @@ public class App extends SpringBootServletInitializer {
 		;
 
 		HtmlParserService htmlParserService = new HtmlParserService();
-		htmlParserService
-				.parse("http://thelogicalindian.com/news/video-saudi-arabia-to-head-the-u-n-human-rights-council-even-their-own-citizens-will-disagree/");
+		// htmlParserService
+		// .parse("http://thelogicalindian.com/news/video-saudi-arabia-to-head-the-u-n-human-rights-council-even-their-own-citizens-will-disagree/");
 
 		/*
 		 * boolean result = contentService.updateContents(contents); if (result)
