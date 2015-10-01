@@ -4,14 +4,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import com.humanize.server.controller.ContentController;
 import com.humanize.server.data.Content;
 
 public class ExcelToJson {
+	
+	static Logger logger = Logger.getLogger(ExcelToJson.class);
 
 	String filename;
 
@@ -42,12 +46,14 @@ public class ExcelToJson {
 				contents.add(content);
 			}
 		} catch (Exception ex) {
+			logger.error("ExcelToJSON", ex);
 			ex.printStackTrace();
 		} finally {
 			try {
 				fileInputStream.close();
 				// return new JSONObject();
 			} catch (IOException ex) {
+				logger.error("ExcelTOJSON", ex);
 				ex.printStackTrace();
 			} finally {
 				return contents;

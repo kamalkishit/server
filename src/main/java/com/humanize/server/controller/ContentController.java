@@ -3,6 +3,7 @@ package com.humanize.server.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,13 +18,15 @@ import com.humanize.server.service.ContentService;
 
 @RestController
 public class ContentController {
+	
+	static Logger logger = Logger.getLogger(ContentController.class);
 
 	@Autowired
 	private ContentService contentService;
 
 	@RequestMapping("/contents/create")
 	public ResponseEntity<?> createContent(@RequestBody Content content) {
-		System.out.println("inside create");
+		logger.debug("inside create");
 		content = contentService.createContent(content);
 
 		if (content != null) {
@@ -102,6 +105,7 @@ public class ContentController {
 
 	@RequestMapping("/contents/getcontent")
 	public ResponseEntity<?> getContent() {
+		logger.debug("inside getcontent");
 		ArrayList<Content> contents = contentService.getContent();
 
 		if (contents != null) {

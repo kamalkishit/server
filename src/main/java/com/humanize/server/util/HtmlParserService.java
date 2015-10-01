@@ -15,15 +15,19 @@ import java.util.UUID;
 
 import javax.imageio.ImageIO;
 
+import org.apache.log4j.Logger;
 import org.imgscalr.Scalr;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
+import com.humanize.server.controller.ContentController;
 import com.humanize.server.data.Content;
 
 @Service
 public class HtmlParserService {
+	
+	static Logger logger = Logger.getLogger(HtmlParserService.class);
 
 	private Content parseURL(Content content) {
 		try {
@@ -55,6 +59,7 @@ public class HtmlParserService {
 			return null;
 			// return content;
 		} catch (IOException ioException) {
+			logger.error("parseURL", ioException);
 			System.out.println("exception in main");
 			System.out.println(content.getContentURL());
 			ioException.printStackTrace();
@@ -120,6 +125,7 @@ public class HtmlParserService {
 
 			return true;
 		} catch (Exception e) {
+			logger.error("downloadImage", e);
 			System.out.println("exception in download");
 			System.out.println(content.getImageURL());
 			e.printStackTrace();
