@@ -23,6 +23,7 @@ public class ContentController {
 
 	@RequestMapping("/contents/create")
 	public ResponseEntity<?> createContent(@RequestBody Content content) {
+		System.out.println("inside create");
 		content = contentService.createContent(content);
 
 		if (content != null) {
