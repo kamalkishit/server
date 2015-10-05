@@ -77,11 +77,30 @@ public class ContentService {
 		return likes;
 	}
 
+	
+	public ArrayList<Content> findByCategory(String category) {
+		Pageable pageRequest = new PageRequest(0, 20, new Sort(Direction.DESC,
+				"createdDate"));
+		return repository.findAllByCategory(category, pageRequest);
+	}
+	
+	public ArrayList<Content> findByCategories(ArrayList<String> category) {
+		ArrayList<String> categories = new ArrayList<String>();
+		
+		categories.add("Education");
+		categories.add("Humanity");
+		
+		PageRequest pageRequest = new PageRequest(0, 20, new Sort(new Order(
+				Direction.DESC, "createdDate")));
+		
+		return repository.findAllByCategories(categories, pageRequest);
+	}
+
 	public ArrayList<Content> getPaper() {
 		PageRequest pageRequest = new PageRequest(0, 20, new Sort(new Order(
 				Direction.DESC, "createdDate")));
-		// ArrayList<Content> contents = repository.findAll(pageRequest);
-		return null;
+		Page<Content> contents = repository.findAll(pageRequest);
+		return new ArrayList<Content>(contents.getContent());
 	}
 
 	public ArrayList<Content> getContent() {

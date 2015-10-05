@@ -37,6 +37,36 @@ public class ContentController {
 		return new ResponseEntity<Contents>(new Contents(content),
 				HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	
+	@RequestMapping("/contents/category")
+	public ResponseEntity<?> getByCategory(@RequestParam String category) {
+		ArrayList<Content> contents = contentService.findByCategory(category);
+		
+		if (contents != null) {
+			return new ResponseEntity<Contents>(new Contents(contents),
+					HttpStatus.OK);
+		}
+
+		return new ResponseEntity<Contents>(new Contents(contents),
+				HttpStatus.INTERNAL_SERVER_ERROR);
+		
+	}
+	
+	
+	
+	@RequestMapping("/contents/categories")
+	public ResponseEntity<?> getByCategories() {
+		ArrayList<Content> contents = contentService.findByCategories(new ArrayList<String>());
+		
+		if (contents != null) {
+			return new ResponseEntity<Contents>(new Contents(contents),
+					HttpStatus.OK);
+		}
+
+		return new ResponseEntity<Contents>(new Contents(contents),
+				HttpStatus.INTERNAL_SERVER_ERROR);
+		
+	}
 
 	@RequestMapping("/contents/update")
 	public ResponseEntity<?> updateContent() {

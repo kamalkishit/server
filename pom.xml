@@ -48,6 +48,18 @@
         	<groupId>org.springframework.boot</groupId>
         	<artifactId>spring-boot-starter-data-mongodb</artifactId>
     	</dependency>
+    	
+    	<dependency>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-mongodb</artifactId>
+		  	<version>3.6.8</version>
+		</dependency>
+		
+		<dependency>
+		  	<groupId>org.slf4j</groupId>
+		  	<artifactId>slf4j-log4j12</artifactId>
+		  	<version>1.6.1</version>
+		</dependency> 
     		
     	<dependency>
 	    	<groupId>org.apache.poi</groupId>
@@ -87,12 +99,31 @@
 
 
     <build>
+    <pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            
+            <plugin>
+		       	<groupId>com.mysema.maven</groupId>
+		        <artifactId>maven-apt-plugin</artifactId>
+		        <version>1.0</version>
+		        <executions>
+		          	<execution>
+		            	<goals>
+		              		<goal>process</goal>
+		            	</goals>
+		            	<configuration>
+		              		<outputDirectory>target/generated-sources/java</outputDirectory>
+		              		<processor>com.mysema.query.mongodb.MongodbAnnotationProcessor</processor>
+		            	</configuration>
+		          	</execution>
+		        </executions>
+		    </plugin>
         </plugins>
+        </pluginManagement>
     </build>
 
     <repositories>
