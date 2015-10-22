@@ -36,7 +36,7 @@ public class User {
 
 	private Set<String> contentsCreated;
 	
-	private Time paperReminderTime; 
+	//private Time paperReminderTime; 
 	
 	private boolean isVerified;
 	
@@ -52,7 +52,7 @@ public class User {
 		this.likes = new LinkedHashSet<String>();
 		this.bookmarks = new LinkedHashSet<String>();
 		this.contentsCreated = new LinkedHashSet<String>();
-		this.paperReminderTime = new Time(8, 0, 0);
+		//this.paperReminderTime = new Time(8, 0, 0);
 		this.typeOfArticles = new ArrayList<String>();
 		this.categories = new ArrayList<String>();
 	}
@@ -145,11 +145,11 @@ public class User {
 		this.isDeleted = isDeleted;
 	}
 
-	public Time getPaperReminderTime() {
+	/*public Time getPaperReminderTime() {
 		return paperReminderTime;
 	}
 
 	public void setPaperReminderTime(Time paperReminderTime) {
 		this.paperReminderTime = paperReminderTime;
-	}
+	}*/
 }
