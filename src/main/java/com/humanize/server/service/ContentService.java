@@ -72,9 +72,7 @@ public class ContentService {
 	}
 
 	public ArrayList<Content> getLikes(List<String> ids) {
-		ArrayList<Content> likes = repository.findAll(ids);
-
-		return likes;
+		return repository.findAll(ids);
 	}
 
 	
@@ -84,29 +82,41 @@ public class ContentService {
 		return repository.findAllByCategory(category, pageRequest);
 	}
 	
-	public ArrayList<Content> findByCategories(ArrayList<String> category) {
-		ArrayList<String> categories = new ArrayList<String>();
-		
-		categories.add("Education");
-		categories.add("Humanity");
-		
+	public ArrayList<Content> findByCategoryCreatedDateLessThan(String category, long createdDate) {
+		Pageable pageRequest = new PageRequest(0, 20, new Sort(Direction.DESC,
+				"createdDate"));
+		return repository.findAllByCategoryCreatedDateLessThan(category, createdDate, pageRequest);
+	}
+	
+	public ArrayList<Content> findByCategories(ArrayList<String> categories) {
+
 		PageRequest pageRequest = new PageRequest(0, 20, new Sort(new Order(
 				Direction.DESC, "createdDate")));
 		
-		return repository.findAllByCategories(categories, pageRequest);
+		//return repository.findAllByCategories(categories, pageRequest);
+		return null;
 	}
 
-	public ArrayList<Content> getPaper() {
-		PageRequest pageRequest = new PageRequest(0, 20, new Sort(new Order(
-				Direction.DESC, "createdDate")));
-		Page<Content> contents = repository.findAll(pageRequest);
-		return new ArrayList<Content>(contents.getContent());
+	public ArrayList<Content> getPaper(List<String> ids) {
+		return repository.findAll(ids);
 	}
 
 	public ArrayList<Content> getContent() {
 		PageRequest pageRequest = new PageRequest(0, 20, new Sort(new Order(
 				Direction.DESC, "createdDate")));
 		Page<Content> contents = repository.findAll(pageRequest);
+
+		if (contents != null) {
+			return new ArrayList<Content>(contents.getContent());
+		}
+
+		return null;
+	}
+	
+	public ArrayList<Content> getContents(List<String> categories) {
+		Pageable pageRequest = new PageRequest(0, 20, new Sort(new Order(
+				Direction.DESC, "createdDate")));
+		Page<Content> contents = repository.findAllByCategories(categories, pageRequest);
 
 		if (contents != null) {
 			return new ArrayList<Content>(contents.getContent());
@@ -127,11 +137,37 @@ public class ContentService {
 
 		return null;
 	}
+	
+	public ArrayList<Content> getMoreContents(List<String> categories, long startDate) {
+		Pageable pageRequest = new PageRequest(0, 20, new Sort(Direction.DESC,
+				"createdDate"));
+		ArrayList<Content> contents = repository.findAllByCategoriesCreatedDateLessThan(categories, 
+				startDate, pageRequest);
+
+		if (contents != null) {
+			return contents;
+		}
+
+		return null;
+	}
 
 	public ArrayList<Content> getNewContent(long endDate) {
 		Pageable pageRequest = new PageRequest(0, 20, new Sort(Direction.DESC,
 				"createdDate"));
 		ArrayList<Content> contents = repository.findByCreatedDateGreaterThan(
+				endDate, pageRequest);
+
+		if (contents != null) {
+			return contents;
+		}
+
+		return null;
+	}
+	
+	public ArrayList<Content> getNewContents(List<String> categories, long endDate) {
+		Pageable pageRequest = new PageRequest(0, 20, new Sort(Direction.DESC,
+				"createdDate"));
+		ArrayList<Content> contents = repository.findAllByCategoriesCreatedDateGreaterThan(categories, 
 				endDate, pageRequest);
 
 		if (contents != null) {

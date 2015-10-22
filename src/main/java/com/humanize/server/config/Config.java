@@ -9,5 +9,5 @@ public class Config {
 	public static String USERS_COLLECTION = "Users";
 	public static String CONTENTS_COLLECTION = "Contents";
 
-	public static String IMAGE_FOLDER = "/Users/Kamal/DEV/images/";
+	public static String IMAGE_FOLDER = "/root/images/";
 }

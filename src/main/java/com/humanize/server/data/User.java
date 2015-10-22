@@ -1,6 +1,9 @@
 package com.humanize.server.data;
 
+import java.sql.Time;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
@@ -22,13 +25,23 @@ public class User {
 	private String emailId;
 
 	private String password;
+	
+	private List<String> typeOfArticles;
+	
+	private List<String> categories;
 
 	private Set<String> likes;
 
 	private Set<String> bookmarks;
 
 	private Set<String> contentsCreated;
-
+	
+	private Time paperReminderTime; 
+	
+	private boolean isVerified;
+	
+	private boolean isDeleted;
+	
 	@CreatedDate
 	private long createdDate;
 
@@ -39,6 +52,9 @@ public class User {
 		this.likes = new LinkedHashSet<String>();
 		this.bookmarks = new LinkedHashSet<String>();
 		this.contentsCreated = new LinkedHashSet<String>();
+		this.paperReminderTime = new Time(8, 0, 0);
+		this.typeOfArticles = new ArrayList<String>();
+		this.categories = new ArrayList<String>();
 	}
 
 	public String getUserId() {
@@ -111,5 +127,29 @@ public class User {
 
 	public void setLastModifiedDate(long lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public boolean isVerified() {
+		return isVerified;
+	}
+
+	public void setVerified(boolean isVerified) {
+		this.isVerified = isVerified;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public Time getPaperReminderTime() {
+		return paperReminderTime;
+	}
+
+	public void setPaperReminderTime(Time paperReminderTime) {
+		this.paperReminderTime = paperReminderTime;
 	}
 }

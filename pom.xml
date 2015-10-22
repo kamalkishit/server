@@ -49,23 +49,37 @@
         	<artifactId>spring-boot-starter-data-mongodb</artifactId>
     	</dependency>
     	
-    	<dependency>
-			<groupId>com.mysema.querydsl</groupId>
-			<artifactId>querydsl-mongodb</artifactId>
-		  	<version>3.6.8</version>
-		</dependency>
 		
 		<dependency>
 		  	<groupId>org.slf4j</groupId>
 		  	<artifactId>slf4j-log4j12</artifactId>
 		  	<version>1.6.1</version>
-		</dependency> 
+		</dependency>
+		
+	<dependency>
+		<groupId>javax.mail</groupId>
+		<artifactId>javax.mail-api</artifactId>
+		<version>1.5.3</version>
+	</dependency>
+
+	<dependency>
+	    <groupId>com.sun.mail</groupId>
+	    <artifactId>javax.mail</artifactId>
+	    <version>1.5.3</version>
+	</dependency>
+	
+	<dependency>
+	<groupId>javax.activation</groupId>
+	<artifactId>activation</artifactId>
+	<version>1.1</version>
+</dependency>
+		 
     		
     	<dependency>
 	    	<groupId>org.apache.poi</groupId>
-	   		<artifactId>poi</artifactId>
+	   	<artifactId>poi</artifactId>
 	    	<version>3.9</version>
-		</dependency>
+	</dependency>
 	
 		<dependency>
     		<groupId>org.apache.poi</groupId>

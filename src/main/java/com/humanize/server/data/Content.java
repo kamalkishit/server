@@ -8,8 +8,6 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.mysema.query.annotations.QueryEntity;
-
 @Document
 public class Content {
 
@@ -48,15 +46,19 @@ public class Content {
 
 	private int sharedCount;
 
-	public Content() {
-		this.subCategories = new ArrayList<String>();
-	}
-
 	@CreatedDate
 	private long createdDate;
 
 	@LastModifiedDate
 	private long lastModifiedDate;
+	
+	private boolean isVerified;
+	
+	private boolean isDeleted;
+
+	public Content() {
+		this.subCategories = new ArrayList<String>();
+	}
 
 	public String getId() {
 		return id;
@@ -200,5 +202,21 @@ public class Content {
 
 	public void setLastModifiedDate(long lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public boolean isVerified() {
+		return isVerified;
+	}
+
+	public void setVerified(boolean isVerified) {
+		this.isVerified = isVerified;
+	}
+
+	public boolean isDeleted() {
+		return isDeleted;
+	}
+
+	public void setDeleted(boolean isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 }

@@ -12,6 +12,7 @@ import com.humanize.server.dao.ContentRepository;
 import com.humanize.server.data.Content;
 import com.humanize.server.data.Contents;
 import com.humanize.server.service.ContentService;
+import com.humanize.server.service.EmailSenderService;
 import com.humanize.server.util.HtmlParserService;
 
 @SpringBootApplication
@@ -31,6 +32,8 @@ public class App extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		try {
+			//EmailSenderService emailSender = new EmailSenderService();
+			//emailSender.sendEmail();
 			App.run(args);
 		} catch (Exception e) {
 			e.printStackTrace();

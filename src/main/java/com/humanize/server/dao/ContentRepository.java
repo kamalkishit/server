@@ -1,6 +1,7 @@
 package com.humanize.server.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +34,17 @@ public interface ContentRepository extends MongoRepository<Content, String> {
 	@Query("{ 'category': ?0 }")
 	public ArrayList<Content> findAllByCategory(String category, Pageable pageRequest);
 	
+	@Query("{ 'category': { $in: ?0 }, 'createdDate': { $lt : ?1 }}")
+	public ArrayList<Content> findAllByCategoriesCreatedDateLessThan(List<String> categories, long createdDate,
+			Pageable pageRequest);
+	
+	@Query("{ 'category': { $in: ?0 }, 'createdDate': { $gt : ?1 }}")
+	public ArrayList<Content> findAllByCategoriesCreatedDateGreaterThan(List<String> categories, long createdDate,
+			Pageable pageRequest);
+	
+	@Query("{ 'category': ?0, 'createdDate': { $gt : ?1 }}")
+	public ArrayList<Content> findAllByCategoryCreatedDateLessThan(String category, long createdDate, Pageable pageRequest);
+	
 	@Query("{ 'category': { $in: ?0 }}")
-	public ArrayList<Content> findAllByCategories(ArrayList<String> categories, Pageable pageRequest);
+	public Page<Content> findAllByCategories(List<String> categories, Pageable pageRequest);
 }

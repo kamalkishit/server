@@ -39,8 +39,8 @@ public class ContentController {
 	}
 	
 	@RequestMapping("/contents/category")
-	public ResponseEntity<?> getByCategory(@RequestParam String category) {
-		ArrayList<Content> contents = contentService.findByCategory(category);
+	public ResponseEntity<?> getByCategory(@RequestParam String category, @RequestParam long time) {
+		ArrayList<Content> contents = contentService.findByCategoryCreatedDateLessThan(category, time);
 		
 		if (contents != null) {
 			return new ResponseEntity<Contents>(new Contents(contents),
@@ -50,9 +50,7 @@ public class ContentController {
 		return new ResponseEntity<Contents>(new Contents(contents),
 				HttpStatus.INTERNAL_SERVER_ERROR);
 		
-	}
-	
-	
+	}	
 	
 	@RequestMapping("/contents/categories")
 	public ResponseEntity<?> getByCategories() {
@@ -121,11 +119,18 @@ public class ContentController {
 		return new ResponseEntity<Contents>(new Contents(),
 				HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-
+	
 	@RequestMapping("/contents/paper")
-	public ResponseEntity<?> getPaper() {
-		return new ResponseEntity<Contents>(new Contents(
-				contentService.getPaper()), HttpStatus.OK);
+	public ResponseEntity<?> getPaper(@RequestParam("ids") List<String> ids) {
+		ArrayList<Content> likes = contentService.getLikes(ids);
+
+		if (likes != null) {
+			return new ResponseEntity<Contents>(new Contents(likes),
+					HttpStatus.OK);
+		}
+
+		return new ResponseEntity<Contents>(new Contents(),
+				HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@RequestMapping("/contents/populate")
@@ -137,6 +142,20 @@ public class ContentController {
 	public ResponseEntity<?> getContent() {
 		logger.debug("inside getcontent");
 		ArrayList<Content> contents = contentService.getContent();
+
+		if (contents != null) {
+			return new ResponseEntity<Contents>(new Contents(contents),
+					HttpStatus.OK);
+		}
+
+		return new ResponseEntity<Contents>(new Contents(contents),
+				HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@RequestMapping("/contents/getcontents")
+	public ResponseEntity<?> getContents(@RequestParam("categories") List<String> categories) {
+		logger.debug("inside getcontent");
+		ArrayList<Content> contents = contentService.getContents(categories);
 
 		if (contents != null) {
 			return new ResponseEntity<Contents>(new Contents(contents),
@@ -161,11 +180,39 @@ public class ContentController {
 		return new ResponseEntity<Contents>(new Contents(contents),
 				HttpStatus.INTERNAL_SERVER_ERROR);
 	}
+	@RequestMapping("/contents/getmorecontents")
+	public ResponseEntity<?> getMoreContent(@RequestParam("categories") List<String> categories, 
+			@RequestParam("startdate") long startDate) {
+
+		ArrayList<Content> contents = contentService.getMoreContents(categories, startDate);
+
+		if (contents != null) {
+			return new ResponseEntity<Contents>(new Contents(contents),
+					HttpStatus.OK);
+		}
+
+		return new ResponseEntity<Contents>(new Contents(contents),
+				HttpStatus.INTERNAL_SERVER_ERROR);
+	}
 
 	@RequestMapping("/contents/getnewcontent")
 	public ResponseEntity<?> getNewContent(@RequestParam("enddate") long endDate) {
 
 		ArrayList<Content> contents = contentService.getNewContent(endDate);
+
+		if (contents != null) {
+			return new ResponseEntity<Contents>(new Contents(contents),
+					HttpStatus.OK);
+		}
+
+		return new ResponseEntity<Contents>(new Contents(contents),
+				HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@RequestMapping("/contents/getnewcontents")
+	public ResponseEntity<?> getNewContents(@RequestParam("categories") List<String> categories, @RequestParam("enddate") long endDate) {
+
+		ArrayList<Content> contents = contentService.getNewContents(categories, endDate);
 
 		if (contents != null) {
 			return new ResponseEntity<Contents>(new Contents(contents),
