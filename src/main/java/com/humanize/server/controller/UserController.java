@@ -22,14 +22,8 @@ public class UserController {
 	}
 
 	@RequestMapping("/users/data")
-	public ResponseEntity<?> userdata() {
-		User user = userService.getUserdata("pandey.kishore@gmail.com");
-
-		if (user != null) {
-			return new ResponseEntity<User>(user, HttpStatus.OK);
-		}
-
-		return new ResponseEntity<User>(user, HttpStatus.INTERNAL_SERVER_ERROR);
+	public ResponseEntity<?> userdata(@RequestParam("emailId") String emailId) {
+		return new ResponseEntity<User>(userService.getUserdata(emailId), HttpStatus.OK);
 	}
 
 	@RequestMapping("/users/signup")
@@ -48,50 +42,6 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@RequestMapping("/likecontent")
-	public ResponseEntity<?> likeContent(@RequestParam("userId") String userId,
-			@RequestParam("contentId") String contentId) {
-		if (userService.likeContent(userId, contentId)) {
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-		}
 
-		return new ResponseEntity<Boolean>(false,
-				HttpStatus.INTERNAL_SERVER_ERROR);
-	}
 
-	@RequestMapping("/unlikecontent")
-	public ResponseEntity<?> unlikeContent(
-			@RequestParam("userId") String userId,
-			@RequestParam("contentId") String contentId) {
-		if (userService.unlikeContent(userId, contentId)) {
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-		}
-
-		return new ResponseEntity<Boolean>(false,
-				HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-
-	@RequestMapping("/bookmarkcontent")
-	public ResponseEntity<?> bookmarkContent(
-			@RequestParam("userId") String userId,
-			@RequestParam("contentId") String contentId) {
-		if (userService.bookmarkContent(userId, contentId)) {
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-		}
-
-		return new ResponseEntity<Boolean>(false,
-				HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-
-	@RequestMapping("/unbookmarkcontent")
-	public ResponseEntity<?> unbookmarkContent(
-			@RequestParam("userId") String userId,
-			@RequestParam("contentId") String contentId) {
-		if (userService.unbookmarkContent(userId, contentId)) {
-			return new ResponseEntity<Boolean>(true, HttpStatus.OK);
-		}
-
-		return new ResponseEntity<Boolean>(false,
-				HttpStatus.INTERNAL_SERVER_ERROR);
-	}
 }
