@@ -6,13 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.authentication.data.InvitationCode;
-import com.humanize.server.authentication.exception.UserCreationException;
-import com.humanize.server.authentication.exception.UserNotFoundException;
 import com.humanize.server.authentication.exception.WrongInvitationCodeException;
 import com.humanize.server.authentication.exception.WrongPasswordException;
+import com.humanize.server.authentication.service.EmailService;
 import com.humanize.server.authentication.service.InputValidationService;
 import com.humanize.server.authentication.service.InvitationCodeRepositoryService;
+import com.humanize.server.authentication.service.InvitationCodeService;
 import com.humanize.server.authentication.service.UserRepositoryService;
+import com.humanize.server.authentication.service.VerificationCodeRepositoryService;
+import com.humanize.server.authentication.service.VerificationCodeService;
 import com.humanize.server.common.ExceptionConfig;
 import com.humanize.server.data.User;
 
@@ -26,7 +28,19 @@ public class UserService {
 	private InvitationCodeRepositoryService invitationCodeRepositoryService;
 	
 	@Autowired
+	private VerificationCodeRepositoryService verificationCodeRepositoryService;
+	
+	@Autowired
 	private InputValidationService inputValidationService;
+	
+	@Autowired
+	VerificationCodeService verificationCodeService;
+	
+	@Autowired
+	InvitationCodeService invitationCodeService;
+	
+	@Autowired
+	private EmailService emailService;
 
 	public User login(User user) {
 		inputValidationService.validateLoginUser(user);
@@ -38,6 +52,10 @@ public class UserService {
 		} else {
 			throw new WrongPasswordException(ExceptionConfig.WRONG_PASSWORD_ERROR_CODE, ExceptionConfig.WRONG_PASSWORD_EXCEPTION);
 		}
+	}
+	
+	public boolean logout(User user) {
+		return true;
 	}
 
 	public User getUserdata(String emailId) {
@@ -53,7 +71,21 @@ public class UserService {
 		inputValidationService.validateSignupUser(user);
 		validateInvitationCode(user.getEmailId(), user.getInvitationCode());
 		user.setUserId(UUID.randomUUID().toString());
+		
 		return userRepositoryService.create(user);
+	}
+	
+	public boolean inviteUser(String emailId) {
+		inputValidationService.validateEmailId(emailId);		
+		
+		return invitationCodeService.sendInvitationCode(emailId);
+	}
+	
+	public boolean verifyUser(String emailId, String verificationCode) {
+		inputValidationService.validateEmailId(emailId);
+		inputValidationService.validateVerificationCode(verificationCode);
+		
+		return verificationCodeService.validateVerificationCode(emailId, verificationCode);
 	}
 	
 	private void validateInvitationCode(String emailId, String invitationCode) {

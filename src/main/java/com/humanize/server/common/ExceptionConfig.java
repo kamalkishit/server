@@ -49,21 +49,21 @@ public class ExceptionConfig {
 	
 	public static final String NULL_INVITATION_CODE_EXCEPTION = "Invitation code is null";
 	public static final String WRONG_INVITATION_CODE_EXCEPTION = "Invitation code is wrong";
-	public static final String INVITATION_CODE_CREATION_EXCEPTION ="Invitation code is not created successfully";
-	public static final String INVITATION_CODE_UPDATION_EXCEPTION = "Invitation code is not updated successfully";
-	public static final String INVITATION_CODE_NOT_FOUND_EXCEPTION = "Invitation code is not found";
-	public static final String INVITATION_CODE_DELETION_EXCEPTION = "Invitation code is not deleted successfully";
+	public static final String INVITATION_CODE_CREATION_EXCEPTION ="Invitation code not created successfully";
+	public static final String INVITATION_CODE_UPDATION_EXCEPTION = "Invitation code not updated successfully";
+	public static final String INVITATION_CODE_NOT_FOUND_EXCEPTION = "Invitation code not found";
+	public static final String INVITATION_CODE_DELETION_EXCEPTION = "Invitation code not deleted successfully";
 
 	public static final String NULL_VERIFICATION_CODE_EXCEPTION = "Verification code is null";
 	public static final String WRONG_VERIFICATION_CODE_EXCEPTION = "Verification code is wrong";
-	public static final String VERIFICATION_CODE_CREATION_EXCEPTION ="Verification code is not created successfully";
-	public static final String VERIFICATION_CODE_UPDATION_EXCEPTION = "Verification code is not updated successfully";
-	public static final String VERIFICATION_CODE_NOT_FOUND_EXCEPTION = "Verification code is not found";
-	public static final String VERIFICATION_CODE_DELETION_EXCEPTION = "Verification code is not deleted successfully";
+	public static final String VERIFICATION_CODE_CREATION_EXCEPTION ="Verification code not created successfully";
+	public static final String VERIFICATION_CODE_UPDATION_EXCEPTION = "Verification code not updated successfully";
+	public static final String VERIFICATION_CODE_NOT_FOUND_EXCEPTION = "Verification code not found";
+	public static final String VERIFICATION_CODE_DELETION_EXCEPTION = "Verification code not deleted successfully";
 	
 	public static final String NULL_USER_EXCEPTION = "User is null";
-	public static final String USER_CREATION_EXCEPTION = "User is not created successfully";
-	public static final String USER_UPDATION_EXCEPTION = "User is not updated successfully";
-	public static final String USER_NOT_FOUND_EXCEPTION = "User not found successfully";
+	public static final String USER_CREATION_EXCEPTION = "User not created successfully";
+	public static final String USER_UPDATION_EXCEPTION = "User not updated successfully";
+	public static final String USER_NOT_FOUND_EXCEPTION = "User not found";
 	public static final String USER_DELETION_EXCEPTION = "User not deleted successfully";
 }
