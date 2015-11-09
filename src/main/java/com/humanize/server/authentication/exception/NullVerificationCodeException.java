@@ -1,11 +1,11 @@
 package com.humanize.server.authentication.exception;
 
-public class NullPasswordException extends RuntimeException {
+public class NullVerificationCodeException extends RuntimeException {
 	
 	private int errorCode;
 	private String errorMsg;
 	
-	public NullPasswordException(int errorCode, String errorMsg) {
+	public NullVerificationCodeException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}

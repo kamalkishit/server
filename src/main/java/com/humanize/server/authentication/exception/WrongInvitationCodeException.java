@@ -1,11 +1,11 @@
 package com.humanize.server.authentication.exception;
 
-public class NullPasswordException extends RuntimeException {
+public class WrongInvitationCodeException extends RuntimeException {
 	
 	private int errorCode;
 	private String errorMsg;
 	
-	public NullPasswordException(int errorCode, String errorMsg) {
+	public WrongInvitationCodeException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}

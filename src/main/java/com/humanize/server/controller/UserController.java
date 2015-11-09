@@ -17,16 +17,8 @@ public class UserController {
 	private UserService userService;
 
 	@RequestMapping("/users/login")
-	public ResponseEntity<?> login(@RequestBody User user) {
-		System.out.println("login");
-		User userTemp = userService.login(user);
-
-		if (userTemp != null) {
-			return new ResponseEntity<User>(userTemp, HttpStatus.OK);
-		}
-
-		return new ResponseEntity<User>(userTemp,
-				HttpStatus.INTERNAL_SERVER_ERROR);
+	public ResponseEntity<User> login(@RequestBody User user) {
+		return new ResponseEntity<User>(userService.login(user), HttpStatus.OK);
 	}
 
 	@RequestMapping("/users/data")
@@ -41,18 +33,12 @@ public class UserController {
 	}
 
 	@RequestMapping("/users/signup")
-	public ResponseEntity<?> signup(@RequestBody User user) {
-		user = userService.createUser(user);
-
-		if (user != null) {
-			return new ResponseEntity<User>(user, HttpStatus.OK);
-		}
-
-		return new ResponseEntity<User>(user, HttpStatus.INTERNAL_SERVER_ERROR);
+	public ResponseEntity<User> signup(@RequestBody User user) {
+		return new ResponseEntity<User>(userService.signup(user), HttpStatus.OK);
 	}
 
 	@RequestMapping("/users/update")
-	public ResponseEntity<?> updateUser(@RequestBody User user) {
+	public ResponseEntity<User> updateUser(@RequestBody User user) {
 		user = userService.updateUser(user);
 
 		if (user != null) {

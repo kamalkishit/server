@@ -26,6 +26,10 @@ public class User {
 
 	private String password;
 	
+	private String tempPassword;
+	
+	private String invitationCode;
+	
 	private List<String> typeOfArticles;
 	
 	private List<String> categories;
@@ -56,6 +60,14 @@ public class User {
 		this.typeOfArticles = new ArrayList<String>();
 		this.categories = new ArrayList<String>();
 	}
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public String getUserId() {
 		return userId;
@@ -81,12 +93,36 @@ public class User {
 		this.password = password;
 	}
 
-	public String getId() {
-		return id;
+	public String getTempPassword() {
+		return tempPassword;
 	}
 
-	public void setId(String id) {
-		this.id = id;
+	public void setTempPassword(String tempPassword) {
+		this.tempPassword = tempPassword;
+	}
+	
+	public String getInvitationCode() {
+		return invitationCode;
+	}
+
+	public void setInvitationCode(String invitationCode) {
+		this.invitationCode = invitationCode;
+	}
+
+	public List<String> getTypeOfArticles() {
+		return typeOfArticles;
+	}
+
+	public void setTypeOfArticles(List<String> typeOfArticles) {
+		this.typeOfArticles = typeOfArticles;
+	}
+
+	public List<String> getCategories() {
+		return categories;
+	}
+
+	public void setCategories(List<String> categories) {
+		this.categories = categories;
 	}
 
 	public Set<String> getLikes() {
