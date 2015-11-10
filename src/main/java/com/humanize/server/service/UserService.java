@@ -71,8 +71,10 @@ public class UserService {
 		inputValidationService.validateSignupUser(user);
 		validateInvitationCode(user.getEmailId(), user.getInvitationCode());
 		user.setUserId(UUID.randomUUID().toString());
-		
-		return userRepositoryService.create(user);
+		user = userRepositoryService.create(user);
+		verificationCodeService.sendVerificationCode(user.getEmailId());
+
+		return user;
 	}
 	
 	public boolean inviteUser(String emailId) {

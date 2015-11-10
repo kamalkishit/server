@@ -1,11 +1,13 @@
 package com.humanize.server.authentication.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.humanize.server.authentication.data.VerificationCode;
 import com.humanize.server.authentication.exception.WrongVerificationCodeException;
 import com.humanize.server.common.ExceptionConfig;
 
+@Service
 public class VerificationCodeService {
 	
 	@Autowired
@@ -18,7 +20,7 @@ public class VerificationCodeService {
 		String verificationCode = null;
 		
 		VerificationCode verificationCodeObj = new VerificationCode(emailId, verificationCode);
-		emailService.sendEmail();
+		emailService.sendEmail(null, null);
 		repositoryService.create(verificationCodeObj);
 		
 		return true;

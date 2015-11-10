@@ -44,33 +44,29 @@ public class InputValidationService {
 		}
 	}
 	
-	public void validateSignupUser(User user) {
+	public void validateUser(User user) {
 		if (user == null) {
 			throw new NullUserException(ExceptionConfig.NULL_USER_ERROR_CODE, ExceptionConfig.NULL_USER_EXCEPTION);
 		}
-		
+	}
+	
+	public void validateSignupUser(User user) {
+		validateUser(user);
 		validateEmailId(user.getEmailId());
 		validatePassword(user.getPassword());
 		validateInvitationCode(user.getInvitationCode());
 	}
 	
 	public void validateLoginUser(User user) {
-		if (user == null) {
-			throw new NullUserException(ExceptionConfig.NULL_USER_ERROR_CODE, ExceptionConfig.NULL_USER_EXCEPTION);
-		}
-		
+		validateUser(user);
 		validateEmailId(user.getEmailId());
 		validatePassword(user.getPassword());
 	}
 	
 	public void validatePasswordResetUser(User user) {
-		if (user == null) {
-			throw new NullUserException(ExceptionConfig.NULL_USER_ERROR_CODE, ExceptionConfig.NULL_USER_EXCEPTION);
-		}
-		
+		validateUser(user);
 		validateEmailId(user.getEmailId());
 		validatePassword(user.getPassword());
 		validateTempPassword(user.getTempPassword());
 	}
-
 }

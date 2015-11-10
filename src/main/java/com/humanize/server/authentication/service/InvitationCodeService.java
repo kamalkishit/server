@@ -1,11 +1,13 @@
 package com.humanize.server.authentication.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.humanize.server.authentication.data.InvitationCode;
 import com.humanize.server.authentication.exception.WrongInvitationCodeException;
 import com.humanize.server.common.ExceptionConfig;
 
+@Service
 public class InvitationCodeService {
 	
 	@Autowired
@@ -18,7 +20,7 @@ public class InvitationCodeService {
 		String invitationCode = null;
 		
 		InvitationCode invitationCodeObj = new InvitationCode(emailId, invitationCode);
-		emailService.sendEmail();
+		emailService.sendEmail(null, null);
 		repositoryService.create(invitationCodeObj);
 		
 		return true;
