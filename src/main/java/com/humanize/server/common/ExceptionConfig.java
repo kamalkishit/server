@@ -34,6 +34,11 @@ public class ExceptionConfig {
 	public static final int USER_NOT_FOUND_ERROR_CODE = 10024;
 	public static final int USER_DELETION_ERROR_CODE = 10025;
 	
+	public static final int NULL_CONTENT_ERROR_CODE = 10026;
+	public static final int CONTENT_CREATION_ERROR_CODE = 10027;
+	public static final int CONTENT_UPDATION_ERROR_CODE = 10028;
+	public static final int CONTENT_NOT_FOUND_ERROR_CODE = 10029;
+	public static final int CONTENT_DELETION_ERROR_CODE = 10030;
 	
 	// Authentication
 	public static final String NULL_EMAIL_ID_EXCEPTION = "EmailId is null";
@@ -66,4 +71,10 @@ public class ExceptionConfig {
 	public static final String USER_UPDATION_EXCEPTION = "User not updated successfully";
 	public static final String USER_NOT_FOUND_EXCEPTION = "User not found";
 	public static final String USER_DELETION_EXCEPTION = "User not deleted successfully";
+	
+	public static final String NULL_CONTENT_EXCEPTION = "Content is null";
+	public static final String CONTENT_CREATION_EXCEPTION = "Content not created successfully";
+	public static final String CONTENT_UPDATION_EXCEPTION = "Content not updated successfully";
+	public static final String CONTENT_NOT_FOUND_EXCEPTION = "Content not found";
+	public static final String CONTENT_DELETION_EXCEPTION = "Content not deleted successfully";
 }

@@ -2,19 +2,20 @@ package com.humanize.server.helper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.humanize.server.data.Content;
-import com.humanize.server.data.Contents;
+import com.humanize.server.content.data.Content;
+import com.humanize.server.content.data.Contents;
 
 @Component
 public class ContentHelper {
 
-	public ArrayList<String> getIds(Contents contents) {
+	public List<String> getIds(Contents contents) {
 
 		Iterator<Content> iterator = contents.getContents().iterator();
-		ArrayList<String> ids = new ArrayList<String>();
+		List<String> ids = new ArrayList<String>();
 
 		while (iterator.hasNext()) {
 			Content content = iterator.next();

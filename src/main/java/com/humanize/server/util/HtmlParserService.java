@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -21,8 +22,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
-import com.humanize.server.controller.ContentController;
-import com.humanize.server.data.Content;
+import com.humanize.server.config.Config;
+import com.humanize.server.content.data.Content;
 
 @Service
 public class HtmlParserService {
@@ -72,11 +73,10 @@ public class HtmlParserService {
 			URL url = new URL(content.getOriginalImageURL());
 			URLConnection urlConnection = url.openConnection();
 			urlConnection.setRequestProperty("User-Agent", "Mozilla");
-			String tempImageFilename = "/root/images/"
-					+ "temp"
+			String tempImageFilename = Config.TEMP_FOLDER
 					+ content.getOriginalImageURL().substring(
 							content.getOriginalImageURL().lastIndexOf('.'));
-			String imageFilename = "/root/images/"
+			String imageFilename = Config.IMAGE_FOLDER
 					+ content.getContentId()
 					+ content.getOriginalImageURL().substring(
 							content.getOriginalImageURL().lastIndexOf('.'));
@@ -124,7 +124,10 @@ public class HtmlParserService {
 			content.setImageURL(content.getContentId() + "." + formatName);
 
 			return true;
-		} catch (Exception e) {
+		} catch (MalformedURLException e) {
+			
+		}
+		catch (IOException e) {
 			logger.error("downloadImage", e);
 			System.out.println("exception in download");
 			System.out.println(content.getImageURL());

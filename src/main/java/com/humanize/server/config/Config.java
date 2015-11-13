@@ -10,4 +10,5 @@ public class Config {
 	public static String CONTENTS_COLLECTION = "Contents";
 
 	public static String IMAGE_FOLDER = "/root/images/";
+	public static String TEMP_FOLDER = "/root/temp/";
 }

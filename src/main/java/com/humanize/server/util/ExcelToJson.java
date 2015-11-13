@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 import com.humanize.server.controller.ContentController;
-import com.humanize.server.data.Content;
+import com.humanize.server.content.data.Content;
 
 public class ExcelToJson {
 	
