@@ -14,13 +14,16 @@ public class InvitationCodeService {
 	InvitationCodeRepositoryService repositoryService;
 	
 	@Autowired
+	RandomStringGeneratorService randomStringGeneratorService;
+	
+	@Autowired
 	EmailService emailService;
 	
 	public boolean sendInvitationCode(String emailId) {
-		String invitationCode = null;
+		String invitationCode = randomStringGeneratorService.getInvitationCode();
 		
 		InvitationCode invitationCodeObj = new InvitationCode(emailId, invitationCode);
-		emailService.sendEmail(null, null);
+		emailService.sendEmail(emailId, invitationCode);
 		repositoryService.create(invitationCodeObj);
 		
 		return true;

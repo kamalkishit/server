@@ -14,13 +14,16 @@ public class VerificationCodeService {
 	VerificationCodeRepositoryService repositoryService;
 	
 	@Autowired
+	RandomStringGeneratorService ranodmStringGeneratoService;
+	
+	@Autowired
 	EmailService emailService;
 	
 	public boolean sendVerificationCode(String emailId) {
-		String verificationCode = null;
+		String verificationCode = ranodmStringGeneratoService.getVerificationCode();
 		
 		VerificationCode verificationCodeObj = new VerificationCode(emailId, verificationCode);
-		emailService.sendEmail(null, null);
+		emailService.sendEmail(emailId, verificationCode);
 		repositoryService.create(verificationCodeObj);
 		
 		return true;

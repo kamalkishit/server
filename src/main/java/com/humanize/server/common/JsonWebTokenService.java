@@ -1,4 +1,4 @@
-package com.humanize.server.authentication.service;
+package com.humanize.server.common;
 
 import java.security.Key;
 
@@ -22,14 +22,13 @@ public class JsonWebTokenService {
 		return Jwts.builder().setSubject(emailId).signWith(SignatureAlgorithm.HS512, key).compact();
 	}
 	
-	public boolean validateToken(String token) {
+	public String validateToken(String token) {
 		try {
-		    Jwts.parser().setSigningKey(key).parseClaimsJws(token);
+		    Jwts.parser().setSigningKey(key).parseClaimsJws(token).toString();
 		} catch (SignatureException e) {
 			
 		}
 		
-		return true;
+		return null;
 	}
-
 }

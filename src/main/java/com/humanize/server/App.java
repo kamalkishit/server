@@ -7,15 +7,16 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 
 import com.humanize.server.dao.ContentRepository;
 import com.humanize.server.data.Content;
 import com.humanize.server.data.Contents;
 import com.humanize.server.service.ContentService;
-import com.humanize.server.service.EmailSenderService;
 import com.humanize.server.util.HtmlParserService;
 
 @SpringBootApplication
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class App extends SpringBootServletInitializer {
 
 	@Autowired

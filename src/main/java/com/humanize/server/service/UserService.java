@@ -3,6 +3,7 @@ package com.humanize.server.service;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.authentication.data.InvitationCode;
@@ -87,7 +88,13 @@ public class UserService {
 		inputValidationService.validateEmailId(emailId);
 		inputValidationService.validateVerificationCode(verificationCode);
 		
-		return verificationCodeService.validateVerificationCode(emailId, verificationCode);
+		verificationCodeService.validateVerificationCode(emailId, verificationCode);
+		
+		User user = userRepositoryService.findByEmailId(emailId);
+		user.setVerified(true);
+		userRepositoryService.update(user);
+		
+		return true;
 	}
 	
 	private void validateInvitationCode(String emailId, String invitationCode) {
@@ -96,5 +103,15 @@ public class UserService {
 		if (!invitationCodeObj.getInvitationCode().equals(invitationCode)) {
 			throw new WrongInvitationCodeException(ExceptionConfig.WRONG_INVITATION_CODE_ERROR_CODE, ExceptionConfig.WRONG_INVITATION_CODE_EXCEPTION);
 		}
+	}
+	
+	@PreAuthorize("hasRole('ROLE_USER')")
+	public void temp1() {
+		System.out.println("temp1");
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	public void temp2() {
+		System.out.println("temp2");
 	}
 }

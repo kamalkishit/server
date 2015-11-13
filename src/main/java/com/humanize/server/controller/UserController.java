@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.humanize.server.authentication.service.EmailService;
+import com.humanize.server.common.AuthenticationManager;
 import com.humanize.server.data.User;
 import com.humanize.server.service.UserService;
 
@@ -20,6 +21,9 @@ public class UserController {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
 	
 	@RequestMapping("/users/signup")
 	public ResponseEntity<User> signup(@RequestBody User user) {
@@ -58,6 +62,11 @@ public class UserController {
 	
 	@RequestMapping("/users/email")
 	public ResponseEntity<Boolean> sendEmail() {
-		return new ResponseEntity<Boolean>(emailService.sendEmail(null, null), HttpStatus.OK);
+		//return new ResponseEntity<Boolean>(emailService.sendEmail(null, null), HttpStatus.OK);
+		authenticationManager.authenticate("token");
+		userService.temp1();
+		userService.temp2();
+		
+		return null;
 	}
 }
