@@ -29,7 +29,7 @@ public class ContentRepositoryService {
 		throw new ContentCreationException(ExceptionConfig.CONTENT_CREATION_ERROR_CODE, ExceptionConfig.CONTENT_CREATION_EXCEPTION);
 	}
 	
-	public ArrayList<Content> create(ArrayList<Content> contents) {
+	public List<Content> create(List<Content> contents) {
 		contents = repository.save(contents);
 		
 		if (contents != null) {

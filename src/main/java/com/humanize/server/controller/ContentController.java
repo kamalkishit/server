@@ -12,9 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.humanize.server.data.Content;
+import com.humanize.server.content.data.Content;
 import com.humanize.server.data.Contents;
-import com.humanize.server.service.ContentService;
+import com.humanize.server.data.User;
+import com.humanize.server.content.service.ContentService;
 
 @RestController
 public class ContentController {
@@ -25,17 +26,8 @@ public class ContentController {
 	private ContentService contentService;
 
 	@RequestMapping("/contents/create")
-	public ResponseEntity<?> createContent(@RequestBody Content content) {
-		logger.debug("inside create");
-		content = contentService.createContent(content);
-
-		if (content != null) {
-			return new ResponseEntity<Contents>(new Contents(content),
-					HttpStatus.OK);
-		}
-
-		return new ResponseEntity<Contents>(new Contents(content),
-				HttpStatus.INTERNAL_SERVER_ERROR);
+	public ResponseEntity<Content> createContent(@RequestBody Content content) {
+		return new ResponseEntity<Content>(contentService.createContent(content), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/contents/category")
@@ -67,7 +59,7 @@ public class ContentController {
 	}
 
 	@RequestMapping("/contents/update")
-	public ResponseEntity<?> updateContent() {
+	public ResponseEntity<Content> updateContent() {
 		System.out.println("i m here");
 
 		Content content = new Content();
@@ -94,31 +86,6 @@ public class ContentController {
 				HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@RequestMapping("/contents/bookmarks")
-	public ResponseEntity<?> getBookmarks(@RequestParam("ids") List<String> ids) {
-		ArrayList<Content> bookmarks = contentService.getBookmarks(ids);
-
-		if (bookmarks != null) {
-			return new ResponseEntity<Contents>(new Contents(bookmarks),
-					HttpStatus.OK);
-		}
-
-		return new ResponseEntity<Contents>(new Contents(),
-				HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-
-	@RequestMapping("/contents/likes")
-	public ResponseEntity<?> getLikes(@RequestParam("ids") List<String> ids) {
-		ArrayList<Content> likes = contentService.getLikes(ids);
-
-		if (likes != null) {
-			return new ResponseEntity<Contents>(new Contents(likes),
-					HttpStatus.OK);
-		}
-
-		return new ResponseEntity<Contents>(new Contents(),
-				HttpStatus.INTERNAL_SERVER_ERROR);
-	}
 	
 	@RequestMapping("/contents/paper")
 	public ResponseEntity<?> getPaper(@RequestParam("ids") List<String> ids) {
@@ -209,8 +176,8 @@ public class ContentController {
 				HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@RequestMapping("/contents/getnewcontents")
-	public ResponseEntity<?> getNewContents(@RequestParam("categories") List<String> categories, @RequestParam("enddate") long endDate) {
+	@RequestMapping("/contents/getNewContents")
+	public ResponseEntity<Contents> getNewContents(@RequestParam("categories") List<String> categories, @RequestParam("enddate") long endDate) {
 
 		ArrayList<Content> contents = contentService.getNewContents(categories, endDate);
 
@@ -223,8 +190,4 @@ public class ContentController {
 				HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@RequestMapping("/contents/getpaper")
-	public void getPaper(@RequestParam(value = "limit") int limit) {
-
-	}
 }

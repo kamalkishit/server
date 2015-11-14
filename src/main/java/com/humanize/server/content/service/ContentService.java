@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
+import com.humanize.server.content.dao.ContentRepository;
 import com.humanize.server.content.data.Content;
 import com.humanize.server.content.data.Contents;
 import com.humanize.server.helper.ContentHelper;
@@ -23,12 +24,18 @@ public class ContentService {
 
 	@Autowired
 	private ContentRepositoryService repositoryService;
+	
+	@Autowired
+	private ContentRepository repository;
 
 	@Autowired
 	private ContentHelper contentHelper;
  
 	@Autowired
 	private HtmlParserService htmlParser;
+	
+	@Autowired
+	private HtmlScrapperService htmlScrapper;
 
 	public ContentService() {
 	}
@@ -38,18 +45,14 @@ public class ContentService {
 				"/root/TLI.xlsx");
 		ArrayList<Content> contents = excelToJson.toJson();
 		HtmlParserService htmlParserService = new HtmlParserService();
-		contents = htmlParserService.parse(contents);
+		//contents = htmlParserService.parse(contents);
 		repositoryService.create(contents);
 	}
 
 	public Content createContent(Content content) {
-		content = htmlParser.parse(content);
+		content = htmlScrapper.scrapHtml(content);
 
-		if (content != null) {
-			repositoryService.create(content);
-		}
-
-		return content;
+		return repositoryService.create(content);
 	}
 
 	public boolean updateContents(Contents contents) {
@@ -63,40 +66,28 @@ public class ContentService {
 		}
 		return true;
 	}
-
-	public ArrayList<Content> getBookmarks(List<String> ids) {
-		ArrayList<Content> bookmarks = repositoryService.findAll(ids);
-
-		return bookmarks;
-	}
-
-	public ArrayList<Content> getLikes(List<String> ids) {
-		return repositoryService.findAll(ids);
-	}
-
 	
-	public ArrayList<Content> findByCategory(String category) {
+	public List<Content> findByCategory(String category) {
 		Pageable pageRequest = new PageRequest(0, 20, new Sort(Direction.DESC,
 				"createdDate"));
 		return repository.findAllByCategory(category, pageRequest);
 	}
 	
-	public ArrayList<Content> findByCategoryCreatedDateLessThan(String category, long createdDate) {
+	public List<Content> findByCategoryCreatedDateLessThan(String category, long createdDate) {
 		Pageable pageRequest = new PageRequest(0, 20, new Sort(Direction.DESC,
 				"createdDate"));
 		return repository.findAllByCategoryCreatedDateLessThan(category, createdDate, pageRequest);
 	}
 	
-	public ArrayList<Content> findByCategories(ArrayList<String> categories) {
+	public List<Content> findByCategories(ArrayList<String> categories) {
 
 		PageRequest pageRequest = new PageRequest(0, 20, new Sort(new Order(
 				Direction.DESC, "createdDate")));
 		
-		//return repository.findAllByCategories(categories, pageRequest);
-		return null;
+		return repository.findAllByCategories(categories, pageRequest);
 	}
 
-	public ArrayList<Content> getPaper(List<String> ids) {
+	public List<Content> getPaper(List<String> ids) {
 		return repository.findAll(ids);
 	}
 
@@ -115,19 +106,19 @@ public class ContentService {
 	public ArrayList<Content> getContents(List<String> categories) {
 		Pageable pageRequest = new PageRequest(0, 20, new Sort(new Order(
 				Direction.DESC, "createdDate")));
-		Page<Content> contents = repository.findAllByCategories(categories, pageRequest);
+		List<Content> contents = repository.findAllByCategories(categories, pageRequest);
 
 		if (contents != null) {
-			return new ArrayList<Content>(contents.getContent());
+			return new ArrayList<Content>(contents);
 		}
 
 		return null;
 	}
 
-	public ArrayList<Content> getMoreContent(long startDate) {
+	public List<Content> getMoreContent(long startDate) {
 		Pageable pageRequest = new PageRequest(0, 20, new Sort(Direction.DESC,
 				"createdDate"));
-		ArrayList<Content> contents = repository.findByCreatedDateLessThan(
+		List<Content> contents = repository.findByCreatedDateLessThan(
 				startDate, pageRequest);
 
 		if (contents != null) {
@@ -137,10 +128,10 @@ public class ContentService {
 		return null;
 	}
 	
-	public ArrayList<Content> getMoreContents(List<String> categories, long startDate) {
+	public List<Content> getMoreContents(List<String> categories, long startDate) {
 		Pageable pageRequest = new PageRequest(0, 20, new Sort(Direction.DESC,
 				"createdDate"));
-		ArrayList<Content> contents = repository.findAllByCategoriesCreatedDateLessThan(categories, 
+		List<Content> contents = repository.findAllByCategoriesCreatedDateLessThan(categories, 
 				startDate, pageRequest);
 
 		if (contents != null) {
@@ -150,10 +141,10 @@ public class ContentService {
 		return null;
 	}
 
-	public ArrayList<Content> getNewContent(long endDate) {
+	public List<Content> getNewContent(long endDate) {
 		Pageable pageRequest = new PageRequest(0, 20, new Sort(Direction.DESC,
 				"createdDate"));
-		ArrayList<Content> contents = repository.findByCreatedDateGreaterThan(
+		List<Content> contents = repository.findByCreatedDateGreaterThan(
 				endDate, pageRequest);
 
 		if (contents != null) {
@@ -163,10 +154,10 @@ public class ContentService {
 		return null;
 	}
 	
-	public ArrayList<Content> getNewContents(List<String> categories, long endDate) {
+	public List<Content> getNewContents(List<String> categories, long endDate) {
 		Pageable pageRequest = new PageRequest(0, 20, new Sort(Direction.DESC,
 				"createdDate"));
-		ArrayList<Content> contents = repository.findAllByCategoriesCreatedDateGreaterThan(categories, 
+		List<Content> contents = repository.findAllByCategoriesCreatedDateGreaterThan(categories, 
 				endDate, pageRequest);
 
 		if (contents != null) {

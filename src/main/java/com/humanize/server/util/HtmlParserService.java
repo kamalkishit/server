@@ -27,7 +27,7 @@ import com.humanize.server.content.data.Content;
 
 @Service
 public class HtmlParserService {
-	
+/*
 	static Logger logger = Logger.getLogger(HtmlParserService.class);
 
 	private Content parseURL(Content content) {
@@ -49,7 +49,7 @@ public class HtmlParserService {
 					.select("meta[property=og:image]").first().attr("content"));
 
 			// String url = document
-			// .select("a[href~=https://www.facebook.com/*/videos*")
+			// .select("a[href~=https://www.facebook.com/* /videos*")
 			// .select("a[href=https://www.facebook.com/ajplusenglish/videos/622919697849541/")
 			// .first().attr("href").toString();
 
@@ -112,7 +112,8 @@ public class HtmlParserService {
 			 * 512, 384, null); g2d.dispose();
 			 * 
 			 * // extracts extension of output file
-			 */
+			 */ 
+	/*
 			String formatName = content.getOriginalImageURL().substring(
 					content.getOriginalImageURL().lastIndexOf('.') + 1);
 
@@ -157,5 +158,5 @@ public class HtmlParserService {
 		}
 
 		return returnArray;
-	}
+	} */
 }

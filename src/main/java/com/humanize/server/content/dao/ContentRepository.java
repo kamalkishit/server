@@ -1,6 +1,5 @@
 package com.humanize.server.content.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -13,40 +12,40 @@ import com.humanize.server.content.data.Content;
 
 public interface ContentRepository extends MongoRepository<Content, String> {
 
-	public ArrayList<Content> findAllOrderByCreatedDate(PageRequest pageRequest);
+	public List<Content> findAllOrderByCreatedDate(PageRequest pageRequest);
 
-	public ArrayList<Content> findAllOrderByCreatedDate();
+	public List<Content> findAllOrderByCreatedDate();
 
-	public ArrayList<Content> findByOrderByCreatedDateDesc();
+	public List<Content> findByOrderByCreatedDateDesc();
 
-	public ArrayList<Content> findByCreatedDateLessThan(long createdDate,
+	public List<Content> findByCreatedDateLessThan(long createdDate,
 			Pageable pageRequest);
 
-	public ArrayList<Content> findByCreatedDateGreaterThan(long createdDate,
+	public List<Content> findByCreatedDateGreaterThan(long createdDate,
 			Pageable pageRequest);
 
-	public ArrayList<Content> findByContentIdIn(ArrayList<String> contentIds);
+	public List<Content> findByContentIdIn(List<String> contentIds);
 	
 	public Page<Content> findAll(Pageable pageRequest);
 
-	public ArrayList<Content> findAll(Iterable<String> ids);
+	public List<Content> findAll(Iterable<String> ids);
 	
 	public Content findByEmailId(String emailId);
 	
 	@Query("{ 'category': ?0 }")
-	public ArrayList<Content> findAllByCategory(String category, Pageable pageRequest);
+	public List<Content> findAllByCategory(String category, Pageable pageRequest);
 	
 	@Query("{ 'category': { $in: ?0 }, 'createdDate': { $lt : ?1 }}")
-	public ArrayList<Content> findAllByCategoriesCreatedDateLessThan(List<String> categories, long createdDate,
+	public List<Content> findAllByCategoriesCreatedDateLessThan(List<String> categories, long createdDate,
 			Pageable pageRequest);
 	
 	@Query("{ 'category': { $in: ?0 }, 'createdDate': { $gt : ?1 }}")
-	public ArrayList<Content> findAllByCategoriesCreatedDateGreaterThan(List<String> categories, long createdDate,
+	public List<Content> findAllByCategoriesCreatedDateGreaterThan(List<String> categories, long createdDate,
 			Pageable pageRequest);
 	
 	@Query("{ 'category': ?0, 'createdDate': { $gt : ?1 }}")
-	public ArrayList<Content> findAllByCategoryCreatedDateLessThan(String category, long createdDate, Pageable pageRequest);
+	public List<Content> findAllByCategoryCreatedDateLessThan(String category, long createdDate, Pageable pageRequest);
 	
 	@Query("{ 'category': { $in: ?0 }}")
-	public Page<Content> findAllByCategories(List<String> categories, Pageable pageRequest);
+	public List<Content> findAllByCategories(List<String> categories, Pageable pageRequest);
 }
