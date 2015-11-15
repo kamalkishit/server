@@ -40,6 +40,10 @@ public class ExceptionConfig {
 	public static final int CONTENT_NOT_FOUND_ERROR_CODE = 10029;
 	public static final int CONTENT_DELETION_ERROR_CODE = 10030;
 	
+	public static final int EXCEL_FILE_NOT_FOUND_ERROR_CODE = 10031;
+	public static final int FILE_READING_ERROR_CODE = 10032;
+	public static final int EXCEL_TO_JSON_CONVERSION_ERROR_CODE = 10033;
+	
 	// Authentication
 	public static final String NULL_EMAIL_ID_EXCEPTION = "EmailId is null";
 	public static final String INVALID_EMAIL_ID_EXCEPTION = "EmailId is invalid";
@@ -77,4 +81,8 @@ public class ExceptionConfig {
 	public static final String CONTENT_UPDATION_EXCEPTION = "Content not updated successfully";
 	public static final String CONTENT_NOT_FOUND_EXCEPTION = "Content not found";
 	public static final String CONTENT_DELETION_EXCEPTION = "Content not deleted successfully";
+	
+	public static final String EXCEL_FILE_NOT_FOUND_EXCEPTION = "Excel file not found";
+	public static final String FILE_READING_EXCEPTION = "File reading exception";
+	public static final String EXCEL_TO_JSON_CONVERSION_EXCEPTION = "Excel to json conversion failed";
 }

@@ -11,4 +11,6 @@ public class Config {
 
 	public static String IMAGE_FOLDER = "/root/images/";
 	public static String TEMP_FOLDER = "/root/temp/";
+	
+	public static final String EXCEL_FILE_PATH = "/root/TLI.xlsx";
 }

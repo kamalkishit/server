@@ -1,17 +1,21 @@
 package com.humanize.server.util;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import com.humanize.server.controller.ContentController;
+import com.humanize.server.common.ExceptionConfig;
 import com.humanize.server.content.data.Content;
+import com.humanize.server.content.exception.ExcelToJsonConversionException;
 
 public class ExcelToJson {
 	
@@ -23,45 +27,58 @@ public class ExcelToJson {
 		this.filename = filename;
 	}
 
-	public ArrayList<Content> toJson() {
+	public List<Content> toJson() {
 		FileInputStream fileInputStream = null;
-		ArrayList<Content> contents = new ArrayList<Content>();
 
 		try {
 			fileInputStream = new FileInputStream(filename);
 
 			Workbook workbook = WorkbookFactory.create(fileInputStream);
 			Sheet sheet = workbook.getSheetAt(0);
-
-			int rowsCount = sheet.getLastRowNum();
-			System.out.println(rowsCount);
-
-			for (int i = 0; i <= rowsCount; i++) {
-				Row row = sheet.getRow(i);
-				int colCounts = row.getLastCellNum();
-				Content content = new Content();
-
-				content.setContentURL(row.getCell(0).getStringCellValue());
-				content.setCategory(row.getCell(1).getStringCellValue());
-				//String subCategory = row.getCell(2).getStringCellValue();
-				ArrayList<String> arrayList = new ArrayList<String>();
-				//arrayList.add(subCategory);
-				content.setSubCategories(arrayList);
-				contents.add(content);
-			}
-		} catch (Exception ex) {
-			logger.error("ExcelToJSON", ex);
-			ex.printStackTrace();
+			if (sheet != null) {
+				int rowCount = sheet.getLastRowNum();
+				
+				return toJson(sheet, rowCount);
+			} 
+		} catch (FileNotFoundException exception) {
+			throw new ExcelToJsonConversionException(ExceptionConfig.EXCEL_FILE_NOT_FOUND_ERROR_CODE, ExceptionConfig.EXCEL_FILE_NOT_FOUND_EXCEPTION);
+		} catch (InvalidFormatException exception) {
+			throw new ExcelToJsonConversionException(ExceptionConfig.EXCEL_TO_JSON_CONVERSION_ERROR_CODE, ExceptionConfig.EXCEL_TO_JSON_CONVERSION_EXCEPTION);
+		} catch (IOException exception) {
+			throw new ExcelToJsonConversionException(ExceptionConfig.FILE_READING_ERROR_CODE, ExceptionConfig.FILE_READING_EXCEPTION);
 		} finally {
 			try {
 				fileInputStream.close();
-				// return new JSONObject();
-			} catch (IOException ex) {
-				logger.error("ExcelTOJSON", ex);
-				ex.printStackTrace();
-			} finally {
-				return contents;
+			} catch (IOException exception) {
+
+			} 
+		}
+		
+		throw new ExcelToJsonConversionException(ExceptionConfig.EXCEL_TO_JSON_CONVERSION_ERROR_CODE, ExceptionConfig.EXCEL_TO_JSON_CONVERSION_EXCEPTION);
+	}
+	
+	private List<Content> toJson(Sheet sheet, int rowCount) {
+		List<Content> contents = new ArrayList<Content>();
+		
+		for (int i = 0; i <= rowCount; i++) {
+			Row row = sheet.getRow(i);
+			
+			if (row != null) {
+				int columnCount = row.getLastCellNum();
+				
+				if (columnCount >= 2) {
+					Content content = new Content();
+					content.setContentURL(row.getCell(0).getStringCellValue());
+					content.setCategory(row.getCell(1).getStringCellValue());
+					contents.add(content);
+				} else {
+					throw new ExcelToJsonConversionException(ExceptionConfig.EXCEL_TO_JSON_CONVERSION_ERROR_CODE, ExceptionConfig.EXCEL_TO_JSON_CONVERSION_EXCEPTION);
+				}
+			} else {
+				throw new ExcelToJsonConversionException(ExceptionConfig.EXCEL_TO_JSON_CONVERSION_ERROR_CODE, ExceptionConfig.EXCEL_TO_JSON_CONVERSION_EXCEPTION);
 			}
 		}
+		
+		return contents;
 	}
 }

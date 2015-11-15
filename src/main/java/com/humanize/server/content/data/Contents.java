@@ -1,15 +1,18 @@
 package com.humanize.server.content.data;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import com.humanize.server.content.data.Content;
 
 public class Contents {
-	private ArrayList<Content> contents;
+	private List<Content> contents;
 
 	public Contents() {
 		this.contents = new ArrayList<Content>();
 	}
 
-	public Contents(ArrayList<Content> contents) {
+	public Contents(List<Content> contents) {
 		this.contents = contents;
 	}
 
@@ -18,11 +21,11 @@ public class Contents {
 		this.contents.add(content);
 	}
 
-	public ArrayList<Content> getContents() {
+	public List<Content> getContents() {
 		return contents;
 	}
 
-	public void setContents(ArrayList<Content> contents) {
+	public void setContents(List<Content> contents) {
 		this.contents = contents;
 	}
 }

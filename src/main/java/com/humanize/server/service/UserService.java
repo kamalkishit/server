@@ -3,7 +3,7 @@ package com.humanize.server.service;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
+
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.authentication.data.InvitationCode;
@@ -105,7 +105,7 @@ public class UserService {
 		}
 	}
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
+	/*@PreAuthorize("hasRole('ROLE_USER')")
 	public void temp1() {
 		System.out.println("temp1");
 	}
@@ -113,5 +113,5 @@ public class UserService {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	public void temp2() {
 		System.out.println("temp2");
-	}
+	}*/
 }

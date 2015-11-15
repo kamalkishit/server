@@ -60,7 +60,7 @@ public class UserController {
 		return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.OK);
 	}
 	
-	@RequestMapping("/users/email")
+	/*@RequestMapping("/users/email")
 	public ResponseEntity<Boolean> sendEmail() {
 		//return new ResponseEntity<Boolean>(emailService.sendEmail(null, null), HttpStatus.OK);
 		authenticationManager.authenticate("token");
@@ -68,5 +68,5 @@ public class UserController {
 		userService.temp2();
 		
 		return null;
-	}
+	}*/
 }

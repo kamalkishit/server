@@ -16,9 +16,10 @@ public class Paper {
 	@Indexed(unique = true)
 	private String paperId;
 	
-	private List<String> contentIds;
-	
+	@Indexed(unique = true)
 	private String paperDate;
+	
+	private List<String> contentIds;
 	
 	@CreatedDate
 	private long createdDate; 

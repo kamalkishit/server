@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.humanize.server.data.Content;
-import com.humanize.server.data.Contents;
+import com.humanize.server.content.data.Content;
+import com.humanize.server.content.data.Contents;
 import com.humanize.server.data.Paper;
-import com.humanize.server.service.ContentService;
+import com.humanize.server.content.service.ContentService;
 import com.humanize.server.service.PaperService;
 
 @RestController
@@ -30,7 +30,7 @@ public class PaperController {
 	@RequestMapping("/paper/{paperDate}")
 	public ResponseEntity<?> getPaper(@PathVariable String paperDate) {
 		List<String> contentIds = paperService.findContentIdsByPaperDate(paperDate);
-		ArrayList<Content> contents = contentService.getPaper(contentIds);
+		ArrayList<Content> contents = null;
 		
 		if (contents != null) {
 			System.out.println("succes");

@@ -30,8 +30,6 @@ public interface ContentRepository extends MongoRepository<Content, String> {
 
 	public List<Content> findAll(Iterable<String> ids);
 	
-	public Content findByEmailId(String emailId);
-	
 	@Query("{ 'category': ?0 }")
 	public List<Content> findAllByCategory(String category, Pageable pageRequest);
 	

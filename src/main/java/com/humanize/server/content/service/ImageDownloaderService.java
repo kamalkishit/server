@@ -53,7 +53,7 @@ public class ImageDownloaderService {
 	}
 	
 	private String getTempImageFilename(Content content) {
-		String tempImageFilename = Config.TEMP_FOLDER + content.getOriginalImageURL().substring(content.getOriginalImageURL().lastIndexOf('.'));
+		String tempImageFilename = Config.TEMP_FOLDER + content.getContentId() + content.getOriginalImageURL().substring(content.getOriginalImageURL().lastIndexOf('.'));
 		
 		return tempImageFilename;
 	}

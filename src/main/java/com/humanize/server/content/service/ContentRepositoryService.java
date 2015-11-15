@@ -49,26 +49,11 @@ public class ContentRepositoryService {
 		throw new ContentUpdationException(ExceptionConfig.CONTENT_UPDATION_ERROR_CODE, ExceptionConfig.CONTENT_UPDATION_EXCEPTION);
 	}
 	
-	public Content findByEmailId(String emailId) {
-		Content content = repository.findByEmailId(emailId);
-		
-		if (content != null) {
-			return content;
-		}
-		
-		throw new ContentNotFoundException(ExceptionConfig.CONTENT_NOT_FOUND_ERROR_CODE, ExceptionConfig.CONTENT_NOT_FOUND_EXCEPTION);
-	}
+
 	
 	public ArrayList<Content> findAll(List<String> ids) {
 		return null;
 	}
 	
-	public void deleteByEmailId(String emailId) {
-		Content content = findByEmailId(emailId);
-		repository.delete(content);
-	}
-	
-	public void delete(Content content) {
-		repository.delete(content);
-	}
+
 }

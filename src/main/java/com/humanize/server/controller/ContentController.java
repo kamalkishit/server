@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.humanize.server.content.data.Content;
-import com.humanize.server.data.Contents;
-import com.humanize.server.data.User;
+import com.humanize.server.content.data.Contents;
 import com.humanize.server.content.service.ContentService;
+import com.humanize.server.content.service.ImageDownloaderService;
 
 @RestController
 public class ContentController {
@@ -24,6 +24,9 @@ public class ContentController {
 
 	@Autowired
 	private ContentService contentService;
+	
+	@Autowired
+	private ImageDownloaderService imageDownloader;
 
 	@RequestMapping("/contents/create")
 	public ResponseEntity<Content> createContent(@RequestBody Content content) {
@@ -32,7 +35,7 @@ public class ContentController {
 	
 	@RequestMapping("/contents/category")
 	public ResponseEntity<?> getByCategory(@RequestParam String category, @RequestParam long time) {
-		ArrayList<Content> contents = contentService.findByCategoryCreatedDateLessThan(category, time);
+		List<Content> contents = contentService.findByCategoryCreatedDateLessThan(category, time);
 		
 		if (contents != null) {
 			return new ResponseEntity<Contents>(new Contents(contents),
@@ -46,7 +49,7 @@ public class ContentController {
 	
 	@RequestMapping("/contents/categories")
 	public ResponseEntity<?> getByCategories() {
-		ArrayList<Content> contents = contentService.findByCategories(new ArrayList<String>());
+		List<Content> contents = contentService.findByCategories(new ArrayList<String>());
 		
 		if (contents != null) {
 			return new ResponseEntity<Contents>(new Contents(contents),
@@ -59,7 +62,7 @@ public class ContentController {
 	}
 
 	@RequestMapping("/contents/update")
-	public ResponseEntity<Content> updateContent() {
+	public ResponseEntity<Boolean> updateContent() {
 		System.out.println("i m here");
 
 		Content content = new Content();
@@ -89,7 +92,7 @@ public class ContentController {
 	
 	@RequestMapping("/contents/paper")
 	public ResponseEntity<?> getPaper(@RequestParam("ids") List<String> ids) {
-		ArrayList<Content> likes = contentService.getLikes(ids);
+		List<Content> likes = null;
 
 		if (likes != null) {
 			return new ResponseEntity<Contents>(new Contents(likes),
@@ -137,7 +140,7 @@ public class ContentController {
 	public ResponseEntity<?> getMoreContent(
 			@RequestParam("startdate") long startDate) {
 
-		ArrayList<Content> contents = contentService.getMoreContent(startDate);
+		List<Content> contents = contentService.getMoreContent(startDate);
 
 		if (contents != null) {
 			return new ResponseEntity<Contents>(new Contents(contents),
@@ -151,7 +154,7 @@ public class ContentController {
 	public ResponseEntity<?> getMoreContent(@RequestParam("categories") List<String> categories, 
 			@RequestParam("startdate") long startDate) {
 
-		ArrayList<Content> contents = contentService.getMoreContents(categories, startDate);
+		List<Content> contents = contentService.getMoreContents(categories, startDate);
 
 		if (contents != null) {
 			return new ResponseEntity<Contents>(new Contents(contents),
@@ -165,7 +168,7 @@ public class ContentController {
 	@RequestMapping("/contents/getnewcontent")
 	public ResponseEntity<?> getNewContent(@RequestParam("enddate") long endDate) {
 
-		ArrayList<Content> contents = contentService.getNewContent(endDate);
+		List<Content> contents = contentService.getNewContent(endDate);
 
 		if (contents != null) {
 			return new ResponseEntity<Contents>(new Contents(contents),
@@ -177,9 +180,9 @@ public class ContentController {
 	}
 	
 	@RequestMapping("/contents/getNewContents")
-	public ResponseEntity<Contents> getNewContents(@RequestParam("categories") List<String> categories, @RequestParam("enddate") long endDate) {
+	public ResponseEntity<Contents> getNewContents(@RequestParam("categories") List<String> categories, @RequestParam("endDate") long endDate) {
 
-		ArrayList<Content> contents = contentService.getNewContents(categories, endDate);
+		List<Content> contents = contentService.getNewContents(categories, endDate);
 
 		if (contents != null) {
 			return new ResponseEntity<Contents>(new Contents(contents),
@@ -189,5 +192,12 @@ public class ContentController {
 		return new ResponseEntity<Contents>(new Contents(contents),
 				HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-
+	
+	@RequestMapping("/contents/download")
+	public ResponseEntity<Boolean> downloadImage(@RequestParam("url") String url) {
+		Content content = new Content();
+		content.setOriginalImageURL(url);
+		
+		return new ResponseEntity<Boolean>(imageDownloader.downloadImage(content), HttpStatus.OK);
+	}
 }
