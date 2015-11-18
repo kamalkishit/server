@@ -22,7 +22,7 @@ public class AmazonS3Service {
 	private String bucketName;
 
 	public AmazonS3Service() {
-		s3Client = new AmazonS3Client(new BasicAWSCredentials("AKIAINYEXL73ZWVJ7TDA", "MJebKNEqXhQmEqUySaZOcV/O6ZTiAGdnvJGWPaj2"));
+		s3Client = new AmazonS3Client(new BasicAWSCredentials());
 		bucketName = "com-humanize-images";
 	}
 	
