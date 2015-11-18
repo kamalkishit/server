@@ -1,43 +1,65 @@
 package com.humanize.server.content.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.config.Config;
-import com.humanize.server.content.dao.ContentRepository;
 import com.humanize.server.content.data.Content;
 import com.humanize.server.content.data.Contents;
-import com.humanize.server.helper.ContentHelper;
+import com.humanize.server.service.AmazonS3Service;
 import com.humanize.server.util.ExcelToJson;
-import com.humanize.server.util.HtmlParserService;
+
 
 @Service
 public class ContentService {
 	
 	@Autowired
-	private ContentRepository repository;
-
-	@Autowired
-	private ContentHelper contentHelper;
- 
-	@Autowired
-	private HtmlParserService htmlParser;
+	private ContentRepositoryService repositoryService;
 	
 	@Autowired
-	private HtmlScrapperService htmlScrapper;
+	private HtmlScraperService htmlScraper;
 	
 	@Autowired
 	private ImageDownloaderService imageDownloader;
+	
+	@Autowired
+	private AmazonS3Service amazonS3Service;
 
+	public Content create(Content content) {
+		content = htmlScraper.scrapHtml(content);
+		imageDownloader.downloadImage(content);
+		amazonS3Service.putImage(content);
+		return repositoryService.create(content);
+	}
+	
+	public Content update(Content content) {
+		return repositoryService.update(content);
+	}
+	
+	public Contents findByCategories(List<String> categories, Long createdDate, boolean refresh) {
+		if (createdDate == null) {
+			return repositoryService.findByCategories(categories);
+		} else if (refresh) {
+			return repositoryService.findNewByCategories(categories, createdDate);
+		} else {
+			return repositoryService.findMoreByCategories(categories, createdDate);
+		}
+	}
+	
+	public Contents findByIds(List<String> ids) {
+		return repositoryService.findByIds(ids);
+	}
+	
+	public void populate() {
+		ExcelToJson excelToJson = new ExcelToJson(Config.EXCEL_FILE_PATH);
+		List<Content> contents = excelToJson.toJson();
+		contents = htmlScraper.scrapHtml(contents);
+		repositoryService.create(contents);
+	}
+
+	/*
 	public ContentService() {
 	}
 
@@ -165,5 +187,5 @@ public class ContentService {
 				field));
 		
 		return pageRequest;
-	}
+	}*/
 }

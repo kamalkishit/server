@@ -31,6 +31,11 @@ import com.humanize.server.authentication.exception.WrongInvitationCodeException
 import com.humanize.server.authentication.exception.WrongPasswordException;
 import com.humanize.server.authentication.exception.WrongTempPasswordException;
 import com.humanize.server.authentication.exception.WrongVerificationCodeException;
+import com.humanize.server.content.exception.ContentCreationException;
+import com.humanize.server.content.exception.ContentDeletionException;
+import com.humanize.server.content.exception.ContentNotFoundException;
+import com.humanize.server.content.exception.ContentUpdationException;
+import com.humanize.server.content.exception.NullContentException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -207,7 +212,42 @@ public class GlobalExceptionHandler {
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(UserDeletionException.class)
 	@ResponseBody
-	public Exception handleUserDeletionException(UserDeletionException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public Exception handleUserDeletionException(UserDeletionException exception) {
+		return new Exception(exception.getErrorCode(), exception.getErrorMsg());
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(NullContentException.class)
+	@ResponseBody
+	public Exception handleNullUserException(NullContentException exception) {
+		return new Exception(exception.getErrorCode(), exception.getErrorMsg());
+	}
+	
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(ContentCreationException.class)
+	@ResponseBody
+	public Exception handleContentCreationException(ContentCreationException exception) {
+		return new Exception(exception.getErrorCode(), exception.getErrorMsg());
+	}
+	
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(ContentUpdationException.class)
+	@ResponseBody
+	public Exception handleContentUpdationException(ContentUpdationException exception) {
+		return new Exception(exception.getErrorCode(), exception.getErrorMsg());
+	}
+	
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(ContentNotFoundException.class)
+	@ResponseBody
+	public Exception handleContentNotFoundException(ContentNotFoundException exception) {
+		return new Exception(exception.getErrorCode(), exception.getErrorMsg());
+	}
+	
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(ContentDeletionException.class)
+	@ResponseBody
+	public Exception handleContentDeletionException(ContentDeletionException exception) {
+		return new Exception(exception.getErrorCode(), exception.getErrorMsg());
 	}
 }

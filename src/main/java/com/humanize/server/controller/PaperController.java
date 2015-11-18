@@ -22,43 +22,20 @@ import com.humanize.server.service.PaperService;
 public class PaperController {
 	
 	@Autowired
-	private PaperService paperService;
-	
-	@Autowired
-	private ContentService contentService;
-	
-	@RequestMapping("/paper/{paperDate}")
-	public ResponseEntity<?> getPaper(@PathVariable String paperDate) {
-		List<String> contentIds = paperService.findContentIdsByPaperDate(paperDate);
-		ArrayList<Content> contents = null;
-		
-		if (contents != null) {
-			System.out.println("succes");
-			return new ResponseEntity<Contents>(new Contents(contents),
-					HttpStatus.OK);
-		}
+	PaperService paperService;
 
-		System.out.println("failure");
-		return new ResponseEntity<Contents>(new Contents(contents),
-				HttpStatus.INTERNAL_SERVER_ERROR);
-		
+	@RequestMapping("/paper/create")
+	public ResponseEntity<Paper> create(@RequestBody Paper paper) {
+		return new ResponseEntity<Paper>(paperService.create(paper), HttpStatus.OK);
 	}
 	
-	@RequestMapping("/paper")
-	public ResponseEntity<?> createPaper(@RequestBody Paper paper) {
-		paper = paperService.createPaper(paper);
-
-		if (paper != null) {
-			return new ResponseEntity<Paper>(paper,
-					HttpStatus.OK);
-		}
-
-		return new ResponseEntity<Paper>(paper,
-				HttpStatus.INTERNAL_SERVER_ERROR);
-		
+	@RequestMapping("/paper/update")
+	public ResponseEntity<Paper> update(@RequestBody Paper paper) {
+		return new ResponseEntity<Paper>(paperService.update(paper), HttpStatus.OK);
 	}
 	
-	public void updatePaper(@RequestBody Paper paper) {
-		
+	@RequestMapping("/paper/find")
+	public ResponseEntity<Contents> findByDate(@RequestParam("paperDate") String paperDate) {
+		return new ResponseEntity<Contents>(paperService.findByDate(paperDate), HttpStatus.OK);
 	}
 }

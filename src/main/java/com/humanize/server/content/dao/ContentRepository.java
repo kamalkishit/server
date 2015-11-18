@@ -11,7 +11,32 @@ import org.springframework.data.mongodb.repository.Query;
 import com.humanize.server.content.data.Content;
 
 public interface ContentRepository extends MongoRepository<Content, String> {
+	
+	@Query("{ 'category': ?0 }")
+	public List<Content> findByCategory(String category, Pageable pageRequest);
+	
+	@Query("{ 'category': ?0, 'createdDate': { $gt : ?1 }}")
+	public List<Content> findNewByCategory(String category, long createdDate,
+			Pageable pageRequest);
+	
+	@Query("{ 'category': ?0, 'createdDate': { $lt : ?1 }}")
+	public List<Content> findMoreByCategory(String category, long createdDate,
+			Pageable pageRequest);
 
+	@Query("{ 'category': { $in: ?0 }}")
+	public List<Content> findByCategories(List<String> categories, Pageable pageRequest);
+	
+	@Query("{ 'category': { $in: ?0 }, 'createdDate': { $gt : ?1 }}")
+	public List<Content> findNewByCategories(List<String> categories, long createdDate,
+			Pageable pageRequest);
+	
+	@Query("{ 'category': { $in: ?0 }, 'createdDate': { $lt : ?1 }}")
+	public List<Content> findMoreByCategories(List<String> categories, long createdDate,
+			Pageable pageRequest);
+	
+	public List<Content> findAll(Iterable<String> ids);
+
+	/*
 	public List<Content> findAllOrderByCreatedDate(PageRequest pageRequest);
 
 	public List<Content> findAllOrderByCreatedDate();
@@ -45,5 +70,5 @@ public interface ContentRepository extends MongoRepository<Content, String> {
 	public List<Content> findAllByCategoryCreatedDateLessThan(String category, long createdDate, Pageable pageRequest);
 	
 	@Query("{ 'category': { $in: ?0 }}")
-	public List<Content> findAllByCategories(List<String> categories, Pageable pageRequest);
+	public List<Content> findAllByCategories(List<String> categories, Pageable pageRequest); */
 }

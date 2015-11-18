@@ -44,6 +44,15 @@ public class ExceptionConfig {
 	public static final int FILE_READING_ERROR_CODE = 10032;
 	public static final int EXCEL_TO_JSON_CONVERSION_ERROR_CODE = 10033;
 	
+	public static final int NULL_PAPER_ERROR_CODE = 10005;
+	public static final int NULL_PAPER_DATE_ERROR_CODE = 10005;
+	public static final int PAPER_CREATION_ERROR_CODE = 10005;
+	public static final int PAPER_UPDATION_ERROR_CODE = 10006;
+	public static final int PAPER_NOT_FOUND_ERROR_CODE = 10007;
+	public static final int PAPER_DELETION_ERROR_CODE = 10008;
+	
+	public static final int AMAZON_S3_CREATION_ERROR_CODE = 10009;
+	
 	// Authentication
 	public static final String NULL_EMAIL_ID_EXCEPTION = "EmailId is null";
 	public static final String INVALID_EMAIL_ID_EXCEPTION = "EmailId is invalid";
@@ -85,4 +94,13 @@ public class ExceptionConfig {
 	public static final String EXCEL_FILE_NOT_FOUND_EXCEPTION = "Excel file not found";
 	public static final String FILE_READING_EXCEPTION = "File reading exception";
 	public static final String EXCEL_TO_JSON_CONVERSION_EXCEPTION = "Excel to json conversion failed";
+	
+	public static final String NULL_PAPER_EXCEPTION = "Paper is null";
+	public static final String NULL_PAPER_DATE_EXCEPTION = "Paper date is null";
+	public static final String PAPER_CREATION_EXCEPTION = "Paper not created successfully";
+	public static final String PAPER_UPDATION_EXCEPTION = "Paper not updated successfully";
+	public static final String PAPER_NOT_FOUND_EXCEPTION = "Paper not found";
+	public static final String PAPER_DELETION_EXCEPTION = "Paper not deleted successfully";
+	
+	public static final String AMAZON_S3_CREATION_EXCEPTION = "S3 creation failed";
 }

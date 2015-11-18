@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import com.humanize.server.content.data.Content;
 
 @Service
-public class HtmlScrapperService {
+public class HtmlScraperService {
 	
 	private Document document;
 	

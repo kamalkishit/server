@@ -41,10 +41,13 @@ public class ExcelToJson {
 				return toJson(sheet, rowCount);
 			} 
 		} catch (FileNotFoundException exception) {
+			exception.printStackTrace();
 			throw new ExcelToJsonConversionException(ExceptionConfig.EXCEL_FILE_NOT_FOUND_ERROR_CODE, ExceptionConfig.EXCEL_FILE_NOT_FOUND_EXCEPTION);
 		} catch (InvalidFormatException exception) {
+			exception.printStackTrace();
 			throw new ExcelToJsonConversionException(ExceptionConfig.EXCEL_TO_JSON_CONVERSION_ERROR_CODE, ExceptionConfig.EXCEL_TO_JSON_CONVERSION_EXCEPTION);
 		} catch (IOException exception) {
+			exception.printStackTrace();
 			throw new ExcelToJsonConversionException(ExceptionConfig.FILE_READING_ERROR_CODE, ExceptionConfig.FILE_READING_EXCEPTION);
 		} finally {
 			try {
