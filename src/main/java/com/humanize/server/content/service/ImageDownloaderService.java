@@ -17,6 +17,8 @@ import java.net.URLConnection;
 import javax.imageio.ImageIO;
 
 import org.imgscalr.Scalr;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.config.Config;
@@ -28,27 +30,33 @@ public class ImageDownloaderService {
 	private URL url;
 	private URLConnection urlConnection;
 	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	public boolean downloadImage(Content content) {
-		createConnection(content);
-		String tempImageFilename = getTempImageFilename(content);
-		String imageFilename = getImageFilename(content);
-		readImage(tempImageFilename);
-		BufferedImage bufferedImage = processImage(tempImageFilename);
-		saveImage(bufferedImage, getExtension(content), imageFilename);
-		content.setImageURL(content.getContentId() + "." + getExtension(content));
+		try {
+			createConnection(content.getOriginalImageURL());
+			String tempImageFilename = getTempImageFilename(content);
+			String imageFilename = getImageFilename(content);
+			readImage(tempImageFilename);
+			BufferedImage bufferedImage = processImage(tempImageFilename);
+			saveImage(bufferedImage, getExtension(imageFilename), imageFilename);
+			content.setImageURL(content.getContentId() + "." + getExtension(imageFilename));
+		} catch (Exception exception) {
+			
+		}
+		
 		
 		return true;
 	}
 	
-	private void createConnection(Content content) {
+	private void createConnection(String imageUrl) throws Exception {
 		try {
-			url = new URL(content.getOriginalImageURL());
+			url = new URL(imageUrl);
 			urlConnection = url.openConnection();
 			urlConnection.setRequestProperty("User-Agent", "Mozilla");
-		} catch (MalformedURLException exception) {
-			exception.printStackTrace();
-		} catch (IOException exception) {
-			exception.printStackTrace();
+		} catch (Exception exception) {
+			logger.error("", exception);
+			throw exception;
 		}
 	}
 	
@@ -64,7 +72,7 @@ public class ImageDownloaderService {
 		return imageFilename;
 	}
 	
-	private void readImage(String tempImageFilename) {
+	private void readImage(String tempImageFilename) throws Exception {
 		InputStream inputStream = null;
 		OutputStream outputStream = null;
 		
@@ -77,21 +85,21 @@ public class ImageDownloaderService {
 			for (int i; (i = inputStream.read()) != -1;) {
 				outputStream.write(i);
 			}
-		} catch (FileNotFoundException exception) {
-			exception.printStackTrace();
-		} catch (IOException exception) {
-			exception.printStackTrace();
+		} catch (Exception exception) {
+			logger.error("", exception);
+			throw exception;
 		} finally {
 			try {
 				inputStream.close();
 				outputStream.close();
 			} catch (IOException exception) {
-				exception.printStackTrace();
+				logger.error("", exception);
+				throw exception;
 			}
 		}
 	}
 	
-	private BufferedImage processImage(String tempImageFilename) {
+	private BufferedImage processImage(String tempImageFilename) throws Exception{
 		File inputFile = null;
 		BufferedImage inputImage = null;
 		BufferedImage outputImage = null;
@@ -102,29 +110,27 @@ public class ImageDownloaderService {
 			outputImage = Scalr.resize(inputImage,
 					Scalr.Method.QUALITY, Scalr.Mode.FIT_EXACT, 512, 288,
 					Scalr.OP_ANTIALIAS);
-		} catch (IllegalArgumentException exception) {
-			exception.printStackTrace();
-		} catch (ImagingOpException exception) {
-			exception.printStackTrace();
-		} catch (IOException exception) {
-			exception.printStackTrace();
-		}
+		} catch (Exception exception) {
+			logger.error("", exception);
+			throw exception;
+		} 
 		
 		return outputImage;
 	}
 	
-	private String getExtension(Content content) {
-		String extension = content.getOriginalImageURL().substring(
-				content.getOriginalImageURL().lastIndexOf('.') + 1);
+	private String getExtension(String imageFilename) {
+		String extension = imageFilename.substring(imageFilename.lastIndexOf('.') + 1);
 		
 		return extension;
 	}
 	
-	private void saveImage(BufferedImage bufferedImage, String extension, String imageFilename) {
+	private void saveImage(BufferedImage bufferedImage, String extension, String imageFilename) 
+		throws Exception {
 		try {
 			ImageIO.write(bufferedImage, extension, new File(imageFilename));
 		} catch (IOException exception) {
-			exception.printStackTrace();
+			logger.error("", exception);
+			throw exception;
 		}
 	}
 }

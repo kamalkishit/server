@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import com.humanize.server.config.Config;
 import com.humanize.server.content.data.Content;
 import com.humanize.server.content.data.Contents;
+import com.humanize.server.content.exception.ContentCreationException;
+import com.humanize.server.exception.AmazonS3ImageCreationException;
+import com.humanize.server.exception.HtmlParseException;
 import com.humanize.server.service.AmazonS3Service;
 import com.humanize.server.util.ExcelToJson;
 
@@ -27,11 +30,17 @@ public class ContentService {
 	@Autowired
 	private AmazonS3Service amazonS3Service;
 
-	public Content create(Content content) {
-		content = htmlScraper.scrapHtml(content);
-		imageDownloader.downloadImage(content);
-		amazonS3Service.putImage(content);
-		return repositoryService.create(content);
+	public Content create(Content content) throws ContentCreationException {
+		try {
+			content = htmlScraper.scrapHtml(content);
+			imageDownloader.downloadImage(content);
+			amazonS3Service.putImage(content);
+			return repositoryService.create(content);
+		} catch (HtmlParseException exception) {
+			throw new ContentCreationException(exception.getErrorCode(), exception.getErrorMsg());
+		} catch (AmazonS3ImageCreationException exception) {
+			throw new ContentCreationException(exception.getErrorCode(), exception.getErrorMsg());
+		}
 	}
 	
 	public Content update(Content content) {

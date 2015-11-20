@@ -1,11 +1,11 @@
-package com.humanize.server.content.exception;
+package com.humanize.server.exception;
 
-public class ContentUpdationException extends Exception {
-	
+public class HtmlPropertyContentNotFoundException extends Exception {
+
 	private int errorCode;
 	private String errorMsg;
 	
-	public ContentUpdationException(int errorCode, String errorMsg) {
+	public HtmlPropertyContentNotFoundException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}

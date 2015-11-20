@@ -1,11 +1,11 @@
-package com.humanize.server.content.exception;
+package com.humanize.server.exception;
 
-public class ContentUpdationException extends Exception {
+public class AmazonS3ImageCreationException extends Exception {
 	
 	private int errorCode;
 	private String errorMsg;
 	
-	public ContentUpdationException(int errorCode, String errorMsg) {
+	public AmazonS3ImageCreationException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}

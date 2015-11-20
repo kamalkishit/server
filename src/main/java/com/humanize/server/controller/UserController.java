@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.humanize.server.authentication.exception.UserCreationException;
 import com.humanize.server.authentication.service.EmailService;
 import com.humanize.server.common.AuthenticationManager;
 import com.humanize.server.data.User;
@@ -26,7 +27,7 @@ public class UserController {
 	private AuthenticationManager authenticationManager;
 	
 	@RequestMapping("/users/signup")
-	public ResponseEntity<User> signup(@RequestBody User user) {
+	public ResponseEntity<User> signup(@RequestBody User user) throws UserCreationException {
 		return new ResponseEntity<User>(userService.signup(user), HttpStatus.OK);
 	}
 	

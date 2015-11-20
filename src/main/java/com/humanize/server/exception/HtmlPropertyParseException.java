@@ -1,11 +1,11 @@
 package com.humanize.server.exception;
 
-public class AmazonS3CreationException extends RuntimeException {
-	
+public class HtmlPropertyParseException extends Exception {
+
 	private int errorCode;
 	private String errorMsg;
 	
-	public AmazonS3CreationException(int errorCode, String errorMsg) {
+	public HtmlPropertyParseException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}
@@ -24,5 +24,5 @@ public class AmazonS3CreationException extends RuntimeException {
 
 	public void setErrorMsg(String errorMsg) {
 		this.errorMsg = errorMsg;
-	}
+	}	
 }

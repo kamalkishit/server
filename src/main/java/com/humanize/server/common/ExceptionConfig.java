@@ -51,7 +51,20 @@ public class ExceptionConfig {
 	public static final int PAPER_NOT_FOUND_ERROR_CODE = 10007;
 	public static final int PAPER_DELETION_ERROR_CODE = 10008;
 	
-	public static final int AMAZON_S3_CREATION_ERROR_CODE = 10009;
+	public static final int AMAZON_S3_IMAGE_CREATION_ERROR_CODE = 10009;
+	public static final int AMAZON_S3_IMAGE_NOT_FOUND_ERROR_CODE = 10010;
+	
+	// Html parsing
+	public static final int HTML_PROPERTY_NOT_FOUND_ERROR_CODE = 10011;
+	public static final int HTML_PROPERTY_CONTENT_NOT_FOND_ERROR_CODE = 10012;
+	public static final int HTML_PROPERTY_PARSE_ERROR_CODE = 10013;
+	
+	public static final int URL_CONNECTION_ERROR_CODE = 10014;
+		
+	public static final String HTML_PROPERTY_NOT_FOUND_EXCEPTION = "Html property not found";
+	public static final String HTML_PROPERTY_CONTENT_NOT_FOUND_EXCEPTION = "Html property content not found";
+	public static final String HTML_PROPERTY_PARSE_EXCEPTION = "Html property parsing exception";
+	public static final String URL_CONNECTION_EXCEPTION = "Url connection exception";
 	
 	// Authentication
 	public static final String NULL_EMAIL_ID_EXCEPTION = "EmailId is null";
@@ -102,5 +115,6 @@ public class ExceptionConfig {
 	public static final String PAPER_NOT_FOUND_EXCEPTION = "Paper not found";
 	public static final String PAPER_DELETION_EXCEPTION = "Paper not deleted successfully";
 	
-	public static final String AMAZON_S3_CREATION_EXCEPTION = "S3 creation failed";
+	public static final String AMAZON_S3_IMAGE_CREATION_EXCEPTION = "Image not created successfully on Amazon S3";
+	public static final String AMAZON_S3_IMAGE_NOT_FOUND_EXCEPTION = "Image not found on Amazon s3";
 }
