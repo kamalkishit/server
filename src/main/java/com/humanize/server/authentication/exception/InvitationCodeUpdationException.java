@@ -1,6 +1,8 @@
 package com.humanize.server.authentication.exception;
 
-public class InvitationCodeUpdationException extends RuntimeException {
+import java.lang.Exception;
+
+public class InvitationCodeUpdationException extends Exception {
 
 	private int errorCode;
 	private String errorMsg;

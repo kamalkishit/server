@@ -1,6 +1,8 @@
 package com.humanize.server.content.exception;
 
-public class ContentNotFoundException extends RuntimeException {
+import java.lang.Exception;
+
+public class ContentNotFoundException extends Exception {
 
 	private int errorCode;
 	private String errorMsg;

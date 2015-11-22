@@ -1,16 +1,13 @@
 package com.humanize.server.content.service;
 
 import java.awt.image.BufferedImage;
-import java.awt.image.ImagingOpException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -32,7 +29,7 @@ public class ImageDownloaderService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public boolean downloadImage(Content content) {
+	public boolean downloadImage(Content content) throws ImageCreationException {
 		try {
 			createConnection(content.getOriginalImageURL());
 			String tempImageFilename = getTempImageFilename(content);
@@ -42,7 +39,7 @@ public class ImageDownloaderService {
 			saveImage(bufferedImage, getExtension(imageFilename), imageFilename);
 			content.setImageURL(content.getContentId() + "." + getExtension(imageFilename));
 		} catch (Exception exception) {
-			
+			throw new ImageCreationException(0, null);
 		}
 		
 		

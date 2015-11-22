@@ -1,11 +1,13 @@
-package com.humanize.server.content.exception;
+package com.humanize.server.authentication.exception;
 
-public class NullContentException extends RuntimeException {
+import java.lang.Exception;
+
+public class PaperDeletionException extends Exception {
 
 	private int errorCode;
 	private String errorMsg;
 	
-	public NullContentException(int errorCode, String errorMsg) {
+	public PaperDeletionException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}

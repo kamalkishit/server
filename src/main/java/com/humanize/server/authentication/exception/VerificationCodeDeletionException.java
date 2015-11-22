@@ -1,6 +1,8 @@
 package com.humanize.server.authentication.exception;
 
-public class VerificationCodeDeletionException extends RuntimeException {
+import java.lang.Exception;
+
+public class VerificationCodeDeletionException extends Exception {
 
 	private int errorCode;
 	private String errorMsg;

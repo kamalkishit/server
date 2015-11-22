@@ -1,6 +1,8 @@
 package com.humanize.server.content.exception;
 
-public class ContentDeletionException extends RuntimeException {
+import java.lang.Exception;
+
+public class ContentDeletionException extends Exception {
 
 	private int errorCode;
 	private String errorMsg;

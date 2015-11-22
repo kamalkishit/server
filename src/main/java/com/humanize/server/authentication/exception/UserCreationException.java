@@ -1,6 +1,8 @@
 package com.humanize.server.authentication.exception;
 
-public class UserCreationException extends RuntimeException {
+import java.lang.Exception;
+
+public class UserCreationException extends Exception {
 	
 	private int errorCode;
 	private String errorMsg;

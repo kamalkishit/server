@@ -1,6 +1,8 @@
 package com.humanize.server.authentication.exception;
 
-public class InvitationCodeNotFoundException extends RuntimeException {
+import java.lang.Exception;
+
+public class InvitationCodeNotFoundException extends Exception {
 
 	private int errorCode;
 	private String errorMsg;

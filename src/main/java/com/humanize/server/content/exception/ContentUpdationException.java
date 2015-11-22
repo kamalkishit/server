@@ -1,5 +1,7 @@
 package com.humanize.server.content.exception;
 
+import java.lang.Exception;
+
 public class ContentUpdationException extends Exception {
 	
 	private int errorCode;

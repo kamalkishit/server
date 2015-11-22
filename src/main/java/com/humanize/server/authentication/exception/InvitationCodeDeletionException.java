@@ -1,6 +1,8 @@
 package com.humanize.server.authentication.exception;
 
-public class InvitationCodeDeletionException extends RuntimeException {
+import java.lang.Exception;
+
+public class InvitationCodeDeletionException extends Exception {
 
 	private int errorCode;
 	private String errorMsg;

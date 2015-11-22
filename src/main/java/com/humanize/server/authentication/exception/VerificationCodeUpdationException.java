@@ -1,6 +1,8 @@
 package com.humanize.server.authentication.exception;
 
-public class VerificationCodeUpdationException extends RuntimeException {
+import java.lang.Exception;
+
+public class VerificationCodeUpdationException extends Exception {
 
 	private int errorCode;
 	private String errorMsg;
