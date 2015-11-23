@@ -1,11 +1,13 @@
 package com.humanize.server.authentication.exception;
 
-public class InvalidEmailIdException extends RuntimeException {
-	
+import java.lang.Exception;
+
+public class UserInvitationFailedException extends Exception {
+
 	private int errorCode;
 	private String errorMsg;
 	
-	public InvalidEmailIdException(int errorCode, String errorMsg) {
+	public UserInvitationFailedException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}

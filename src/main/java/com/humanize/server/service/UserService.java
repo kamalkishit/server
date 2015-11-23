@@ -2,15 +2,19 @@ package com.humanize.server.service;
 
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.authentication.data.InvitationCode;
+import com.humanize.server.authentication.exception.UserCreationException;
+import com.humanize.server.authentication.exception.UserInvitationFailedException;
+import com.humanize.server.authentication.exception.UserNotFoundException;
+import com.humanize.server.authentication.exception.UserUpdationException;
 import com.humanize.server.authentication.exception.WrongInvitationCodeException;
 import com.humanize.server.authentication.exception.WrongPasswordException;
 import com.humanize.server.authentication.service.EmailService;
-import com.humanize.server.authentication.service.InputValidationService;
 import com.humanize.server.authentication.service.InvitationCodeRepositoryService;
 import com.humanize.server.authentication.service.InvitationCodeService;
 import com.humanize.server.authentication.service.UserRepositoryService;
@@ -32,9 +36,6 @@ public class UserService {
 	private VerificationCodeRepositoryService verificationCodeRepositoryService;
 	
 	@Autowired
-	private InputValidationService inputValidationService;
-	
-	@Autowired
 	VerificationCodeService verificationCodeService;
 	
 	@Autowired
@@ -42,10 +43,10 @@ public class UserService {
 	
 	@Autowired
 	private EmailService emailService;
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public User login(User user) {
-		inputValidationService.validateLoginUser(user);
-		
+	public User login(User user) throws UserValidationException {
 		User tempUser = userRepositoryService.findByEmailId(user.getEmailId());
 		
 		if (user.getPassword().equals(tempUser.getPassword())) {
@@ -59,34 +60,40 @@ public class UserService {
 		return true;
 	}
 
-	public User getUserdata(String emailId) {
-		inputValidationService.validateEmailId(emailId);
+	public User getUserdata(String emailId) throws UserNotFoundException {
 		return userRepositoryService.findByEmailId(emailId);
 	}
 
-	public User updateUser(User user) {
+	public User updateUser(User user) throws UserUpdationException {
 		return userRepositoryService.update(user);
 	}
 
-	public User signup(User user) {
-		inputValidationService.validateSignupUser(user);
-		validateInvitationCode(user.getEmailId(), user.getInvitationCode());
-		user.setUserId(UUID.randomUUID().toString());
-		user = userRepositoryService.create(user);
-		verificationCodeService.sendVerificationCode(user.getEmailId());
+	public User signup(User user) throws UserCreationException {
+		try {
+			invitationCodeService.validateInvitationCode(user.getEmailId(), user.getInvitationCode());
+			user.setUserId(UUID.randomUUID().toString());
+			user = userRepositoryService.create(user);
+			verificationCodeService.sendVerificationCode(user.getEmailId());
+		} catch (Exception exception) {
+			logger.error("", exception);
+			throw new UserCreationException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
+		}
+		
 
 		return user;
 	}
 	
-	public boolean inviteUser(String emailId) {
-		inputValidationService.validateEmailId(emailId);		
+	public boolean inviteUser(String emailId) throws UserInvitationFailedException {
+		try {
+			return invitationCodeService.sendInvitationCode(emailId);
+		} catch (Exception exception) {
+			logger.error("", exception);
+			throw new UserInvitationFailedException(ExceptionConfig.USER_INVITATION_FAILED_ERROR_CODE, ExceptionConfig.USER_INVITATION_FAILED_EXCEPTION);
+		}
 		
-		return invitationCodeService.sendInvitationCode(emailId);
 	}
 	
 	public boolean verifyUser(String emailId, String verificationCode) {
-		inputValidationService.validateEmailId(emailId);
-		inputValidationService.validateVerificationCode(verificationCode);
 		
 		verificationCodeService.validateVerificationCode(emailId, verificationCode);
 		

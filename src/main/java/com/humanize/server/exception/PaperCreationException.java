@@ -1,6 +1,6 @@
 package com.humanize.server.exception;
 
-public class PaperCreationException extends RuntimeException {
+public class PaperCreationException extends Exception {
 
 	private int errorCode;
 	private String errorMsg;

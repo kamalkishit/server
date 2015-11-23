@@ -19,7 +19,7 @@ public class VerificationCodeService {
 	@Autowired
 	EmailService emailService;
 	
-	public boolean sendVerificationCode(String emailId) {
+	public boolean sendVerificationCode(String emailId) throws VerificationCodeSendingException {
 		String verificationCode = ranodmStringGeneratoService.getVerificationCode();
 		
 		VerificationCode verificationCodeObj = new VerificationCode(emailId, verificationCode);
@@ -29,7 +29,7 @@ public class VerificationCodeService {
 		return true;
 	}
 	
-	public boolean validateVerificationCode(String emailId, String verificationCode) {
+	public boolean validateVerificationCode(String emailId, String verificationCode) VerificationCodeValidationException {
 		VerificationCode verificationCodeObj = repositoryService.findByEmailId(emailId);
 		
 		if (verificationCodeObj.getVerificationCode().equals(verificationCode)) {

@@ -1,5 +1,7 @@
 package com.humanize.server.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +18,9 @@ public class PaperRepositoryService {
 	@Autowired
 	PaperRepository repository;
 	
-	public Paper create(Paper paper) {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
+	public Paper create(Paper paper) throws PaperCreationException {
 		paper = repository.save(paper);
 		
 		if (paper == null) {
@@ -26,25 +30,30 @@ public class PaperRepositoryService {
 		return paper;
 	}
 	
-	public Paper update(Paper paper) {
-		Paper tempPaper = repository.findByPaperDate(paper.getPaperDate());
-		
-		if (tempPaper == null) {
-			throw new PaperNotFoundException(ExceptionConfig.PAPER_NOT_FOUND_ERROR_CODE, ExceptionConfig.PAPER_NOT_FOUND_EXCEPTION);
-		}
-		
-		tempPaper.setContentIds(paper.getContentIds());
-		
-		tempPaper = repository.save(tempPaper);
-		
-		if (tempPaper == null) {
+	public Paper update(Paper paper) throws PaperUpdationException {
+		try {
+			Paper tempPaper = repository.findByPaperDate(paper.getPaperDate());
+			
+			if (tempPaper == null) {
+				throw new PaperNotFoundException(ExceptionConfig.PAPER_NOT_FOUND_ERROR_CODE, ExceptionConfig.PAPER_NOT_FOUND_EXCEPTION);
+			}
+			
+			tempPaper.setContentIds(paper.getContentIds());
+			
+			tempPaper = repository.save(tempPaper);
+			
+			if (tempPaper == null) {
+				throw new PaperUpdationException(ExceptionConfig.PAPER_UPDATION_ERROR_CODE, ExceptionConfig.PAPER_UPDATION_EXCEPTION);
+			}
+			
+			return tempPaper;
+		} catch (Exception exception) {
+			logger.error("", exception);
 			throw new PaperUpdationException(ExceptionConfig.PAPER_UPDATION_ERROR_CODE, ExceptionConfig.PAPER_UPDATION_EXCEPTION);
 		}
-		
-		return tempPaper;
 	}
 	
-	public Paper findByDate(String paperDate) {
+	public Paper findByDate(String paperDate) throws PaperNotFoundException {
 		Paper paper = repository.findByPaperDate(paperDate);
 		
 		if (paper == null) {

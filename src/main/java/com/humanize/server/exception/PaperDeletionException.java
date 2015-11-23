@@ -1,6 +1,8 @@
 package com.humanize.server.exception;
 
-public class PaperDeletionException {
+import java.lang.Exception;
+
+public class PaperDeletionException extends Exception {
 
 	private int errorCode;
 	private String errorMsg;

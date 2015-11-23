@@ -1,6 +1,8 @@
 package com.humanize.server.exception;
 
-public class PaperNotFoundException extends RuntimeException {
+import java.lang.Exception;
+
+public class PaperNotFoundException extends Exception {
 	
 	private int errorCode;
 	private String errorMsg;

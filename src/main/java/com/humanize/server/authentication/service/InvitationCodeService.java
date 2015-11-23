@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.authentication.data.InvitationCode;
-import com.humanize.server.authentication.exception.InvitationCodeCreationException;
-import com.humanize.server.authentication.exception.WrongInvitationCodeException;
+import com.humanize.server.authentication.exception.InvitationCodeSendingException;
+import com.humanize.server.authentication.exception.InvitationCodeValidationException;
 import com.humanize.server.common.ExceptionConfig;
 
 @Service
@@ -24,27 +24,31 @@ public class InvitationCodeService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public boolean create(String emailId) throws InvitationCodeCreationException {		
+	public boolean sendInvitationCode(String emailId) throws Exception {		
 		try {
 			String invitationCodeStr = randomStringGeneratorService.getInvitationCode();			
 			InvitationCode invitationCode = new InvitationCode(emailId, invitationCodeStr);
 			emailService.sendEmail(emailId, invitationCodeStr);
 			repositoryService.create(invitationCode);
+			return true;
 		} catch (Exception exception) {
 			logger.error("", exception);
-			throw new InvitationCodeCreationException(0, null);
+			throw exception;
 		}
-		
-		return true;
 	}
 	
-	public boolean validateInvitationCode(String emailId, String invitationCode) {
-		InvitationCode invitationCodeObj = repositoryService.findByEmailId(emailId);
-		
-		if (invitationCodeObj.getInvitationCode().equals(invitationCode)) {
-			return true;
+	public boolean validateInvitationCode(String emailId, String invitationCodeStr) throws Exception {
+		try {
+			InvitationCode invitationCode = repositoryService.findByEmailId(emailId);
+			
+			if (invitationCode != null && invitationCode.getInvitationCode().equals(invitationCodeStr)) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (Exception exception) {
+			logger.error("", exception);
+			throw exception;
 		}
-		
-		throw new WrongInvitationCodeException(ExceptionConfig.WRONG_INVITATION_CODE_ERROR_CODE, ExceptionConfig.WRONG_INVITATION_CODE_EXCEPTION);
 	}
 }

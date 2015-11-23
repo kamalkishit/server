@@ -29,7 +29,7 @@ public class ImageDownloaderService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public boolean downloadImage(Content content) throws ImageCreationException {
+	public boolean downloadImage(Content content) throws Exception {
 		try {
 			createConnection(content.getOriginalImageURL());
 			String tempImageFilename = getTempImageFilename(content);
@@ -39,9 +39,9 @@ public class ImageDownloaderService {
 			saveImage(bufferedImage, getExtension(imageFilename), imageFilename);
 			content.setImageURL(content.getContentId() + "." + getExtension(imageFilename));
 		} catch (Exception exception) {
-			throw new ImageCreationException(0, null);
+			logger.error("", exception);
+			throw exception;
 		}
-		
 		
 		return true;
 	}

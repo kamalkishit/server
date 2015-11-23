@@ -2,12 +2,12 @@ package com.humanize.server.authentication.exception;
 
 import java.lang.Exception;
 
-public class PaperDeletionException extends Exception {
-
+public class InvitationCodeValidationException extends Exception {
+	
 	private int errorCode;
 	private String errorMsg;
 	
-	public PaperDeletionException(int errorCode, String errorMsg) {
+	public InvitationCodeValidationException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}

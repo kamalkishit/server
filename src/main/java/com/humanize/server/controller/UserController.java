@@ -1,5 +1,7 @@
 package com.humanize.server.controller;
 
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.humanize.server.authentication.exception.UserCreationException;
+import com.humanize.server.authentication.exception.UserInvitationFailedException;
 import com.humanize.server.authentication.service.EmailService;
 import com.humanize.server.common.AuthenticationManager;
 import com.humanize.server.data.User;
@@ -27,17 +30,18 @@ public class UserController {
 	private AuthenticationManager authenticationManager;
 	
 	@RequestMapping("/users/signup")
-	public ResponseEntity<User> signup(@RequestBody User user) throws UserCreationException {
+	public ResponseEntity<User> signup(@RequestBody User user) throws UserCreationException, InvitationCodeValidationFailedException {
 		return new ResponseEntity<User>(userService.signup(user), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/users/verify")
-	public ResponseEntity<Boolean> verifyUser(@RequestParam("emailId") String emailId, @RequestParam("verificationCode") String verificationCode) {
+	public ResponseEntity<Boolean> verifyUser(@RequestParam("emailId") @NotEmpty @Email String emailId, @RequestParam("verificationCode") @NotEmpty String verificationCode) 
+		throws VerificaitonCodeValidationFailedException {
 		return new ResponseEntity<Boolean>(userService.verifyUser(emailId, verificationCode), HttpStatus.OK);
 	}
 
 	@RequestMapping("/users/login")
-	public ResponseEntity<User> login(@RequestBody User user) {
+	public ResponseEntity<User> login(@RequestBody User user) throws UserValidationFailedException {
 		return new ResponseEntity<User>(userService.login(user), HttpStatus.OK);
 	}
 	
@@ -47,7 +51,7 @@ public class UserController {
 	}
 	
 	@RequestMapping("/users/invite")
-	public ResponseEntity<Boolean> inviteUser(@RequestParam("emailId") String emailId) {
+	public ResponseEntity<Boolean> inviteUser(@RequestParam("emailId") @NotEmpty @Email String emailId) throws UserInvitationFailedException {
 		return new ResponseEntity<Boolean>(userService.inviteUser(emailId), HttpStatus.OK);
 	}
 
@@ -57,7 +61,7 @@ public class UserController {
 	}
 
 	@RequestMapping("/users/update")
-	public ResponseEntity<User> updateUser(@RequestBody User user) {
+	public ResponseEntity<User> updateUser(@RequestBody User user) throws UserUpdationException {
 		return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.OK);
 	}
 	

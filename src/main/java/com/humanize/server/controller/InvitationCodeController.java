@@ -17,7 +17,7 @@ import com.humanize.server.authentication.service.InvitationCodeService;
 
 @RestController
 public class InvitationCodeController {
-	
+	/*
 	@Autowired
 	InvitationCodeService invitationCodeService;
 	
@@ -43,6 +43,6 @@ public class InvitationCodeController {
 	public ResponseEntity<Boolean> delete(@RequestBody InvitationCode invitationCode) 
 		throws InvitationCodeDeletionException {
 		return new ResponseEntity<Boolean>(invitationCodeService.delete(invitationCode), HttpStatus.OK);
-	}
+	}*/
 
 }

@@ -2,12 +2,12 @@ package com.humanize.server.authentication.exception;
 
 import java.lang.Exception;
 
-public class ContentNotFoundException extends Exception {
+public class InvitationCodeSendingException extends Exception {
 
 	private int errorCode;
 	private String errorMsg;
 	
-	public ContentNotFoundException(int errorCode, String errorMsg) {
+	public InvitationCodeSendingException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}

@@ -20,6 +20,8 @@ public class ExceptionConfig {
 	public static final int INVITATION_CODE_UPDATION_ERROR_CODE = 10012;
 	public static final int INVITATION_CODE_NOT_FOUND_ERROR_CODE = 10013;
 	public static final int INVITATION_CODE_DELETION_ERROR_CODE = 10014;
+	public static final int INVITATION_CODE_SENDING_ERROR_CODE = 10015;
+	public static final int INVITATION_CODE_VALIDATION_ERROR_CODE = 10015;
 	
 	public static final int NULL_VERIFICATION_CODE_ERROR_CODE = 10015;
 	public static final int WRONG_VERIFICATION_CODE_ERROR_CODE = 10016;
@@ -27,6 +29,8 @@ public class ExceptionConfig {
 	public static final int VERIFICATION_CODE_UPDATION_ERROR_CODE = 10018;
 	public static final int VERIFICATION_CODE_NOT_FOUND_ERROR_CODE = 10019;
 	public static final int VERIFICATION_CODE_DELETION_ERROR_CODE = 10020;
+	public static final int VERIFICATION_CODE_SENDING_ERROR_CODE = 10021;
+	public static final int VERIFICATION_CODE_VALIDATION_ERROR_CODE = 10022;
 	
 	public static final int NULL_USER_ERROR_CODE = 10021;
 	public static final int USER_CREATION_ERROR_CODE = 10022;
@@ -60,6 +64,8 @@ public class ExceptionConfig {
 	public static final int HTML_PROPERTY_PARSE_ERROR_CODE = 10013;
 	
 	public static final int URL_CONNECTION_ERROR_CODE = 10014;
+	
+	public static final int USER_INVITATION_FAILED_ERROR_CODE = 10030;
 		
 	public static final String HTML_PROPERTY_NOT_FOUND_EXCEPTION = "Html property not found";
 	public static final String HTML_PROPERTY_CONTENT_NOT_FOUND_EXCEPTION = "Html property content not found";
@@ -84,6 +90,8 @@ public class ExceptionConfig {
 	public static final String INVITATION_CODE_UPDATION_EXCEPTION = "Invitation code not updated successfully";
 	public static final String INVITATION_CODE_NOT_FOUND_EXCEPTION = "Invitation code not found";
 	public static final String INVITATION_CODE_DELETION_EXCEPTION = "Invitation code not deleted successfully";
+	public static final String INVITATION_CODE_SENDING_EXCEPTION = "Invitation code sending failed";
+	public static final String INVITATION_CODE_VALIDATION_EXCEPTION = "Invitation code validation failed";
 
 	public static final String NULL_VERIFICATION_CODE_EXCEPTION = "Verification code is null";
 	public static final String WRONG_VERIFICATION_CODE_EXCEPTION = "Verification code is wrong";
@@ -91,6 +99,8 @@ public class ExceptionConfig {
 	public static final String VERIFICATION_CODE_UPDATION_EXCEPTION = "Verification code not updated successfully";
 	public static final String VERIFICATION_CODE_NOT_FOUND_EXCEPTION = "Verification code not found";
 	public static final String VERIFICATION_CODE_DELETION_EXCEPTION = "Verification code not deleted successfully";
+	public static final String VERIFICATION_CODE_SENDING_EXCEPTION = "Verification code sending failed";
+	public static final String VERIFICATION_CODE_VALIDATION_EXCEPTION = "Verification code validation failed";
 	
 	public static final String NULL_USER_EXCEPTION = "User is null";
 	public static final String USER_CREATION_EXCEPTION = "User not created successfully";
@@ -117,4 +127,6 @@ public class ExceptionConfig {
 	
 	public static final String AMAZON_S3_IMAGE_CREATION_EXCEPTION = "Image not created successfully on Amazon S3";
 	public static final String AMAZON_S3_IMAGE_NOT_FOUND_EXCEPTION = "Image not found on Amazon s3";
+	
+	public static final String USER_INVITATION_FAILED_EXCEPTION = "User invitation failed";
 }
