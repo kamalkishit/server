@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.humanize.server.Temp;
 import com.humanize.server.content.data.Content;
 import com.humanize.server.content.data.Contents;
 import com.humanize.server.content.exception.ContentCreationException;
+import com.humanize.server.content.exception.ContentNotFoundException;
 import com.humanize.server.content.exception.ContentUpdationException;
-import com.humanize.server.content.service.ContentService;
-import com.humanize.server.service.AmazonS3Service;
+import com.humanize.server.service.ContentService;
 
 @RestController
 public class ContentController {
@@ -27,12 +26,6 @@ public class ContentController {
 
 	@Autowired
 	private ContentService contentService;
-
-	@Autowired
-	private AmazonS3Service amazonS3Service;
-	
-	@Autowired
-	Temp temp;
 
 	@RequestMapping("/content/create")
 	public ResponseEntity<Content> create(@RequestBody Content content) throws ContentCreationException {
@@ -45,13 +38,8 @@ public class ContentController {
 	}
 
 	@RequestMapping("/content/find")
-	public ResponseEntity<Contents> findByCategories(@RequestParam List<String> categories, @RequestParam(value= "createdDate", required= false) Long createdDate, @RequestParam(value= "refresh", required= false, defaultValue= "false") Boolean refresh) {
+	public ResponseEntity<Contents> findByCategories(@RequestParam List<String> categories, @RequestParam(value= "createdDate", required= false) Long createdDate, @RequestParam(value= "refresh", required= false, defaultValue= "false") Boolean refresh) 
+		throws ContentNotFoundException {
 		return new ResponseEntity<Contents>(contentService.findByCategories(categories, createdDate, refresh), HttpStatus.OK);
-	}
-	
-	@RequestMapping("/content/populate")
-	public void populate() {
-		System.out.println(temp.getValue1() + temp.getValue2());
-		//amazonS3Service.putImage(null);
 	}
 }

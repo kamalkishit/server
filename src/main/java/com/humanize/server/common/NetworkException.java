@@ -1,11 +1,11 @@
-package com.humanize.server.authentication.exception;
+package com.humanize.server.common;
 
-public class Exception {
+public class NetworkException {
 	
 	private int errorCode;
 	private String errorMsg;
 	
-	public Exception(int errorCode, String errorMsg) {
+	public NetworkException(int errorCode, String errorMsg) {
 		this.errorCode = errorCode;
 		this.errorMsg = errorMsg;
 	}

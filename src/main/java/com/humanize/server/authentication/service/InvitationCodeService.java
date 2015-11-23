@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.humanize.server.authentication.data.InvitationCode;
 import com.humanize.server.authentication.exception.InvitationCodeSendingException;
-import com.humanize.server.authentication.exception.InvitationCodeValidationException;
-import com.humanize.server.common.ExceptionConfig;
+import com.humanize.server.authentication.exception.InvitationCodeValidationFailedException;
 
 @Service
 public class InvitationCodeService {
@@ -24,20 +23,29 @@ public class InvitationCodeService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public boolean sendInvitationCode(String emailId) throws Exception {		
+	public boolean sendInvitationCode(String emailId) throws InvitationCodeSendingException {		
 		try {
 			String invitationCodeStr = randomStringGeneratorService.getInvitationCode();			
-			InvitationCode invitationCode = new InvitationCode(emailId, invitationCodeStr);
 			emailService.sendEmail(emailId, invitationCodeStr);
-			repositoryService.create(invitationCode);
+			
+			InvitationCode invitationCode = repositoryService.findByEmailId(emailId);
+			
+			if (invitationCode == null) {
+				invitationCode = new InvitationCode(emailId, invitationCodeStr);
+				repositoryService.create(invitationCode);
+			} else {
+				invitationCode.setInvitationCode(invitationCodeStr);
+				repositoryService.create(invitationCode);
+			}
+			
 			return true;
 		} catch (Exception exception) {
 			logger.error("", exception);
-			throw exception;
+			throw new InvitationCodeSendingException(0, null);
 		}
 	}
 	
-	public boolean validateInvitationCode(String emailId, String invitationCodeStr) throws Exception {
+	public boolean validateInvitationCode(String emailId, String invitationCodeStr) throws InvitationCodeValidationFailedException {
 		try {
 			InvitationCode invitationCode = repositoryService.findByEmailId(emailId);
 			
@@ -48,7 +56,7 @@ public class InvitationCodeService {
 			}
 		} catch (Exception exception) {
 			logger.error("", exception);
-			throw exception;
+			throw new InvitationCodeValidationFailedException(0, null);
 		}
 	}
 }

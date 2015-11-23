@@ -51,7 +51,7 @@ public class InvitationCodeRepositoryService {
 		throw new InvitationCodeNotFoundException(ExceptionConfig.INVITATION_CODE_NOT_FOUND_ERROR_CODE, ExceptionConfig.INVITATION_CODE_NOT_FOUND_EXCEPTION);
 	}
 		
-	public void deleteByEmailId(String emailId) throws InvitationCodeDeletionException {
+	public void delete(String emailId) throws InvitationCodeDeletionException {
 		try {
 			InvitationCode invitationCode = findByEmailId(emailId);
 			repository.delete(invitationCode);

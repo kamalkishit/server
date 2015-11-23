@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.humanize.server.authentication.exception.InvitationCodeValidationFailedException;
 import com.humanize.server.authentication.exception.UserCreationException;
 import com.humanize.server.authentication.exception.UserInvitationFailedException;
-import com.humanize.server.authentication.service.EmailService;
-import com.humanize.server.common.AuthenticationManager;
+import com.humanize.server.authentication.exception.UserUpdationException;
+import com.humanize.server.authentication.exception.UserValidationFailedException;
 import com.humanize.server.data.User;
 import com.humanize.server.service.UserService;
 
@@ -23,12 +24,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	@Autowired
-	private EmailService emailService;
-	
-	@Autowired
-	private AuthenticationManager authenticationManager;
-	
 	@RequestMapping("/users/signup")
 	public ResponseEntity<User> signup(@RequestBody User user) throws UserCreationException, InvitationCodeValidationFailedException {
 		return new ResponseEntity<User>(userService.signup(user), HttpStatus.OK);
@@ -36,7 +31,7 @@ public class UserController {
 	
 	@RequestMapping("/users/verify")
 	public ResponseEntity<Boolean> verifyUser(@RequestParam("emailId") @NotEmpty @Email String emailId, @RequestParam("verificationCode") @NotEmpty String verificationCode) 
-		throws VerificaitonCodeValidationFailedException {
+		throws UserValidationFailedException {
 		return new ResponseEntity<Boolean>(userService.verifyUser(emailId, verificationCode), HttpStatus.OK);
 	}
 
@@ -55,10 +50,10 @@ public class UserController {
 		return new ResponseEntity<Boolean>(userService.inviteUser(emailId), HttpStatus.OK);
 	}
 
-	@RequestMapping("/users/data")
+	/*@RequestMapping("/users/data")
 	public ResponseEntity<User> userdata(@RequestParam("emailId") String emailId) {
 		return new ResponseEntity<User>(userService.getUserdata(emailId), HttpStatus.OK);
-	}
+	}*/
 
 	@RequestMapping("/users/update")
 	public ResponseEntity<User> updateUser(@RequestBody User user) throws UserUpdationException {

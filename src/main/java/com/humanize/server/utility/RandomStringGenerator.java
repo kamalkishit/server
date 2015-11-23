@@ -10,10 +10,10 @@ public class RandomStringGenerator {
 	
 	public RandomStringGenerator() {
 		this.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-		this.buffer = new StringBuffer();
 	}
 	
 	public String generateRandomString(int length) {
+		buffer = new StringBuffer();
 		int charactersLength = characters.length();
 
 		for (int i = 0; i < length; i++) {

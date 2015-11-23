@@ -11,7 +11,6 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import com.humanize.server.content.dao.ContentRepository;
 import com.humanize.server.content.data.Content;
 import com.humanize.server.content.data.Contents;
-import com.humanize.server.content.service.ContentService;
 import com.humanize.server.util.HtmlParserService;
 
 @SpringBootApplication
@@ -20,9 +19,6 @@ public class App extends SpringBootServletInitializer {
 
 	@Autowired
 	private ContentRepository repository;
-
-	@Autowired
-	private ContentService contentService;
 
 	@Override
 	protected SpringApplicationBuilder configure(

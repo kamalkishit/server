@@ -6,20 +6,17 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import com.humanize.server.authentication.exception.InvalidEmailIdException;
-import com.humanize.server.authentication.exception.InvalidPasswordException;
 import com.humanize.server.authentication.exception.InvitationCodeCreationException;
 import com.humanize.server.authentication.exception.InvitationCodeDeletionException;
 import com.humanize.server.authentication.exception.InvitationCodeNotFoundException;
 import com.humanize.server.authentication.exception.InvitationCodeUpdationException;
-import com.humanize.server.authentication.exception.NullEmailIdException;
-import com.humanize.server.authentication.exception.NullInvitationCodeException;
 import com.humanize.server.authentication.exception.NullPasswordException;
 import com.humanize.server.authentication.exception.NullTempPasswordException;
 import com.humanize.server.authentication.exception.NullUserException;
 import com.humanize.server.authentication.exception.NullVerificationCodeException;
 import com.humanize.server.authentication.exception.UserCreationException;
 import com.humanize.server.authentication.exception.UserDeletionException;
+import com.humanize.server.authentication.exception.UserInvitationFailedException;
 import com.humanize.server.authentication.exception.UserNotFoundException;
 import com.humanize.server.authentication.exception.UserUpdationException;
 import com.humanize.server.authentication.exception.VerificationCodeCreationException;
@@ -35,219 +32,188 @@ import com.humanize.server.content.exception.ContentCreationException;
 import com.humanize.server.content.exception.ContentDeletionException;
 import com.humanize.server.content.exception.ContentNotFoundException;
 import com.humanize.server.content.exception.ContentUpdationException;
-import com.humanize.server.content.exception.NullContentException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 	
-	// Authentication
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(NullEmailIdException.class)
+	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ExceptionHandler(UserInvitationFailedException.class)
 	@ResponseBody
-	public Exception handleNullEmailIdException(NullEmailIdException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
-	}
-	
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(InvalidEmailIdException.class)
-	@ResponseBody
-	public Exception handleInvalidEmailIdException(InvalidEmailIdException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleUserInvitationFailedException(UserInvitationFailedException exception) {
+		return new NetworkException(exception.getErrorCode(), exception.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(WrongEmailIdException.class)
 	@ResponseBody
-	public Exception handleWrongEmailIdException(WrongEmailIdException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleWrongEmailIdException(WrongEmailIdException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(NullPasswordException.class)
 	@ResponseBody
-	public Exception handleNullPasswordException(NullPasswordException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
-	}
-	
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(InvalidPasswordException.class)
-	@ResponseBody
-	public Exception handleInvalidPasswordException(InvalidPasswordException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleNullPasswordException(NullPasswordException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(WrongPasswordException.class)
 	@ResponseBody
-	public Exception handleWrongPasswordxception(WrongPasswordException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleWrongPasswordxception(WrongPasswordException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(NullTempPasswordException.class)
 	@ResponseBody
-	public Exception handleNullTempPasswordException(NullTempPasswordException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleNullTempPasswordException(NullTempPasswordException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(WrongTempPasswordException.class)
 	@ResponseBody
-	public Exception handleWrongTempPasswordException(WrongTempPasswordException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleWrongTempPasswordException(WrongTempPasswordException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
-	
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(NullInvitationCodeException.class)
-	@ResponseBody
-	public Exception handleNullInvitationCodeException(NullInvitationCodeException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
-	}
-	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(WrongInvitationCodeException.class)
 	@ResponseBody
-	public Exception handleWrongInvitationCodeException(WrongInvitationCodeException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleWrongInvitationCodeException(WrongInvitationCodeException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(InvitationCodeCreationException.class)
 	@ResponseBody
-	public Exception handleInvitationCodeCreationException(InvitationCodeCreationException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleInvitationCodeCreationException(InvitationCodeCreationException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(InvitationCodeUpdationException.class)
 	@ResponseBody
-	public Exception handleInvitationCodeUpdationException(InvitationCodeUpdationException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleInvitationCodeUpdationException(InvitationCodeUpdationException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(InvitationCodeNotFoundException.class)
 	@ResponseBody
-	public Exception handleInvitationCodeNotFoundException(InvitationCodeNotFoundException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleInvitationCodeNotFoundException(InvitationCodeNotFoundException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(InvitationCodeDeletionException.class)
 	@ResponseBody
-	public Exception handleInvitationCodeDeletionException(InvitationCodeDeletionException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleInvitationCodeDeletionException(InvitationCodeDeletionException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(NullVerificationCodeException.class)
 	@ResponseBody
-	public Exception handleNullVerificationCodeException(NullVerificationCodeException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleNullVerificationCodeException(NullVerificationCodeException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(WrongVerificationCodeException.class)
 	@ResponseBody
-	public Exception handleWrongVerificationCodeException(WrongVerificationCodeException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleWrongVerificationCodeException(WrongVerificationCodeException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(VerificationCodeCreationException.class)
 	@ResponseBody
-	public Exception handleVerificationCodeCreationException(VerificationCodeCreationException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleVerificationCodeCreationException(VerificationCodeCreationException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(VerificationCodeUpdationException.class)
 	@ResponseBody
-	public Exception handleVerificationCodeUpdationException(VerificationCodeUpdationException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleVerificationCodeUpdationException(VerificationCodeUpdationException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(VerificationCodeNotFoundException.class)
 	@ResponseBody
-	public Exception handleVerificationCodeNotFoundException(VerificationCodeNotFoundException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleVerificationCodeNotFoundException(VerificationCodeNotFoundException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(VerificationCodeDeletionException.class)
 	@ResponseBody
-	public Exception handleVerificationCodeDeletionException(VerificationCodeDeletionException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleVerificationCodeDeletionException(VerificationCodeDeletionException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(NullUserException.class)
 	@ResponseBody
-	public Exception handleNullUserException(NullUserException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleNullUserException(NullUserException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(UserCreationException.class)
 	@ResponseBody
-	public Exception handleUserCreationException(UserCreationException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleUserCreationException(UserCreationException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(UserUpdationException.class)
 	@ResponseBody
-	public Exception handleUserUpdationException(UserUpdationException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleUserUpdationException(UserUpdationException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(UserNotFoundException.class)
 	@ResponseBody
-	public Exception handleUserNotFoundException(UserNotFoundException e) {
-		return new Exception(e.getErrorCode(), e.getErrorMsg());
+	public NetworkException handleUserNotFoundException(UserNotFoundException e) {
+		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(UserDeletionException.class)
 	@ResponseBody
-	public Exception handleUserDeletionException(UserDeletionException exception) {
-		return new Exception(exception.getErrorCode(), exception.getErrorMsg());
-	}
-	
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler(NullContentException.class)
-	@ResponseBody
-	public Exception handleNullUserException(NullContentException exception) {
-		return new Exception(exception.getErrorCode(), exception.getErrorMsg());
+	public NetworkException handleUserDeletionException(UserDeletionException exception) {
+		return new NetworkException(exception.getErrorCode(), exception.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(ContentCreationException.class)
 	@ResponseBody
-	public Exception handleContentCreationException(ContentCreationException exception) {
-		return new Exception(exception.getErrorCode(), exception.getErrorMsg());
+	public NetworkException handleContentCreationException(ContentCreationException exception) {
+		return new NetworkException(exception.getErrorCode(), exception.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(ContentUpdationException.class)
 	@ResponseBody
-	public Exception handleContentUpdationException(ContentUpdationException exception) {
-		return new Exception(exception.getErrorCode(), exception.getErrorMsg());
+	public NetworkException handleContentUpdationException(ContentUpdationException exception) {
+		return new NetworkException(exception.getErrorCode(), exception.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(ContentNotFoundException.class)
 	@ResponseBody
-	public Exception handleContentNotFoundException(ContentNotFoundException exception) {
-		return new Exception(exception.getErrorCode(), exception.getErrorMsg());
+	public NetworkException handleContentNotFoundException(ContentNotFoundException exception) {
+		return new NetworkException(exception.getErrorCode(), exception.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(ContentDeletionException.class)
 	@ResponseBody
-	public Exception handleContentDeletionException(ContentDeletionException exception) {
-		return new Exception(exception.getErrorCode(), exception.getErrorMsg());
+	public NetworkException handleContentDeletionException(ContentDeletionException exception) {
+		return new NetworkException(exception.getErrorCode(), exception.getErrorMsg());
 	}
 }

@@ -32,7 +32,7 @@ public class AmazonS3Service {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public AmazonS3Service() {
-		s3Client = new AmazonS3Client(new BasicAWSCredentials(amazonS3Properties.getAccessKey(), amazonS3Properties.getAccessSecret()));
+		s3Client = new AmazonS3Client(new BasicAWSCredentials("AKIAILGFWMFKMZVXRGIQ", "mcftDmizMAGfPL9vdEmP7G9Zl1wBvAnCcPJGpFmu"));
 	}
 	
 	public void putImage(Content content) throws AmazonS3ImageCreationException {

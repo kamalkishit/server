@@ -29,7 +29,7 @@ public class EmailService {
 			mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 			mimeMessageHelper.setTo("pandey.kishore@gmail.com");
 			mimeMessageHelper.setSubject("hihello");
-			mimeMessageHelper.setText("gud");
+			mimeMessageHelper.setText(content);
 			
 			javaMailSender.send(mimeMessage);
 			

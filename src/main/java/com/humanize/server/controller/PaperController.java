@@ -8,13 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.humanize.dbserver.data.Contents;
-import com.humanize.dbserver.data.Paper;
-import com.humanize.dbserver.exception.PaperContentNotFoundException;
-import com.humanize.dbserver.exception.PaperCreationException;
-import com.humanize.dbserver.exception.PaperNotFoundException;
-import com.humanize.dbserver.exception.PaperUpdationException;
-import com.humanize.dbserver.service.PaperService;
+import com.humanize.server.content.data.Contents;
+import com.humanize.server.content.exception.PaperContentNotFoundException;
+import com.humanize.server.data.Paper;
+import com.humanize.server.exception.PaperCreationException;
+import com.humanize.server.exception.PaperNotFoundException;
+import com.humanize.server.exception.PaperUpdationException;
+import com.humanize.server.service.PaperService;
 
 @RestController
 public class PaperController {

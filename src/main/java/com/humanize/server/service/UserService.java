@@ -7,14 +7,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.humanize.server.authentication.data.InvitationCode;
+import com.humanize.server.authentication.exception.InvitationCodeDeletionException;
 import com.humanize.server.authentication.exception.UserCreationException;
 import com.humanize.server.authentication.exception.UserInvitationFailedException;
 import com.humanize.server.authentication.exception.UserNotFoundException;
 import com.humanize.server.authentication.exception.UserUpdationException;
-import com.humanize.server.authentication.exception.WrongInvitationCodeException;
-import com.humanize.server.authentication.exception.WrongPasswordException;
-import com.humanize.server.authentication.service.EmailService;
+import com.humanize.server.authentication.exception.UserValidationFailedException;
+import com.humanize.server.authentication.exception.VerificationCodeDeletionException;
+import com.humanize.server.authentication.exception.VerificationCodeSendingException;
 import com.humanize.server.authentication.service.InvitationCodeRepositoryService;
 import com.humanize.server.authentication.service.InvitationCodeService;
 import com.humanize.server.authentication.service.UserRepositoryService;
@@ -41,18 +41,19 @@ public class UserService {
 	@Autowired
 	InvitationCodeService invitationCodeService;
 	
-	@Autowired
-	private EmailService emailService;
-	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public User login(User user) throws UserValidationException {
-		User tempUser = userRepositoryService.findByEmailId(user.getEmailId());
-		
-		if (user.getPassword().equals(tempUser.getPassword())) {
-			return tempUser;
-		} else {
-			throw new WrongPasswordException(ExceptionConfig.WRONG_PASSWORD_ERROR_CODE, ExceptionConfig.WRONG_PASSWORD_EXCEPTION);
+	public User login(User user) throws UserValidationFailedException {
+		try {
+			User tempUser = userRepositoryService.findByEmailId(user.getEmailId());
+			
+			if (user.getPassword().equals(tempUser.getPassword())) {
+				return tempUser;
+			}
+			
+			throw new UserValidationFailedException(0, null);
+		} catch (Exception exception) {
+			throw new UserValidationFailedException(0, null);
 		}
 	}
 	
@@ -72,14 +73,20 @@ public class UserService {
 		try {
 			invitationCodeService.validateInvitationCode(user.getEmailId(), user.getInvitationCode());
 			user.setUserId(UUID.randomUUID().toString());
-			user = userRepositoryService.create(user);
+			user.setInvitationCode(null);
+			userRepositoryService.create(user);
 			verificationCodeService.sendVerificationCode(user.getEmailId());
+			invitationCodeRepositoryService.delete(user.getEmailId());
+		} catch (VerificationCodeSendingException|InvitationCodeDeletionException exception) {
+			logger.error("", exception);
+		} catch (UserCreationException exception) {
+			logger.error("", exception);
+			throw exception;
 		} catch (Exception exception) {
 			logger.error("", exception);
 			throw new UserCreationException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
-		}
-		
-
+		} 
+		 
 		return user;
 	}
 	
@@ -93,32 +100,20 @@ public class UserService {
 		
 	}
 	
-	public boolean verifyUser(String emailId, String verificationCode) {
-		
-		verificationCodeService.validateVerificationCode(emailId, verificationCode);
-		
-		User user = userRepositoryService.findByEmailId(emailId);
-		user.setVerified(true);
-		userRepositoryService.update(user);
+	public boolean verifyUser(String emailId, String verificationCode) throws UserValidationFailedException {
+		try {
+			verificationCodeService.validateVerificationCode(emailId, verificationCode);
+			
+			User user = userRepositoryService.findByEmailId(emailId);
+			user.setVerified(true);
+			userRepositoryService.update(user);
+			verificationCodeRepositoryService.deleteByEmailId(emailId);
+		} catch (VerificationCodeDeletionException exception) {
+			logger.error("", exception);
+		} catch (Exception exception) {
+			throw new UserValidationFailedException(0, null);
+		}
 		
 		return true;
 	}
-	
-	private void validateInvitationCode(String emailId, String invitationCode) {
-		InvitationCode invitationCodeObj = invitationCodeRepositoryService.findByEmailId(emailId);
-		
-		if (!invitationCodeObj.getInvitationCode().equals(invitationCode)) {
-			throw new WrongInvitationCodeException(ExceptionConfig.WRONG_INVITATION_CODE_ERROR_CODE, ExceptionConfig.WRONG_INVITATION_CODE_EXCEPTION);
-		}
-	}
-	
-	/*@PreAuthorize("hasRole('ROLE_USER')")
-	public void temp1() {
-		System.out.println("temp1");
-	}
-	
-	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	public void temp2() {
-		System.out.println("temp2");
-	}*/
 }
