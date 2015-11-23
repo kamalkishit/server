@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.content.data.Contents;
+import com.humanize.server.content.exception.ContentNotFoundException;
 import com.humanize.server.content.exception.PaperContentNotFoundException;
 import com.humanize.server.data.Paper;
 import com.humanize.server.exception.PaperCreationException;
@@ -31,12 +32,10 @@ public class PaperService {
 		try {
 			Paper paper = repositoryService.findByDate(paperDate);
 			
-			if (paper == null) {
-				throw new PaperNotFoundException(0, null);
-			}
-			
 			return contentService.findByIds(paper.getContentIds());
-		} catch (Exception exception) {
+		} catch (PaperNotFoundException exception) {
+			throw exception;
+		} catch (ContentNotFoundException exception) {
 			throw new PaperContentNotFoundException(0, null);
 		}
 		

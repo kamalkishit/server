@@ -59,14 +59,4 @@ public class UserController {
 	public ResponseEntity<User> updateUser(@RequestBody User user) throws UserUpdationException {
 		return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.OK);
 	}
-	
-	/*@RequestMapping("/users/email")
-	public ResponseEntity<Boolean> sendEmail() {
-		//return new ResponseEntity<Boolean>(emailService.sendEmail(null, null), HttpStatus.OK);
-		authenticationManager.authenticate("token");
-		userService.temp1();
-		userService.temp2();
-		
-		return null;
-	}*/
 }

@@ -13,6 +13,8 @@ import com.humanize.server.content.exception.ContentCreationException;
 import com.humanize.server.content.exception.ContentNotFoundException;
 import com.humanize.server.content.exception.ContentUpdationException;
 import com.humanize.server.content.service.ContentRepositoryService;
+import com.humanize.server.content.service.HtmlScraperService;
+import com.humanize.server.content.service.ImageDownloaderService;
 
 @Service
 public class ContentService {
@@ -20,10 +22,23 @@ public class ContentService {
 	@Autowired
 	private ContentRepositoryService repositoryService;
 	
+	@Autowired
+	private HtmlScraperService htmlScraperService;
+	
+	@Autowired
+	private ImageDownloaderService imageDownloaderService;
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public Content create(Content content) throws ContentCreationException {
-		return repositoryService.create(content);
+		try {
+			content = htmlScraperService.scrapHtml(content);
+			imageDownloaderService.downloadImage(content);
+			return repositoryService.create(content);
+		} catch (Exception exception) {
+			logger.error("", exception);
+			throw new ContentCreationException(0, null);
+		}
 	}
 	
 	public Content update(Content content) throws ContentUpdationException {
