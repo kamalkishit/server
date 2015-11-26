@@ -32,13 +32,19 @@ public class UserRepositoryService {
 	}
 	
 	public User update(User user) throws UserUpdationException {
-		user = repository.save(user);
-		
-		if (user != null) {
-			return user;
+		try {
+			findByEmailId(user.getEmailId());
+			
+			user = repository.save(user);
+			
+			if (user != null) {
+				return user;
+			}
+			
+			throw new UserUpdationException(ExceptionConfig.USER_UPDATION_ERROR_CODE, ExceptionConfig.USER_UPDATION_EXCEPTION);
+		} catch (UserNotFoundException exception) {
+			throw new UserUpdationException(0, null);
 		}
-		
-		throw new UserUpdationException(ExceptionConfig.USER_UPDATION_ERROR_CODE, ExceptionConfig.USER_UPDATION_EXCEPTION);
 	}
 	
 	public User findByEmailId(String emailId) throws UserNotFoundException {
