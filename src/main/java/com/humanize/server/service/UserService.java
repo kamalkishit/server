@@ -47,7 +47,7 @@ public class UserService {
 		try {
 			User tempUser = userRepositoryService.findByEmailId(user.getEmailId());
 			
-			if (user.getPassword().equals(tempUser.getPassword())) {
+			if (user.getPassword().equals(tempUser.getPassword()) && user.isVerified()) {
 				return tempUser;
 			}
 			

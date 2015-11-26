@@ -1,5 +1,6 @@
 package com.humanize.server.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -7,8 +8,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.humanize.server.content.dao.ContentRepository;
 import com.humanize.server.content.data.Content;
 import com.humanize.server.content.data.Contents;
+import com.humanize.server.content.data.TempContent;
+import com.humanize.server.content.data.TempContents;
 import com.humanize.server.content.exception.ContentCreationException;
 import com.humanize.server.content.exception.ContentNotFoundException;
 import com.humanize.server.content.exception.ContentUpdationException;
@@ -21,6 +25,9 @@ public class ContentService {
 	
 	@Autowired
 	private ContentRepositoryService repositoryService;
+	
+	@Autowired
+	private ContentRepository repository;
 	
 	@Autowired
 	private HtmlScraperService htmlScraperService;

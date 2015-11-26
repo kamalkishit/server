@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.humanize.server.authentication.exception.InvitationCodeValidationFailedException;
 import com.humanize.server.authentication.exception.UserCreationException;
 import com.humanize.server.authentication.exception.UserInvitationFailedException;
+import com.humanize.server.authentication.exception.UserNotFoundException;
 import com.humanize.server.authentication.exception.UserUpdationException;
 import com.humanize.server.authentication.exception.UserValidationFailedException;
 import com.humanize.server.data.User;
@@ -50,10 +51,10 @@ public class UserController {
 		return new ResponseEntity<Boolean>(userService.inviteUser(emailId), HttpStatus.OK);
 	}
 
-	/*@RequestMapping("/users/data")
-	public ResponseEntity<User> userdata(@RequestParam("emailId") String emailId) {
+	@RequestMapping("/users/data")
+	public ResponseEntity<User> userdata(@RequestParam("emailId") String emailId) throws UserNotFoundException {
 		return new ResponseEntity<User>(userService.getUserdata(emailId), HttpStatus.OK);
-	}*/
+	}
 
 	@RequestMapping("/users/update")
 	public ResponseEntity<User> updateUser(@RequestBody User user) throws UserUpdationException {

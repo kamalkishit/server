@@ -1,6 +1,6 @@
 package com.humanize.server.common;
 
-public class NetworkException {
+public class NetworkException extends Exception {
 	
 	private int errorCode;
 	private String errorMsg;

@@ -35,6 +35,8 @@ public interface ContentRepository extends MongoRepository<Content, String> {
 			Pageable pageRequest);
 	
 	public List<Content> findAll(Iterable<String> ids);
+	
+	public List<Content> findAll();
 
 	/*
 	public List<Content> findAllOrderByCreatedDate(PageRequest pageRequest);
