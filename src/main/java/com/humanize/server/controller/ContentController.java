@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.humanize.server.content.data.Content;
 import com.humanize.server.content.data.Contents;
-import com.humanize.server.content.data.TempContents;
 import com.humanize.server.content.exception.ContentCreationException;
 import com.humanize.server.content.exception.ContentNotFoundException;
 import com.humanize.server.content.exception.ContentUpdationException;
@@ -31,6 +30,11 @@ public class ContentController {
 	@RequestMapping("/content/create")
 	public ResponseEntity<Content> create(@RequestBody Content content) throws ContentCreationException {
 		return new ResponseEntity<Content>(contentService.create(content), HttpStatus.OK);
+	}
+	
+	@RequestMapping("/content/upload")
+	public void upload() throws ContentCreationException {
+		contentService.upload();
 	}
 	
 	@RequestMapping("/content/update")

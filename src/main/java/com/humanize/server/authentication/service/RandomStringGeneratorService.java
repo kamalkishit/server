@@ -11,7 +11,7 @@ public class RandomStringGeneratorService {
 	@Autowired
 	private RandomStringGenerator randomStringGenerator;
 	
-	public String getTempPasssword() {
+	public String getTempPassword() {
 		return randomStringGenerator.generateRandomString(10);
 	}
 	

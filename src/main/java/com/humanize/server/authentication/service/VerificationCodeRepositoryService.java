@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.authentication.dao.VerificationCodeRepository;
+import com.humanize.server.authentication.data.TempPassword;
 import com.humanize.server.authentication.data.VerificationCode;
+import com.humanize.server.authentication.exception.TempPasswordCreationException;
+import com.humanize.server.authentication.exception.TempPasswordNotFoundException;
+import com.humanize.server.authentication.exception.TempPasswordUpdationException;
 import com.humanize.server.authentication.exception.VerificationCodeCreationException;
 import com.humanize.server.authentication.exception.VerificationCodeDeletionException;
 import com.humanize.server.authentication.exception.VerificationCodeNotFoundException;
@@ -39,6 +43,31 @@ public class VerificationCodeRepositoryService {
 		}
 		
 		throw new VerificationCodeCreationException(ExceptionConfig.VERIFICATION_CODE_CREATION_ERROR_CODE, ExceptionConfig.VERIFICATION_CODE_CREATION_EXCEPTION);
+	}
+	
+	public VerificationCode createOrUpdate(VerificationCode verificationCode) throws VerificationCodeCreationException, VerificationCodeUpdationException {
+		try {
+			VerificationCode tempVerificationCode = findByEmailId(verificationCode.getEmailId());
+			
+			tempVerificationCode.setVerificationCode(verificationCode.getVerificationCode());
+			
+			tempVerificationCode = repository.save(tempVerificationCode);
+			
+			if (tempVerificationCode == null) {
+				throw new VerificationCodeUpdationException(ExceptionConfig.VERIFICATION_CODE_UPDATION_ERROR_CODE, ExceptionConfig.VERIFICATION_CODE_UPDATION_EXCEPTION);
+				
+			}
+			
+			return tempVerificationCode;
+		} catch (VerificationCodeNotFoundException exception) {
+			verificationCode = repository.save(verificationCode);
+			
+			if (verificationCode == null) {
+				throw new VerificationCodeCreationException(ExceptionConfig.VERIFICATION_CODE_CREATION_ERROR_CODE, ExceptionConfig.VERIFICATION_CODE_CREATION_EXCEPTION);
+			}
+			
+			return verificationCode;
+		} 
 	}
 	
 	public VerificationCode update(VerificationCode verificationCode) throws VerificationCodeUpdationException {

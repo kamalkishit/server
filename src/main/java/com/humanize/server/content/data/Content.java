@@ -2,6 +2,7 @@ package com.humanize.server.content.data;
 
 import java.util.ArrayList;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -18,6 +19,7 @@ public class Content {
 	private String contentId;
 
 	@Indexed(unique = true)
+	@NotEmpty
 	private String contentURL;
 
 	private String userId;
@@ -34,13 +36,14 @@ public class Content {
 
 	private String contentType;
 
+	@NotEmpty
 	private String category;
 
 	private ArrayList<String> subCategories;
 
 	private String videoURL;
 
-	private int likesCount;
+	private int recommendationCount;
 
 	private int viewsCount;
 
@@ -164,12 +167,12 @@ public class Content {
 		this.videoURL = videoURL;
 	}
 
-	public int getLikesCount() {
-		return likesCount;
+	public int getRecommendationCount() {
+		return recommendationCount;
 	}
 
-	public void setLikesCount(int likesCount) {
-		this.likesCount = likesCount;
+	public void setRecommendationCount(int recommendationCount) {
+		this.recommendationCount = recommendationCount;
 	}
 
 	public int getViewsCount() {

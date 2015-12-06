@@ -22,13 +22,11 @@ public class JsonWebTokenService {
 		return Jwts.builder().setSubject(emailId).signWith(SignatureAlgorithm.HS512, key).compact();
 	}
 	
-	public String validateToken(String token) {
+	public String validateToken(String token) throws Exception{
 		try {
-		    Jwts.parser().setSigningKey(key).parseClaimsJws(token).toString();
-		} catch (SignatureException e) {
-			
+		    return Jwts.parser().setSigningKey(key).parseClaimsJws(token).toString();
+		} catch (Exception exception) {
+			throw exception;
 		}
-		
-		return null;
 	}
 }

@@ -44,13 +44,19 @@ public class ContentRepositoryService {
 	}
 	
 	public Content update(Content content) throws ContentUpdationException {
-		content = repository.save(content);
-		
-		if (content == null) {
+		try {
+			repository.findOne(content.getId());
+			
+			content = repository.save(content);
+			
+			if (content == null) {
+				throw new ContentUpdationException(ExceptionConfig.CONTENT_UPDATION_ERROR_CODE, ExceptionConfig.CONTENT_UPDATION_EXCEPTION);
+			}
+			
+			return content;
+		} catch (Exception exception) {
 			throw new ContentUpdationException(ExceptionConfig.CONTENT_UPDATION_ERROR_CODE, ExceptionConfig.CONTENT_UPDATION_EXCEPTION);
 		}
-		
-		return content;
 	}
 	
 	public Contents findByCategories(List<String> categories) throws ContentNotFoundException {

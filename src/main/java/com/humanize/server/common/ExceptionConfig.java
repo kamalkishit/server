@@ -55,6 +55,11 @@ public class ExceptionConfig {
 	public static final int PAPER_NOT_FOUND_ERROR_CODE = 10007;
 	public static final int PAPER_DELETION_ERROR_CODE = 10008;
 	
+	public static final int TEMP_PASSWORD_CREATION_ERROR_CODE = 10005;
+	public static final int TEMP_PASSWORD_UPDATION_ERROR_CODE = 10006;
+	public static final int TEMP_PASSWORD_NOT_FOUND_ERROR_CODE = 10007;
+	public static final int TEMP_PASSWORD_DELETION_ERROR_CODE = 10008;
+	
 	public static final int AMAZON_S3_IMAGE_CREATION_ERROR_CODE = 10009;
 	public static final int AMAZON_S3_IMAGE_NOT_FOUND_ERROR_CODE = 10010;
 	
@@ -124,6 +129,11 @@ public class ExceptionConfig {
 	public static final String PAPER_UPDATION_EXCEPTION = "Paper not updated successfully";
 	public static final String PAPER_NOT_FOUND_EXCEPTION = "Paper not found";
 	public static final String PAPER_DELETION_EXCEPTION = "Paper not deleted successfully";
+	
+	public static final String TEMP_PASSWORD_CREATION_EXCEPTION = "Temp password not created successfully";
+	public static final String TEMP_PASSWORD_UPDATION_EXCEPTION = "Temp password not updated successfully";
+	public static final String TEMP_PASSWORD_NOT_FOUND_EXCEPTION = "Temp password not found";
+	public static final String TEMP_PASSWORD_DELETION_EXCEPTION = "Temp password not deleted successfully";
 	
 	public static final String AMAZON_S3_IMAGE_CREATION_EXCEPTION = "Image not created successfully on Amazon S3";
 	public static final String AMAZON_S3_IMAGE_NOT_FOUND_EXCEPTION = "Image not found on Amazon s3";

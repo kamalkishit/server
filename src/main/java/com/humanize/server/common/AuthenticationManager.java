@@ -17,12 +17,18 @@ public class AuthenticationManager {
 		if (token == null || token.length() == 0) {
 			return;
 		}
-		
-		String emailId = jsonWebTokenService.validateToken(token);
-		
-		if (emailId != null) {
+		try {
+			String emailId = jsonWebTokenService.validateToken(token);
+			
+			if (emailId != null) {
+				
+			}
+		} catch (Exception e) {
 			
 		}
+		
+		
+		
 		
 		/*List<GrantedAuthority> AUTHORITIES = new ArrayList<GrantedAuthority>();
 		AUTHORITIES.add(new GrantedAuthorityImpl("ROLE_USER"));

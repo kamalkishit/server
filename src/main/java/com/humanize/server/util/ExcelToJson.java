@@ -69,15 +69,17 @@ public class ExcelToJson {
 			if (row != null) {
 				int columnCount = row.getLastCellNum();
 				
-				if (columnCount >= 2) {
+				if (columnCount >= 1) {
 					Content content = new Content();
 					content.setContentURL(row.getCell(0).getStringCellValue());
 					content.setCategory(row.getCell(1).getStringCellValue());
 					contents.add(content);
 				} else {
+					System.out.println("column count less than 2");
 					throw new ExcelToJsonConversionException(ExceptionConfig.EXCEL_TO_JSON_CONVERSION_ERROR_CODE, ExceptionConfig.EXCEL_TO_JSON_CONVERSION_EXCEPTION);
 				}
 			} else {
+				System.out.println("null row");
 				throw new ExcelToJsonConversionException(ExceptionConfig.EXCEL_TO_JSON_CONVERSION_ERROR_CODE, ExceptionConfig.EXCEL_TO_JSON_CONVERSION_EXCEPTION);
 			}
 		}

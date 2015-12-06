@@ -43,7 +43,7 @@ public class UserRepositoryService {
 			
 			throw new UserUpdationException(ExceptionConfig.USER_UPDATION_ERROR_CODE, ExceptionConfig.USER_UPDATION_EXCEPTION);
 		} catch (UserNotFoundException exception) {
-			throw new UserUpdationException(0, null);
+			throw new UserUpdationException(ExceptionConfig.USER_UPDATION_ERROR_CODE, ExceptionConfig.USER_UPDATION_EXCEPTION);
 		}
 	}
 	

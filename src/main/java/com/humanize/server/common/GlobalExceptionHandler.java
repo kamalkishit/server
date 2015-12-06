@@ -193,6 +193,7 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(ContentCreationException.class)
 	@ResponseBody
 	public NetworkException handleContentCreationException(ContentCreationException exception) {
+		exception.printStackTrace();
 		return new NetworkException(exception.getErrorCode(), exception.getErrorMsg());
 	}
 	

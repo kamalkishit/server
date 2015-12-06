@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.authentication.data.VerificationCode;
-import com.humanize.server.authentication.exception.VerificationCodeSendingException;
+import com.humanize.server.authentication.exception.VerificationCodeSendingFailedException;
 import com.humanize.server.authentication.exception.VerificationCodeValidationFailedException;
 import com.humanize.server.common.ExceptionConfig;
 
@@ -15,7 +15,7 @@ public class VerificationCodeService {
 	VerificationCodeRepositoryService repositoryService;
 	
 	@Autowired
-	RandomStringGeneratorService ranodmStringGeneratoService;
+	RandomStringGeneratorService randomStringGeneratoService;
 	
 	@Autowired
 	EmailService emailService;
@@ -37,17 +37,18 @@ public class VerificationCodeService {
 	}
 	
 
-	public boolean sendVerificationCode(String emailId) throws VerificationCodeSendingException {
+	public boolean sendVerificationCode(String emailId) throws VerificationCodeSendingFailedException {
 		try {
-			String verificationCodeStr = ranodmStringGeneratoService.getVerificationCode();
+			String verificationCodeStr = randomStringGeneratoService.getVerificationCode();
 			
 			VerificationCode verificationCode = new VerificationCode(emailId, verificationCodeStr);
 			emailService.sendEmail(emailId, verificationCodeStr);
-			repositoryService.create(verificationCode);
 			
+			repositoryService.createOrUpdate(verificationCode);
+				
 			return true;
 		} catch (Exception exception) {
-			throw new VerificationCodeSendingException(0, null);
+			throw new VerificationCodeSendingFailedException(0, null);
 		}
 		
 	}

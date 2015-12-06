@@ -1,6 +1,5 @@
 package com.humanize.server.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,17 +7,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.humanize.server.common.ExceptionConfig;
+import com.humanize.server.config.Config;
 import com.humanize.server.content.dao.ContentRepository;
 import com.humanize.server.content.data.Content;
 import com.humanize.server.content.data.Contents;
-import com.humanize.server.content.data.TempContent;
-import com.humanize.server.content.data.TempContents;
 import com.humanize.server.content.exception.ContentCreationException;
 import com.humanize.server.content.exception.ContentNotFoundException;
 import com.humanize.server.content.exception.ContentUpdationException;
 import com.humanize.server.content.service.ContentRepositoryService;
 import com.humanize.server.content.service.HtmlScraperService;
 import com.humanize.server.content.service.ImageDownloaderService;
+import com.humanize.server.util.ExcelToJson;
 
 @Service
 public class ContentService {
@@ -42,10 +42,25 @@ public class ContentService {
 			content = htmlScraperService.scrapHtml(content);
 			imageDownloaderService.downloadImage(content);
 			return repositoryService.create(content);
+		} catch (ContentCreationException exception) {
+			throw exception;
 		} catch (Exception exception) {
 			logger.error("", exception);
-			throw new ContentCreationException(0, null);
+			throw new ContentCreationException(ExceptionConfig.CONTENT_CREATION_ERROR_CODE, ExceptionConfig.CONTENT_CREATION_EXCEPTION);
 		}
+	}
+	
+	public void upload() {
+		ExcelToJson excelToJson = new ExcelToJson(Config.EXCEL_FILE_PATH);
+		List<Content> contents = excelToJson.toJson();
+		try {
+			for (Content content: contents) {
+				create(content);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	public Content update(Content content) throws ContentUpdationException {
