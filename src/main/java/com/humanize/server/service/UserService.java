@@ -11,11 +11,13 @@ import com.humanize.server.authentication.data.TempPassword;
 import com.humanize.server.authentication.exception.InvitationCodeDeletionException;
 import com.humanize.server.authentication.exception.PasswordResetFailedException;
 import com.humanize.server.authentication.exception.TempPasswordSendingFailedException;
-import com.humanize.server.authentication.exception.UserCreationException;
+import com.humanize.server.authentication.exception.UserCreationFailedException;
+import com.humanize.server.authentication.exception.UserDataNotFoundException;
 import com.humanize.server.authentication.exception.UserInvitationFailedException;
-import com.humanize.server.authentication.exception.UserNotFoundException;
-import com.humanize.server.authentication.exception.UserUpdationException;
+import com.humanize.server.authentication.exception.UserLoginFailedException;
+import com.humanize.server.authentication.exception.UserUpdationFailedException;
 import com.humanize.server.authentication.exception.UserValidationFailedException;
+import com.humanize.server.authentication.exception.UserVerificationFailedException;
 import com.humanize.server.authentication.exception.VerificationCodeDeletionException;
 import com.humanize.server.authentication.exception.VerificationCodeSendingFailedException;
 import com.humanize.server.authentication.service.InvitationCodeRepositoryService;
@@ -54,7 +56,7 @@ public class UserService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public User login(User user) throws UserValidationFailedException {
+	public User login(User user) throws UserLoginFailedException {
 		try {
 			User tempUser = repositoryService.findByEmailId(user.getEmailId());
 			
@@ -64,7 +66,7 @@ public class UserService {
 			
 			throw new UserValidationFailedException(0, null);
 		} catch (Exception exception) {
-			throw new UserValidationFailedException(0, null);
+			throw new UserLoginFailedException(0, null);
 		}
 	}
 	
@@ -96,15 +98,19 @@ public class UserService {
 		return true;
 	}
 
-	public User getUserdata(String emailId) throws UserNotFoundException {
-		return repositoryService.findByEmailId(emailId);
+	public User getUserdata(String emailId) throws UserDataNotFoundException {
+		try {
+			return repositoryService.findByEmailId(emailId);
+		} catch (Exception exception) {
+			throw new UserDataNotFoundException(0, null);
+		}
 	}
 
-	public User updateUser(User user) throws UserUpdationException {
+	public User updateUser(User user) throws UserUpdationFailedException {
 		return repositoryService.update(user);
 	}
 
-	public User signup(User user) throws UserCreationException {
+	public User signup(User user) throws UserCreationFailedException {
 		try {
 			invitationCodeService.validateInvitationCode(user.getEmailId(), user.getInvitationCode());
 			user.setUserId(UUID.randomUUID().toString());
@@ -114,12 +120,12 @@ public class UserService {
 			invitationCodeRepositoryService.delete(user.getEmailId());
 		} catch (VerificationCodeSendingFailedException | InvitationCodeDeletionException exception) {
 			logger.error("", exception);
-		} catch (UserCreationException exception) {
+		} catch (UserCreationFailedException exception) {
 			logger.error("", exception);
 			throw exception;
 		} catch (Exception exception) {
 			logger.error("", exception);
-			throw new UserCreationException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
+			throw new UserCreationFailedException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
 		} 
 		 
 		return user;
@@ -135,7 +141,7 @@ public class UserService {
 		
 	}
 	
-	public boolean verifyUser(String emailId, String verificationCode) throws UserValidationFailedException {
+	public boolean verifyUser(String emailId, String verificationCode) throws UserVerificationFailedException {
 		try {
 			verificationCodeService.validateVerificationCode(emailId, verificationCode);
 			
@@ -146,7 +152,7 @@ public class UserService {
 		} catch (VerificationCodeDeletionException exception) {
 			logger.error("", exception);
 		} catch (Exception exception) {
-			throw new UserValidationFailedException(0, null);
+			throw new UserVerificationFailedException(0, null);
 		}
 		
 		return true;

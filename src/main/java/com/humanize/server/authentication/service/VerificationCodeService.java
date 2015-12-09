@@ -20,8 +20,6 @@ public class VerificationCodeService {
 	@Autowired
 	EmailService emailService;
 	
-	
-	
 	public boolean validateVerificationCode(String emailId, String verificationCodeStr) throws VerificationCodeValidationFailedException {
 		try {
 			VerificationCode verificationCode = repositoryService.findByEmailId(emailId);

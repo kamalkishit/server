@@ -14,11 +14,11 @@ import com.humanize.server.authentication.exception.NullPasswordException;
 import com.humanize.server.authentication.exception.NullTempPasswordException;
 import com.humanize.server.authentication.exception.NullUserException;
 import com.humanize.server.authentication.exception.NullVerificationCodeException;
-import com.humanize.server.authentication.exception.UserCreationException;
-import com.humanize.server.authentication.exception.UserDeletionException;
+import com.humanize.server.authentication.exception.UserCreationFailedException;
+import com.humanize.server.authentication.exception.UserDeletionFailedException;
 import com.humanize.server.authentication.exception.UserInvitationFailedException;
 import com.humanize.server.authentication.exception.UserNotFoundException;
-import com.humanize.server.authentication.exception.UserUpdationException;
+import com.humanize.server.authentication.exception.UserUpdationFailedException;
 import com.humanize.server.authentication.exception.VerificationCodeCreationException;
 import com.humanize.server.authentication.exception.VerificationCodeDeletionException;
 import com.humanize.server.authentication.exception.VerificationCodeNotFoundException;
@@ -162,16 +162,16 @@ public class GlobalExceptionHandler {
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(UserCreationException.class)
+	@ExceptionHandler(UserCreationFailedException.class)
 	@ResponseBody
-	public NetworkException handleUserCreationException(UserCreationException e) {
+	public NetworkException handleUserCreationException(UserCreationFailedException e) {
 		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(UserUpdationException.class)
+	@ExceptionHandler(UserUpdationFailedException.class)
 	@ResponseBody
-	public NetworkException handleUserUpdationException(UserUpdationException e) {
+	public NetworkException handleUserUpdationException(UserUpdationFailedException e) {
 		return new NetworkException(e.getErrorCode(), e.getErrorMsg());
 	}
 	
@@ -183,9 +183,9 @@ public class GlobalExceptionHandler {
 	}
 	
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(UserDeletionException.class)
+	@ExceptionHandler(UserDeletionFailedException.class)
 	@ResponseBody
-	public NetworkException handleUserDeletionException(UserDeletionException exception) {
+	public NetworkException handleUserDeletionException(UserDeletionFailedException exception) {
 		return new NetworkException(exception.getErrorCode(), exception.getErrorMsg());
 	}
 	

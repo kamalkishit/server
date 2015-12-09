@@ -7,10 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.humanize.server.authentication.dao.InvitationCodeRepository;
 import com.humanize.server.authentication.data.InvitationCode;
+import com.humanize.server.authentication.data.TempPassword;
 import com.humanize.server.authentication.exception.InvitationCodeCreationException;
 import com.humanize.server.authentication.exception.InvitationCodeDeletionException;
 import com.humanize.server.authentication.exception.InvitationCodeNotFoundException;
 import com.humanize.server.authentication.exception.InvitationCodeUpdationException;
+import com.humanize.server.authentication.exception.TempPasswordCreationException;
+import com.humanize.server.authentication.exception.TempPasswordNotFoundException;
+import com.humanize.server.authentication.exception.TempPasswordUpdationException;
 import com.humanize.server.common.ExceptionConfig;
 
 @Service
@@ -29,6 +33,30 @@ public class InvitationCodeRepositoryService {
 		}
 		
 		throw new InvitationCodeCreationException(ExceptionConfig.INVITATION_CODE_CREATION_ERROR_CODE, ExceptionConfig.INVITATION_CODE_CREATION_EXCEPTION);
+	}
+	
+	public InvitationCode createOrUpdate(InvitationCode invitationCode) throws InvitationCodeCreationException, InvitationCodeUpdationException {
+		try {
+			InvitationCode tempInvitationCode = findByEmailId(invitationCode.getEmailId());
+			
+			tempInvitationCode.setInvitationCode(invitationCode.getInvitationCode());
+			
+			tempInvitationCode = repository.save(tempInvitationCode);
+			
+			if (tempInvitationCode == null) {
+				throw new InvitationCodeUpdationException(ExceptionConfig.INVITATION_CODE_UPDATION_ERROR_CODE, ExceptionConfig.INVITATION_CODE_UPDATION_EXCEPTION);
+			}
+			
+			return tempInvitationCode;
+		} catch (InvitationCodeNotFoundException exception) {
+			invitationCode = repository.save(invitationCode);
+			
+			if (invitationCode == null) {
+				throw new InvitationCodeCreationException(ExceptionConfig.INVITATION_CODE_CREATION_ERROR_CODE, ExceptionConfig.INVITATION_CODE_CREATION_EXCEPTION);
+			}
+			
+			return invitationCode;
+		}
 	}
 	
 	public InvitationCode update(InvitationCode invitationCode) throws InvitationCodeUpdationException {

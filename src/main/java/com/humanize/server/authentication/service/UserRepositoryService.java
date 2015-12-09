@@ -5,10 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.humanize.server.authentication.exception.UserCreationException;
-import com.humanize.server.authentication.exception.UserDeletionException;
+import com.humanize.server.authentication.exception.UserCreationFailedException;
+import com.humanize.server.authentication.exception.UserDeletionFailedException;
 import com.humanize.server.authentication.exception.UserNotFoundException;
-import com.humanize.server.authentication.exception.UserUpdationException;
+import com.humanize.server.authentication.exception.UserUpdationFailedException;
 import com.humanize.server.common.ExceptionConfig;
 import com.humanize.server.dao.UserRepository;
 import com.humanize.server.data.User;
@@ -21,17 +21,17 @@ public class UserRepositoryService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public User create(User user) throws UserCreationException {
+	public User create(User user) throws UserCreationFailedException {
 		user = repository.save(user);
 		
 		if (user != null) {
 			return user;
 		}
 		
-		throw new UserCreationException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
+		throw new UserCreationFailedException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
 	}
 	
-	public User update(User user) throws UserUpdationException {
+	public User update(User user) throws UserUpdationFailedException {
 		try {
 			findByEmailId(user.getEmailId());
 			
@@ -41,9 +41,9 @@ public class UserRepositoryService {
 				return user;
 			}
 			
-			throw new UserUpdationException(ExceptionConfig.USER_UPDATION_ERROR_CODE, ExceptionConfig.USER_UPDATION_EXCEPTION);
+			throw new UserUpdationFailedException(ExceptionConfig.USER_UPDATION_ERROR_CODE, ExceptionConfig.USER_UPDATION_EXCEPTION);
 		} catch (UserNotFoundException exception) {
-			throw new UserUpdationException(ExceptionConfig.USER_UPDATION_ERROR_CODE, ExceptionConfig.USER_UPDATION_EXCEPTION);
+			throw new UserUpdationFailedException(ExceptionConfig.USER_UPDATION_ERROR_CODE, ExceptionConfig.USER_UPDATION_EXCEPTION);
 		}
 	}
 	
@@ -57,13 +57,13 @@ public class UserRepositoryService {
 		throw new UserNotFoundException(ExceptionConfig.USER_NOT_FOUND_ERROR_CODE, ExceptionConfig.USER_NOT_FOUND_EXCEPTION);
 	}
 	
-	public void deleteByEmailId(String emailId) throws UserDeletionException {
+	public void deleteByEmailId(String emailId) throws UserDeletionFailedException {
 		try {
 			User user = findByEmailId(emailId);
 			repository.delete(user);
 		} catch (Exception exception) {
 			logger.error("", exception);
-			throw new UserDeletionException(ExceptionConfig.USER_DELETION_ERROR_CODE, ExceptionConfig.USER_DELETION_EXCEPTION);
+			throw new UserDeletionFailedException(ExceptionConfig.USER_DELETION_ERROR_CODE, ExceptionConfig.USER_DELETION_EXCEPTION);
 		}
 		
 	}

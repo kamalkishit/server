@@ -30,13 +30,7 @@ public class InvitationCodeService {
 			
 			InvitationCode invitationCode = repositoryService.findByEmailId(emailId);
 			
-			if (invitationCode == null) {
-				invitationCode = new InvitationCode(emailId, invitationCodeStr);
-				repositoryService.create(invitationCode);
-			} else {
-				invitationCode.setInvitationCode(invitationCodeStr);
-				repositoryService.create(invitationCode);
-			}
+			repositoryService.createOrUpdate(invitationCode);
 			
 			return true;
 		} catch (Exception exception) {
