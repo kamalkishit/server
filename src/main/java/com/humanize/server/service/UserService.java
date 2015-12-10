@@ -56,12 +56,12 @@ public class UserService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public User login(User user) throws UserLoginFailedException {
+	public User login(String emailId, String password) throws UserLoginFailedException {
 		try {
-			User tempUser = repositoryService.findByEmailId(user.getEmailId());
+			User user = repositoryService.findByEmailId(emailId);
 			
-			if (user.getPassword().equals(tempUser.getPassword()) /*&& user.isVerified()*/) {
-				return tempUser;
+			if (user.getPassword().equals(password) /*&& user.isVerified()*/) {
+				return user;
 			}
 			
 			throw new UserValidationFailedException(0, null);
@@ -146,7 +146,7 @@ public class UserService {
 			verificationCodeService.validateVerificationCode(emailId, verificationCode);
 			
 			User user = repositoryService.findByEmailId(emailId);
-			user.setVerified(true);
+			user.setIsVerified(true);
 			repositoryService.update(user);
 			verificationCodeRepositoryService.deleteByEmailId(emailId);
 		} catch (VerificationCodeDeletionException exception) {

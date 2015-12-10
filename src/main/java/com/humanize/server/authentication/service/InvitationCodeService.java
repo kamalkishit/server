@@ -28,7 +28,7 @@ public class InvitationCodeService {
 			String invitationCodeStr = randomStringGeneratorService.getInvitationCode();			
 			emailService.sendEmail(emailId, invitationCodeStr);
 			
-			InvitationCode invitationCode = repositoryService.findByEmailId(emailId);
+			InvitationCode invitationCode = new InvitationCode(emailId, invitationCodeStr);
 			
 			repositoryService.createOrUpdate(invitationCode);
 			

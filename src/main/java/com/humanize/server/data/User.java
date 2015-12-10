@@ -40,9 +40,11 @@ public class User {
 
 	private Set<String> contentsCreated;
 	
-	private Time paperReminderTime; 
+	//private long paperReminderTime; 
 	
 	private boolean isVerified;
+	
+	private boolean isConfigured;
 	
 	private boolean isDeleted;
 	
@@ -56,7 +58,7 @@ public class User {
 		this.likes = new LinkedHashSet<String>();
 		this.bookmarks = new LinkedHashSet<String>();
 		this.contentsCreated = new LinkedHashSet<String>();
-		this.paperReminderTime = new Time(8, 0, 0);
+		//this.paperReminderTime = new Time(8, 0, 0);
 		this.typeOfArticles = new ArrayList<String>();
 		this.categories = new ArrayList<String>();
 	}
@@ -165,27 +167,35 @@ public class User {
 		this.lastModifiedDate = lastModifiedDate;
 	}
 
-	public boolean isVerified() {
+	public boolean getIsVerified() {
 		return isVerified;
 	}
 
-	public void setVerified(boolean isVerified) {
+	public void setIsVerified(boolean isVerified) {
 		this.isVerified = isVerified;
 	}
 
-	public boolean isDeleted() {
+	public boolean getIsConfigured() {
+		return isConfigured;
+	}
+
+	public void setIsConfigured(boolean isConfigured) {
+		this.isConfigured = isConfigured;
+	}
+
+	public boolean getIsDeleted() {
 		return isDeleted;
 	}
 
-	public void setDeleted(boolean isDeleted) {
+	public void setIsDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 
-	public Time getPaperReminderTime() {
+	/*public long getPaperReminderTime() {
 		return paperReminderTime;
 	}
 
-	public void setPaperReminderTime(Time paperReminderTime) {
+	public void setPaperReminderTime(long paperReminderTime) {
 		this.paperReminderTime = paperReminderTime;
-	}
+	}*/
 }

@@ -41,8 +41,8 @@ public class UserController {
 	}
 
 	@RequestMapping("/users/login")
-	public ResponseEntity<User> login(@RequestBody User user) throws UserLoginFailedException {
-		return new ResponseEntity<User>(userService.login(user), HttpStatus.OK);
+	public ResponseEntity<User> login(@RequestParam("emailId") @NotEmpty @Email String emailId, @RequestParam("password") @NotEmpty @Email String password) throws UserLoginFailedException {
+		return new ResponseEntity<User>(userService.login(emailId, password), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/users/sendTempPassword")

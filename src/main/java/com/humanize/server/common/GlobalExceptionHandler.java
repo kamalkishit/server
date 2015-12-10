@@ -35,7 +35,7 @@ import com.humanize.server.content.exception.ContentUpdationException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-	
+	/*
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
 	@ExceptionHandler(UserInvitationFailedException.class)
 	@ResponseBody
@@ -216,5 +216,5 @@ public class GlobalExceptionHandler {
 	@ResponseBody
 	public NetworkException handleContentDeletionException(ContentDeletionException exception) {
 		return new NetworkException(exception.getErrorCode(), exception.getErrorMsg());
-	}
+	} */
 }
