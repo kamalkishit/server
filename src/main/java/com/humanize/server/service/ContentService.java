@@ -43,11 +43,13 @@ public class ContentService {
 			imageDownloaderService.downloadImage(content);
 			return repositoryService.create(content);
 		} catch (ContentCreationException exception) {
-			throw exception;
+			//throw exception;
 		} catch (Exception exception) {
 			logger.error("", exception);
-			throw new ContentCreationException(ExceptionConfig.CONTENT_CREATION_ERROR_CODE, ExceptionConfig.CONTENT_CREATION_EXCEPTION);
+			// new ContentCreationException(ExceptionConfig.CONTENT_CREATION_ERROR_CODE, ExceptionConfig.CONTENT_CREATION_EXCEPTION);
 		}
+		
+		return null;
 	}
 	
 	public void upload() {

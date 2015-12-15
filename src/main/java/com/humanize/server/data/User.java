@@ -40,7 +40,7 @@ public class User {
 
 	private Set<String> contentsCreated;
 	
-	//private long paperReminderTime; 
+	private long paperConfigurationTime; 
 	
 	private boolean isVerified;
 	
@@ -151,6 +151,14 @@ public class User {
 		this.contentsCreated = contentsCreated;
 	}
 
+	public long getPaperConfigurationTime() {
+		return paperConfigurationTime;
+	}
+
+	public void setPaperConfigurationTime(long paperConfigurationTime) {
+		this.paperConfigurationTime = paperConfigurationTime;
+	}
+
 	public long getCreatedDate() {
 		return createdDate;
 	}
@@ -190,12 +198,4 @@ public class User {
 	public void setIsDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
-
-	/*public long getPaperReminderTime() {
-		return paperReminderTime;
-	}
-
-	public void setPaperReminderTime(long paperReminderTime) {
-		this.paperReminderTime = paperReminderTime;
-	}*/
 }
