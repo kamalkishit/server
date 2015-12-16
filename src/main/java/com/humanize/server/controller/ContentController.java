@@ -4,6 +4,7 @@ package com.humanize.server.controller;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,5 +47,10 @@ public class ContentController {
 	public ResponseEntity<Contents> findByCategories(@RequestParam List<String> categories, @RequestParam(value= "createdDate", required= false) Long createdDate, @RequestParam(value= "refresh", required= false, defaultValue= "false") Boolean refresh) 
 		throws ContentNotFoundException {
 		return new ResponseEntity<Contents>(contentService.findByCategories(categories, createdDate, refresh), HttpStatus.OK);
+	}
+	
+	@RequestMapping("/content/recommend")
+	public ResponseEntity<Boolean> recommend(@RequestParam("contentUrl") @NotEmpty String contentUrl) throws Exception {
+		return new ResponseEntity<Boolean>(contentService.recommend(contentUrl), HttpStatus.OK);
 	}
 }

@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.humanize.server.common.ExceptionConfig;
+import com.humanize.server.authentication.service.EmailService;
 import com.humanize.server.config.Config;
 import com.humanize.server.content.dao.ContentRepository;
 import com.humanize.server.content.data.Content;
@@ -34,6 +34,9 @@ public class ContentService {
 	
 	@Autowired
 	private ImageDownloaderService imageDownloaderService;
+	
+	@Autowired
+	private EmailService emailService;
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -81,6 +84,16 @@ public class ContentService {
 	
 	public Contents findByIds(List<String> ids) throws ContentNotFoundException {
 			return repositoryService.findByIds(ids);
+	}
+	
+	public boolean recommend(String contentUrl) throws Exception {
+		try {
+			emailService.sendEmail("pandey.kishore@gmail.com", contentUrl);
+			return true;
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			throw exception;
+		}
 	}
 
 /*
