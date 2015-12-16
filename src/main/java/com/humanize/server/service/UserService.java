@@ -157,4 +157,12 @@ public class UserService {
 		
 		return true;
 	}
+	
+	public boolean recommend(String userId, boolean flag) throws Exception {
+		return true;
+	}
+	
+	public boolean bookmark(String userId, boolean flag) throws Exception {
+		return true;
+	}
 }

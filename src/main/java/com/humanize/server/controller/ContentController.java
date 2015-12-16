@@ -49,8 +49,23 @@ public class ContentController {
 		return new ResponseEntity<Contents>(contentService.findByCategories(categories, createdDate, refresh), HttpStatus.OK);
 	}
 	
+	@RequestMapping("/content/recommendArticle")
+	public ResponseEntity<Boolean> recommendArticle(@RequestParam("contentUrl") @NotEmpty String contentUrl) throws Exception {
+		return new ResponseEntity<Boolean>(contentService.recommendArticle(contentUrl), HttpStatus.OK);
+	}
+	
 	@RequestMapping("/content/recommend")
-	public ResponseEntity<Boolean> recommend(@RequestParam("contentUrl") @NotEmpty String contentUrl) throws Exception {
-		return new ResponseEntity<Boolean>(contentService.recommend(contentUrl), HttpStatus.OK);
+	public ResponseEntity<Boolean> recommend(@RequestParam("contentId") @NotEmpty String contentId) throws Exception {
+		return new ResponseEntity<Boolean>(contentService.incrRecommendationCount(contentId), HttpStatus.OK);
+	}
+	
+	@RequestMapping("/content/viewed")
+	public ResponseEntity<Boolean> viewed(@RequestParam("contentId") @NotEmpty String contentId) throws Exception {
+		return new ResponseEntity<Boolean>(contentService.incrViewedCount(contentId), HttpStatus.OK);
+	}
+	
+	@RequestMapping("/content/shared")
+	public ResponseEntity<Boolean> shared(@RequestParam("contentId") @NotEmpty String contentId) throws Exception {
+		return new ResponseEntity<Boolean>(contentService.incrSharedCount(contentId), HttpStatus.OK);
 	}
 }

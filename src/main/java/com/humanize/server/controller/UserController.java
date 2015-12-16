@@ -79,4 +79,14 @@ public class UserController {
 	public ResponseEntity<User> updateUser(@RequestBody User user) throws UserUpdationFailedException {
 		return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.OK);
 	}
+	
+	@RequestMapping("/users/recommend")
+	public ResponseEntity<Boolean> recommend(@RequestParam("userId") @NotEmpty String userId, @RequestParam("flag") boolean flag) throws Exception {
+		return new ResponseEntity<Boolean>(userService.recommend(userId, flag), HttpStatus.OK);
+	}
+	
+	@RequestMapping("/users/bookmark")
+	public ResponseEntity<Boolean> bookmark(@RequestParam("userId") @NotEmpty String userId, @RequestParam("flag") boolean flag) throws Exception {
+		return new ResponseEntity<Boolean>(userService.bookmark(userId, flag), HttpStatus.OK);
+	}
 }

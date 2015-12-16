@@ -86,7 +86,7 @@ public class ContentService {
 			return repositoryService.findByIds(ids);
 	}
 	
-	public boolean recommend(String contentUrl) throws Exception {
+	public boolean recommendArticle(String contentUrl) throws Exception {
 		try {
 			emailService.sendEmail("pandey.kishore@gmail.com", contentUrl);
 			return true;
@@ -94,6 +94,18 @@ public class ContentService {
 			exception.printStackTrace();
 			throw exception;
 		}
+	}
+	
+	public boolean incrRecommendationCount(String contentId) throws Exception {
+		return true;
+	}
+	
+	public boolean incrViewedCount(String contentId) throws Exception {
+		return true;
+	}
+	
+	public boolean incrSharedCount(String contentId) throws Exception {
+		return true;
 	}
 
 /*
