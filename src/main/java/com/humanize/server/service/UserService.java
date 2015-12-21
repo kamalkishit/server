@@ -1,5 +1,6 @@
 package com.humanize.server.service;
 
+import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -158,11 +159,33 @@ public class UserService {
 		return true;
 	}
 	
-	public boolean recommend(String userId, boolean flag) throws Exception {
+	public boolean recommend(String userId, String contentId, boolean flag) throws Exception {
+		User user = repositoryService.findOne(userId);
+		Set<String> likes = user.getLikes();
+		
+		if (flag) {
+			likes.add(contentId);
+		} else {
+			likes.remove(contentId);
+		}
+		
+		user.setLikes(likes);
+		repositoryService.update(user);
 		return true;
 	}
 	
-	public boolean bookmark(String userId, boolean flag) throws Exception {
+	public boolean bookmark(String userId, String contentId, boolean flag) throws Exception {
+		User user = repositoryService.findOne(userId);
+		Set<String> bookmarks = user.getBookmarks();
+		
+		if (flag) {
+			bookmarks.add(contentId);
+		} else {
+			bookmarks.remove(contentId);
+		}
+		
+		user.setBookmarks(bookmarks);
+		repositoryService.update(user);
 		return true;
 	}
 }

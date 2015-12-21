@@ -81,12 +81,12 @@ public class UserController {
 	}
 	
 	@RequestMapping("/users/recommend")
-	public ResponseEntity<Boolean> recommend(@RequestParam("userId") @NotEmpty String userId, @RequestParam("flag") boolean flag) throws Exception {
-		return new ResponseEntity<Boolean>(userService.recommend(userId, flag), HttpStatus.OK);
+	public ResponseEntity<Boolean> recommend(@RequestParam("userId") @NotEmpty String userId, @RequestParam("contentId") @NotEmpty String contentId, @RequestParam("flag") boolean flag) throws Exception {
+		return new ResponseEntity<Boolean>(userService.recommend(userId, contentId, flag), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/users/bookmark")
-	public ResponseEntity<Boolean> bookmark(@RequestParam("userId") @NotEmpty String userId, @RequestParam("flag") boolean flag) throws Exception {
-		return new ResponseEntity<Boolean>(userService.bookmark(userId, flag), HttpStatus.OK);
+	public ResponseEntity<Boolean> bookmark(@RequestParam("userId") @NotEmpty String userId, @RequestParam("contentId") @NotEmpty String contentId, @RequestParam("flag") boolean flag) throws Exception {
+		return new ResponseEntity<Boolean>(userService.bookmark(userId, contentId, flag), HttpStatus.OK);
 	}
 }

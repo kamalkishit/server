@@ -55,8 +55,8 @@ public class ContentController {
 	}
 	
 	@RequestMapping("/content/recommend")
-	public ResponseEntity<Boolean> recommend(@RequestParam("contentId") @NotEmpty String contentId) throws Exception {
-		return new ResponseEntity<Boolean>(contentService.incrRecommendationCount(contentId), HttpStatus.OK);
+	public ResponseEntity<Boolean> recommend(@RequestParam("contentId") @NotEmpty String contentId, @RequestParam("flag") boolean flag) throws Exception {
+		return new ResponseEntity<Boolean>(contentService.updateRecommendationCount(contentId, flag), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/content/viewed")

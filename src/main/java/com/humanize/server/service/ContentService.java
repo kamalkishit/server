@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.authentication.service.EmailService;
+import com.humanize.server.common.ExceptionConfig;
 import com.humanize.server.config.Config;
 import com.humanize.server.content.dao.ContentRepository;
 import com.humanize.server.content.data.Content;
@@ -46,10 +47,11 @@ public class ContentService {
 			imageDownloaderService.downloadImage(content);
 			return repositoryService.create(content);
 		} catch (ContentCreationException exception) {
-			//throw exception;
+			throw exception;
 		} catch (Exception exception) {
 			logger.error("", exception);
-			// new ContentCreationException(ExceptionConfig.CONTENT_CREATION_ERROR_CODE, ExceptionConfig.CONTENT_CREATION_EXCEPTION);
+			exception.printStackTrace();
+			 new ContentCreationException(ExceptionConfig.CONTENT_CREATION_ERROR_CODE, ExceptionConfig.CONTENT_CREATION_EXCEPTION);
 		}
 		
 		return null;
@@ -96,15 +98,30 @@ public class ContentService {
 		}
 	}
 	
-	public boolean incrRecommendationCount(String contentId) throws Exception {
+	public boolean updateRecommendationCount(String contentId, boolean flag) throws Exception {
+		Content content = repositoryService.findOne(contentId);
+		
+		if (flag) {
+			content.setRecommendationCount(content.getRecommendationCount() + 1);
+		} else {
+			content.setRecommendationCount(content.getRecommendationCount() - 1);
+		}
+		
+		repositoryService.update(content);
 		return true;
 	}
 	
 	public boolean incrViewedCount(String contentId) throws Exception {
+		Content content = repositoryService.findOne(contentId);
+		content.setViewsCount(content.getViewsCount() + 1);
+		repositoryService.update(content);
 		return true;
 	}
 	
 	public boolean incrSharedCount(String contentId) throws Exception {
+		Content content = repositoryService.findOne(contentId);
+		content.setSharedCount(content.getSharedCount() + 1);
+		repositoryService.update(content);
 		return true;
 	}
 

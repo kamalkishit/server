@@ -10,6 +10,7 @@ import com.humanize.server.authentication.exception.UserDeletionFailedException;
 import com.humanize.server.authentication.exception.UserNotFoundException;
 import com.humanize.server.authentication.exception.UserUpdationFailedException;
 import com.humanize.server.common.ExceptionConfig;
+import com.humanize.server.content.exception.ContentNotFoundException;
 import com.humanize.server.dao.UserRepository;
 import com.humanize.server.data.User;
 
@@ -44,6 +45,14 @@ public class UserRepositoryService {
 			throw new UserUpdationFailedException(ExceptionConfig.USER_UPDATION_ERROR_CODE, ExceptionConfig.USER_UPDATION_EXCEPTION);
 		} catch (UserNotFoundException exception) {
 			throw new UserUpdationFailedException(ExceptionConfig.USER_UPDATION_ERROR_CODE, ExceptionConfig.USER_UPDATION_EXCEPTION);
+		}
+	}
+	
+	public User findOne(String contentId) throws UserNotFoundException {
+		try {
+			return repository.findOne(contentId);
+		} catch (Exception exception) {
+			throw new UserNotFoundException(ExceptionConfig.USER_NOT_FOUND_ERROR_CODE, ExceptionConfig.USER_NOT_FOUND_EXCEPTION);
 		}
 	}
 	

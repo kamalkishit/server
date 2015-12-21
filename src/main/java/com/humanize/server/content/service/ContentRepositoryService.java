@@ -24,13 +24,18 @@ public class ContentRepositoryService {
 	ContentRepository repository;
 	
 	public Content create(Content content) throws ContentCreationException {
-		content = repository.save(content);
-		
-		if (content == null) {
+		try {
+			content = repository.save(content);
+			
+			if (content == null) {
+				throw new ContentCreationException(ExceptionConfig.CONTENT_CREATION_ERROR_CODE, ExceptionConfig.CONTENT_CREATION_EXCEPTION);
+			}
+			
+			return content;
+		} catch (Exception exception) {
+			exception.printStackTrace();
 			throw new ContentCreationException(ExceptionConfig.CONTENT_CREATION_ERROR_CODE, ExceptionConfig.CONTENT_CREATION_EXCEPTION);
 		}
-		
-		return content;
 	}
 	
 	public List<Content> create(List<Content> contents) throws ContentCreationException {
@@ -56,6 +61,14 @@ public class ContentRepositoryService {
 			return content;
 		} catch (Exception exception) {
 			throw new ContentUpdationException(ExceptionConfig.CONTENT_UPDATION_ERROR_CODE, ExceptionConfig.CONTENT_UPDATION_EXCEPTION);
+		}
+	}
+	
+	public Content findOne(String contentId) throws ContentNotFoundException {
+		try {
+			return repository.findOne(contentId);
+		} catch (Exception exception) {
+			throw new ContentNotFoundException(ExceptionConfig.CONTENT_NOT_FOUND_ERROR_CODE, ExceptionConfig.CONTENT_NOT_FOUND_EXCEPTION);
 		}
 	}
 	
