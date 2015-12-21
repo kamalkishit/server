@@ -104,9 +104,10 @@ public class ImageDownloaderService {
 		try {
 			inputFile = new File(tempImageFilename);
 			inputImage = ImageIO.read(inputFile);
-			outputImage = Scalr.resize(inputImage,
+			outputImage = ImageIO.read(inputFile);
+			/*outputImage = Scalr.resize(inputImage,
 					Scalr.Method.QUALITY, Scalr.Mode.FIT_EXACT, 512, 288,
-					Scalr.OP_ANTIALIAS);
+					Scalr.OP_ANTIALIAS);*/
 		} catch (Exception exception) {
 			logger.error("", exception);
 			throw exception;
