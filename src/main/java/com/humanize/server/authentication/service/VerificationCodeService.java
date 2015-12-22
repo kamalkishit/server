@@ -3,6 +3,7 @@ package com.humanize.server.authentication.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.humanize.server.Message;
 import com.humanize.server.authentication.data.VerificationCode;
 import com.humanize.server.authentication.exception.VerificationCodeSendingFailedException;
 import com.humanize.server.authentication.exception.VerificationCodeValidationFailedException;
@@ -40,7 +41,7 @@ public class VerificationCodeService {
 			String verificationCodeStr = randomStringGeneratoService.getVerificationCode();
 			
 			VerificationCode verificationCode = new VerificationCode(emailId, verificationCodeStr);
-			emailService.sendEmail(emailId, verificationCodeStr);
+			emailService.sendEmail(new Message(emailId, "Verification Code", verificationCodeStr));
 			
 			repositoryService.createOrUpdate(verificationCode);
 				

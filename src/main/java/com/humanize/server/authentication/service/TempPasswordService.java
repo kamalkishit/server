@@ -3,6 +3,7 @@ package com.humanize.server.authentication.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.humanize.server.Message;
 import com.humanize.server.authentication.data.TempPassword;
 import com.humanize.server.authentication.exception.TempPasswordSendingFailedException;
 
@@ -23,7 +24,7 @@ public class TempPasswordService {
 			String tempPasswordStr = randomStringGeneratorService.getTempPassword();
 			
 			TempPassword tempPassword = new TempPassword(emailId, tempPasswordStr);
-			emailService.sendEmail(emailId, tempPasswordStr);
+			emailService.sendEmail(new Message(emailId, "Temp Password", tempPasswordStr));
 			
 			repositoryService.createOrUpdate(tempPassword);
 				

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.humanize.server.Message;
 import com.humanize.server.authentication.data.InvitationCode;
 import com.humanize.server.authentication.exception.InvitationCodeSendingException;
 import com.humanize.server.authentication.exception.InvitationCodeValidationFailedException;
@@ -26,7 +27,7 @@ public class InvitationCodeService {
 	public boolean sendInvitationCode(String emailId) throws InvitationCodeSendingException {		
 		try {
 			String invitationCodeStr = randomStringGeneratorService.getInvitationCode();			
-			emailService.sendEmail(emailId, invitationCodeStr);
+			emailService.sendEmail(new Message(emailId, "Invitation Code", invitationCodeStr));
 			
 			InvitationCode invitationCode = new InvitationCode(emailId, invitationCodeStr);
 			

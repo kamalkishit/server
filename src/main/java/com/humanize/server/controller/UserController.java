@@ -45,14 +45,14 @@ public class UserController {
 		return new ResponseEntity<User>(userService.login(emailId, password), HttpStatus.OK);
 	}
 	
-	@RequestMapping("/users/sendTempPassword")
+	@RequestMapping("/users/forgot")
 	public ResponseEntity<Boolean> sendTempPassword(@RequestParam("emailId") @NotEmpty @Email String emailId) throws TempPasswordSendingFailedException {
 		return new ResponseEntity<Boolean>(userService.sendTempPassword(emailId), HttpStatus.OK);
 	}
 	
-	@RequestMapping("/users/resetPassword")
-	public ResponseEntity<User> resetPassword(@RequestBody User user) throws PasswordResetFailedException {
-		return new ResponseEntity<User>(userService.resetPassword(user), HttpStatus.OK);
+	@RequestMapping("/users/reset")
+	public ResponseEntity<User> resetPassword(@RequestParam("emailId") @NotEmpty @Email String emailId, @RequestParam("tempPassword") @NotEmpty String tempPassword, @RequestParam("newPassword") @NotEmpty String newPassword) throws PasswordResetFailedException {
+		return new ResponseEntity<User>(userService.resetPassword(emailId, tempPassword, newPassword), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/users/sendVerificationCode")

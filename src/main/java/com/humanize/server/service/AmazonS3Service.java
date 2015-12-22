@@ -2,6 +2,7 @@
 package com.humanize.server.service;
 
 import java.io.File;
+import java.io.InputStream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,9 +38,10 @@ public class AmazonS3Service {
 	
 	public void putImage(Content content) throws AmazonS3ImageCreationException {
 		try {
-			String key = "null.jpg";
-			File file = new File("/root/images/null.jpg");
-			s3Client.putObject(new PutObjectRequest(amazonS3Properties.getBucketName(), key, file));
+			String key = content.getImageURL();
+			File file = new File("/root/images/" + key);
+			System.out.println(key);
+			s3Client.putObject(new PutObjectRequest("com-humanize-images", key, file));
 		} catch (AmazonServiceException exception) {
 			logger.error(exception.toString());
 			throw new AmazonS3ImageCreationException(ExceptionConfig.AMAZON_S3_IMAGE_CREATION_ERROR_CODE, ExceptionConfig.AMAZON_S3_IMAGE_CREATION_EXCEPTION);
@@ -51,7 +53,7 @@ public class AmazonS3Service {
 	
 	public void getImage(Content content) throws AmazonS3ImageNotFoundException {
 		try {
-			S3Object s3Object = s3Client.getObject(amazonS3Properties.getBucketName(), "null.jpg");
+			S3Object s3Object = s3Client.getObject("com-humanize-images", content.getImageURL());
 		} catch (AmazonServiceException exception) {
 			logger.error(exception.toString());
 			throw new AmazonS3ImageNotFoundException(ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_ERROR_CODE, ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_EXCEPTION);
@@ -59,5 +61,18 @@ public class AmazonS3Service {
 			logger.error(exception.toString());
 			throw new AmazonS3ImageNotFoundException(ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_ERROR_CODE, ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_EXCEPTION);
 		}
+	}
+	
+	public InputStream getImage(String imageName) throws AmazonS3ImageNotFoundException {
+		S3Object s3Object = null;
+		
+		try {
+			s3Object = s3Client.getObject("com-humanize-images", imageName);
+		} catch (Exception exception) {
+			logger.error("", exception);
+			throw new AmazonS3ImageNotFoundException(ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_ERROR_CODE, ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_EXCEPTION);
+		}
+		
+		return s3Object.getObjectContent();
 	}
 }

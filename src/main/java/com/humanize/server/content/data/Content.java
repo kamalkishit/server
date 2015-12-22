@@ -15,26 +15,32 @@ public class Content {
 	@Id
 	private String id;
 
+	// business id
 	@Indexed(unique = true)
 	private String contentId;
 
 	@Indexed(unique = true)
 	@NotEmpty
-	private String contentURL;
+	private String url;
 
+	@NotEmpty
 	private String userId;
 
+	@NotEmpty
 	private String title;
 
+	@NotEmpty
 	private String description;
 
+	@NotEmpty
 	private String imageURL;
 
 	private String originalImageURL;
 
 	private String source;
 
-	private String contentType;
+	// positive, info, negative
+	private String type;
 
 	@NotEmpty
 	private String category;
@@ -43,9 +49,9 @@ public class Content {
 
 	private String videoURL;
 
-	private int recommendationCount;
+	private int recommendedCount;
 
-	private int viewsCount;
+	private int viewedCount;
 
 	private int sharedCount;
 	
@@ -79,12 +85,12 @@ public class Content {
 		this.contentId = contentId;
 	}
 
-	public String getContentURL() {
-		return contentURL;
+	public String getUrl() {
+		return url;
 	}
 
-	public void setContentURL(String contentURL) {
-		this.contentURL = contentURL;
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 	public String getUserId() {
@@ -135,12 +141,12 @@ public class Content {
 		this.source = source;
 	}
 
-	public String getContentType() {
-		return contentType;
+	public String getType() {
+		return type;
 	}
 
-	public void setContentType(String contentType) {
-		this.contentType = contentType;
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getCategory() {
@@ -167,20 +173,20 @@ public class Content {
 		this.videoURL = videoURL;
 	}
 
-	public int getRecommendationCount() {
-		return recommendationCount;
+	public int getRecommendedCount() {
+		return recommendedCount;
 	}
 
-	public void setRecommendationCount(int recommendationCount) {
-		this.recommendationCount = recommendationCount;
+	public void setRecommendedCount(int recommendedCount) {
+		this.recommendedCount = recommendedCount;
 	}
 
-	public int getViewsCount() {
-		return viewsCount;
+	public int getViewedCount() {
+		return viewedCount;
 	}
 
-	public void setViewsCount(int viewsCount) {
-		this.viewsCount = viewsCount;
+	public void setViewedCount(int viewedCount) {
+		this.viewedCount = viewedCount;
 	}
 
 	public int getSharedCount() {
@@ -195,7 +201,7 @@ public class Content {
 		return isVerified;
 	}
 
-	public void setVerified(boolean isVerified) {
+	public void setIsVerified(boolean isVerified) {
 		this.isVerified = isVerified;
 	}
 
@@ -203,7 +209,7 @@ public class Content {
 		return isDeleted;
 	}
 
-	public void setDeleted(boolean isDeleted) {
+	public void setIsDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
 

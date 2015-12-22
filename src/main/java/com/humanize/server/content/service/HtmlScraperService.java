@@ -26,7 +26,7 @@ public class HtmlScraperService {
 	
 	public Content scrapHtml(Content content) throws Exception {
 		try {
-			createConnection(content.getContentURL());
+			createConnection(content.getUrl());
 
 			content.setContentId(UUID.randomUUID().toString());
 			content.setTitle(scrapTitle());

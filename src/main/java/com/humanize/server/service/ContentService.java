@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.humanize.server.Message;
 import com.humanize.server.authentication.service.EmailService;
 import com.humanize.server.common.ExceptionConfig;
 import com.humanize.server.config.Config;
@@ -39,12 +40,16 @@ public class ContentService {
 	@Autowired
 	private EmailService emailService;
 	
+	@Autowired
+	private AmazonS3Service amazonS3Service;
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	public Content create(Content content) throws ContentCreationException {
 		try {
 			content = htmlScraperService.scrapHtml(content);
 			imageDownloaderService.downloadImage(content);
+			amazonS3Service.putImage(content);
 			return repositoryService.create(content);
 		} catch (ContentCreationException exception) {
 			throw exception;
@@ -87,7 +92,7 @@ public class ContentService {
 	
 	public boolean recommendArticle(String contentUrl) throws Exception {
 		try {
-			emailService.sendEmail("pandey.kishore@gmail.com", contentUrl);
+			emailService.sendEmail(new Message("pandey.kishore@gmail.com", "Suggested Article", contentUrl));
 			return true;
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -99,9 +104,9 @@ public class ContentService {
 		Content content = repositoryService.findOne(contentId);
 		
 		if (flag) {
-			content.setRecommendationCount(content.getRecommendationCount() + 1);
+			content.setRecommendedCount(content.getRecommendedCount() + 1);
 		} else {
-			content.setRecommendationCount(content.getRecommendationCount() - 1);
+			content.setRecommendedCount(content.getRecommendedCount() - 1);
 		}
 		
 		repositoryService.update(content);
@@ -110,7 +115,7 @@ public class ContentService {
 	
 	public boolean incrViewedCount(String contentId) throws Exception {
 		Content content = repositoryService.findOne(contentId);
-		content.setViewsCount(content.getViewsCount() + 1);
+		content.setViewedCount(content.getViewedCount() + 1);
 		repositoryService.update(content);
 		return true;
 	}

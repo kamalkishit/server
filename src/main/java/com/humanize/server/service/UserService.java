@@ -79,14 +79,14 @@ public class UserService {
 		return verificationCodeService.sendVerificationCode(emailId);
 	}
 	
-	public User resetPassword(User user) throws PasswordResetFailedException {
+	public User resetPassword(String emailId, String tempPassword, String newPassword) throws PasswordResetFailedException {
 		try {
-			TempPassword tempPassword = tempPasswordRepositoryService.findByEmailId(user.getEmailId());
+			TempPassword tempPasswordObj = tempPasswordRepositoryService.findByEmailId(emailId);
 			
-			if (tempPassword.getEmailId().equals(user.getTempPassword())) {
-				User tempUser = repositoryService.findByEmailId(user.getEmailId());
-				tempUser.setPassword(user.getPassword());
-				return repositoryService.update(user);
+			if (tempPasswordObj.getTempPassword().equals(tempPassword)) {
+				User tempUser = repositoryService.findByEmailId(emailId);
+				tempUser.setPassword(newPassword);
+				return repositoryService.update(tempUser);
 			}
 			
 			throw new PasswordResetFailedException(0, null);
