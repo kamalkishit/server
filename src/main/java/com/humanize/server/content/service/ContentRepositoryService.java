@@ -2,6 +2,8 @@ package com.humanize.server.content.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -23,11 +25,14 @@ public class ContentRepositoryService {
 	@Autowired
 	ContentRepository repository;
 	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	public Content create(Content content) throws ContentCreationException {
 		try {
 			content = repository.save(content);
 			
 			if (content == null) {
+				logger.error("content is null");
 				throw new ContentCreationException(ExceptionConfig.CONTENT_CREATION_ERROR_CODE, ExceptionConfig.CONTENT_CREATION_EXCEPTION);
 			}
 			

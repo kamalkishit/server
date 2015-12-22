@@ -35,7 +35,7 @@ public class HtmlScraperService {
 			content.setOriginalImageURL(scrapImageURL());
 			return content;
 		} catch (Exception exception) {
-			logger.error("", exception);
+			exception.printStackTrace();
 			throw exception;
 		}
 	}

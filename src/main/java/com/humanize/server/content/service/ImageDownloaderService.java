@@ -39,7 +39,7 @@ public class ImageDownloaderService {
 			saveImage(bufferedImage, getExtension(imageFilename), imageFilename);
 			content.setImageURL(content.getContentId() + "." + getExtension(imageFilename));
 		} catch (Exception exception) {
-			logger.error("", exception);
+			exception.printStackTrace();
 			throw exception;
 		}
 		

@@ -49,12 +49,9 @@ public class ContentService {
 		} catch (ContentCreationException exception) {
 			throw exception;
 		} catch (Exception exception) {
-			logger.error("", exception);
 			exception.printStackTrace();
-			 new ContentCreationException(ExceptionConfig.CONTENT_CREATION_ERROR_CODE, ExceptionConfig.CONTENT_CREATION_EXCEPTION);
+			throw new ContentCreationException(ExceptionConfig.CONTENT_CREATION_ERROR_CODE, ExceptionConfig.CONTENT_CREATION_EXCEPTION);
 		}
-		
-		return null;
 	}
 	
 	public void upload() {
