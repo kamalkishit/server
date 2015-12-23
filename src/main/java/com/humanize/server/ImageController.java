@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.humanize.server.service.AmazonS3Service;
+import com.humanize.server.service.ImageService;
 
 
 @RestController
 public class ImageController {
 	
 	@Autowired
-	AmazonS3Service imageService;
+	ImageService imageService;
 	
 	@RequestMapping(value = "/images", method = RequestMethod.GET, 
 			headers="Accept=image/jpeg, image/jpg, image/png", produces = "image/jpeg")
