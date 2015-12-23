@@ -27,7 +27,7 @@ public class ExcelToJson {
 		this.filename = filename;
 	}
 
-	public List<Content> toJson() {
+	public List<Content> toJson() throws Exception {
 		FileInputStream fileInputStream = null;
 
 		try {
@@ -60,7 +60,7 @@ public class ExcelToJson {
 		throw new ExcelToJsonConversionException(ExceptionConfig.EXCEL_TO_JSON_CONVERSION_ERROR_CODE, ExceptionConfig.EXCEL_TO_JSON_CONVERSION_EXCEPTION);
 	}
 	
-	private List<Content> toJson(Sheet sheet, int rowCount) {
+	private List<Content> toJson(Sheet sheet, int rowCount) throws Exception {
 		List<Content> contents = new ArrayList<Content>();
 		
 		for (int i = 0; i <= rowCount; i++) {

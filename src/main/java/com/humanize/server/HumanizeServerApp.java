@@ -10,16 +10,15 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 public class HumanizeServerApp extends SpringBootServletInitializer {
 
 	@Override
-	protected SpringApplicationBuilder configure(
-			SpringApplicationBuilder application) {
-		return application.sources(HumanizeServerApp.class);
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder springApplicationBuilder) {
+		return springApplicationBuilder.sources(HumanizeServerApp.class);
 	}
 
 	public static void main(String[] args) {
 		try {
 			HumanizeServerApp.run(args);
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
 
 		SpringApplication.run(HumanizeServerApp.class, args);

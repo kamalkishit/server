@@ -34,7 +34,7 @@ public class ContentController {
 	}
 	
 	@RequestMapping("/content/upload")
-	public void upload() throws ContentCreationException {
+	public void upload() throws Exception {
 		contentService.upload();
 	}
 	

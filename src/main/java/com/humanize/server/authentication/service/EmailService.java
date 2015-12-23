@@ -1,9 +1,6 @@
 package com.humanize.server.authentication.service;
 
-import org.springframework.stereotype.Service;
-
 import com.humanize.server.Message;
-
 
 public interface EmailService {
 	

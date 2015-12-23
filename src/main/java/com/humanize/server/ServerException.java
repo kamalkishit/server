@@ -1,6 +1,6 @@
 package com.humanize.server;
 
-public abstract class ServerException {
+public abstract class ServerException extends Exception {
 	
 	protected int errorCode;
 	protected String errorMsg;
