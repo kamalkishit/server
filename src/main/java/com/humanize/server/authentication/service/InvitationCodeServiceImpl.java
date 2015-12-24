@@ -11,7 +11,7 @@ import com.humanize.server.authentication.exception.InvitationCodeSendingExcepti
 import com.humanize.server.authentication.exception.InvitationCodeValidationFailedException;
 
 @Service
-public class InvitationCodeServiceImpl {
+public class InvitationCodeServiceImpl implements InvitationCodeService {
 
 	@Autowired
 	InvitationCodeRepositoryService repositoryService;

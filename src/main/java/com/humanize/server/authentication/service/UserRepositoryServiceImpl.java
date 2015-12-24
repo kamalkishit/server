@@ -3,6 +3,7 @@ package com.humanize.server.authentication.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.humanize.server.authentication.exception.UserCreationFailedException;
 import com.humanize.server.authentication.exception.UserDeletionFailedException;
@@ -12,6 +13,7 @@ import com.humanize.server.common.ExceptionConfig;
 import com.humanize.server.dao.UserRepository;
 import com.humanize.server.data.User;
 
+@Service
 public class UserRepositoryServiceImpl implements UserRepositoryService {
 
 	@Autowired

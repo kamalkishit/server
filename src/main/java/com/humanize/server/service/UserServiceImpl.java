@@ -185,7 +185,7 @@ public class UserServiceImpl implements UserService {
 			bookmarkedContents.remove(contentId);
 		}
 		
-		user.setBookmarked(bookmarkedContents);
+		user.setBookmarked(bookmarkedContents); 
 		repositoryService.update(user);
 		return true;
 	}
