@@ -1,5 +1,6 @@
 package com.humanize.server.service;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -161,30 +162,30 @@ public class UserServiceImpl implements UserService {
 	
 	public boolean recommend(String userId, String contentId, boolean flag) throws Exception {
 		User user = repositoryService.findOne(userId);
-		Set<String> likes = user.getLikes();
+		List<String> recommendedContents = user.getRecommended();
 		
 		if (flag) {
-			likes.add(contentId);
+			recommendedContents.add(contentId);
 		} else {
-			likes.remove(contentId);
+			recommendedContents.remove(contentId);
 		}
 		
-		user.setLikes(likes);
+		user.setRecommended(recommendedContents);
 		repositoryService.update(user);
 		return true;
 	}
 	
 	public boolean bookmark(String userId, String contentId, boolean flag) throws Exception {
 		User user = repositoryService.findOne(userId);
-		Set<String> bookmarks = user.getBookmarks();
+		List<String> bookmarkedContents = user.getBookmarked();
 		
 		if (flag) {
-			bookmarks.add(contentId);
+			bookmarkedContents.add(contentId);
 		} else {
-			bookmarks.remove(contentId);
+			bookmarkedContents.remove(contentId);
 		}
 		
-		user.setBookmarks(bookmarks);
+		user.setBookmarked(bookmarkedContents);
 		repositoryService.update(user);
 		return true;
 	}

@@ -90,6 +90,14 @@ public class ContentServiceImpl implements ContentService {
 			return repositoryService.findByIds(ids);
 	}
 	
+	public Contents findBookmarks(List<String> bookmarkIds) throws Exception {
+		try {
+			return repositoryService.findByIds(bookmarkIds);
+		} catch (Exception exception) {
+			throw exception;
+		}
+	}
+	
 	public boolean recommendArticle(String contentUrl) throws Exception {
 		try {
 			emailService.sendEmail(new Message("pandey.kishore@gmail.com", "Suggested Article", contentUrl));

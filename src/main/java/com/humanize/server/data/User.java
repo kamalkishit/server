@@ -34,11 +34,11 @@ public class User {
 	
 	private List<String> categories;
 
-	private Set<String> likes;
+	private List<String> recommended;
 
-	private Set<String> bookmarks;
+	private List<String> bookmarked;
 
-	private Set<String> contentsCreated;
+	private List<String> created;
 	
 	private long paperConfigurationTime; 
 	
@@ -55,12 +55,12 @@ public class User {
 	private long lastModifiedDate;
 
 	public User() {
-		this.likes = new LinkedHashSet<String>();
-		this.bookmarks = new LinkedHashSet<String>();
-		this.contentsCreated = new LinkedHashSet<String>();
+		this.recommended = new ArrayList<>();
+		this.bookmarked = new ArrayList<>();
+		this.created = new ArrayList<>();
 		//this.paperReminderTime = new Time(8, 0, 0);
-		this.typeOfArticles = new ArrayList<String>();
-		this.categories = new ArrayList<String>();
+		this.typeOfArticles = new ArrayList<>();
+		this.categories = new ArrayList<>();
 	}
 	
 	public String getId() {
@@ -127,28 +127,28 @@ public class User {
 		this.categories = categories;
 	}
 
-	public Set<String> getLikes() {
-		return likes;
+	public List<String> getRecommended() {
+		return recommended;
 	}
 
-	public void setLikes(Set<String> likes) {
-		this.likes = likes;
+	public void setRecommended(List<String> recommended) {
+		this.recommended = recommended;
 	}
 
-	public Set<String> getBookmarks() {
-		return bookmarks;
+	public List<String> getBookmarked() {
+		return bookmarked;
 	}
 
-	public void setBookmarks(Set<String> bookmarks) {
-		this.bookmarks = bookmarks;
+	public void setBookmarked(List<String> bookmarked) {
+		this.bookmarked = bookmarked;
 	}
 
-	public Set<String> getContentsCreated() {
-		return contentsCreated;
+	public List<String> getCreated() {
+		return created;
 	}
 
-	public void setContentsCreated(Set<String> contentsCreated) {
-		this.contentsCreated = contentsCreated;
+	public void setCreated(List<String> created) {
+		this.created = created;
 	}
 
 	public long getPaperConfigurationTime() {
