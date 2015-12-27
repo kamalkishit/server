@@ -1,7 +1,6 @@
 package com.humanize.server.service;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -30,6 +29,9 @@ import com.humanize.server.authentication.service.UserRepositoryService;
 import com.humanize.server.authentication.service.VerificationCodeRepositoryService;
 import com.humanize.server.authentication.service.VerificationCodeService;
 import com.humanize.server.common.ExceptionConfig;
+import com.humanize.server.data.LoginUser;
+import com.humanize.server.data.ResetPasswordUser;
+import com.humanize.server.data.SignupUser;
 import com.humanize.server.data.User;
 
 @Service
@@ -58,11 +60,11 @@ public class UserServiceImpl implements UserService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public User login(String emailId, String password) throws UserLoginFailedException {
+	public User login(LoginUser loginUser) throws UserLoginFailedException {
 		try {
-			User user = repositoryService.findByEmailId(emailId);
+			User user = repositoryService.findByEmailId(loginUser.getEmailId());
 			
-			if (user.getPassword().equals(password) /*&& user.isVerified()*/) {
+			if (user.getPassword().equals(loginUser.getPassword()) /*&& user.isVerified()*/) {
 				return user;
 			}
 			
@@ -80,13 +82,13 @@ public class UserServiceImpl implements UserService {
 		return verificationCodeService.sendVerificationCode(emailId);
 	}
 	
-	public User resetPassword(String emailId, String tempPassword, String newPassword) throws PasswordResetFailedException {
+	public User resetPassword(ResetPasswordUser resetPasswordUser) throws PasswordResetFailedException {
 		try {
-			TempPassword tempPasswordObj = tempPasswordRepositoryService.findByEmailId(emailId);
+			TempPassword tempPasswordObj = tempPasswordRepositoryService.findByEmailId(resetPasswordUser.getEmailId());
 			
-			if (tempPasswordObj.getTempPassword().equals(tempPassword)) {
-				User tempUser = repositoryService.findByEmailId(emailId);
-				tempUser.setPassword(newPassword);
+			if (tempPasswordObj.getTempPassword().equals(resetPasswordUser.getTempPassword())) {
+				User tempUser = repositoryService.findByEmailId(resetPasswordUser.getEmailId());
+				tempUser.setPassword(resetPasswordUser.getNewPassword());
 				return repositoryService.update(tempUser);
 			}
 			
@@ -112,16 +114,21 @@ public class UserServiceImpl implements UserService {
 		return repositoryService.update(user);
 	}
 
-	public User signup(User user) throws UserCreationFailedException {
+	public User signup(SignupUser signupUser) throws UserCreationFailedException {
 		try {
-			invitationCodeService.validateInvitationCode(user.getEmailId(), user.getInvitationCode());
+			invitationCodeService.validateInvitationCode(signupUser.getEmailId(), signupUser.getInvitationCode());
+			User user = new User();
+			user.setEmailId(signupUser.getEmailId());
+			user.setPassword(signupUser.getPassword());
 			user.setUserId(UUID.randomUUID().toString());
-			user.setInvitationCode(null);
 			repositoryService.create(user);
-			verificationCodeService.sendVerificationCode(user.getEmailId());
+			//verificationCodeService.sendVerificationCode(user.getEmailId());
 			invitationCodeRepositoryService.delete(user.getEmailId());
-		} catch (VerificationCodeSendingFailedException | InvitationCodeDeletionException exception) {
+			
+			return user;
+		} catch (InvitationCodeDeletionException exception) {
 			logger.error("", exception);
+			throw new UserCreationFailedException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
 		} catch (UserCreationFailedException exception) {
 			logger.error("", exception);
 			throw exception;
@@ -129,8 +136,6 @@ public class UserServiceImpl implements UserService {
 			logger.error("", exception);
 			throw new UserCreationFailedException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
 		} 
-		 
-		return user;
 	}
 	
 	public boolean inviteUser(String emailId) throws UserInvitationFailedException {

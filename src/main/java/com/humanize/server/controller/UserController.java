@@ -20,6 +20,9 @@ import com.humanize.server.authentication.exception.UserLogoutFailedException;
 import com.humanize.server.authentication.exception.UserUpdationFailedException;
 import com.humanize.server.authentication.exception.UserVerificationFailedException;
 import com.humanize.server.authentication.exception.VerificationCodeSendingFailedException;
+import com.humanize.server.data.LoginUser;
+import com.humanize.server.data.ResetPasswordUser;
+import com.humanize.server.data.SignupUser;
 import com.humanize.server.data.User;
 import com.humanize.server.service.UserService;
 
@@ -30,8 +33,8 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping("/users/signup")
-	public ResponseEntity<User> signup(@RequestBody User user) throws UserCreationFailedException {
-		return new ResponseEntity<User>(userService.signup(user), HttpStatus.OK);
+	public ResponseEntity<User> signup(@RequestBody SignupUser signupUser) throws UserCreationFailedException {
+		return new ResponseEntity<User>(userService.signup(signupUser), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/users/verify")
@@ -41,8 +44,8 @@ public class UserController {
 	}
 
 	@RequestMapping("/users/login")
-	public ResponseEntity<User> login(@RequestParam("emailId") @NotEmpty @Email String emailId, @RequestParam("password") @NotEmpty @Email String password) throws UserLoginFailedException {
-		return new ResponseEntity<User>(userService.login(emailId, password), HttpStatus.OK);
+	public ResponseEntity<User> login(@RequestBody LoginUser loginUser) throws UserLoginFailedException {
+		return new ResponseEntity<User>(userService.login(loginUser), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/users/forgot")
@@ -51,8 +54,8 @@ public class UserController {
 	}
 	
 	@RequestMapping("/users/reset")
-	public ResponseEntity<User> resetPassword(@RequestParam("emailId") @NotEmpty @Email String emailId, @RequestParam("tempPassword") @NotEmpty String tempPassword, @RequestParam("newPassword") @NotEmpty String newPassword) throws PasswordResetFailedException {
-		return new ResponseEntity<User>(userService.resetPassword(emailId, tempPassword, newPassword), HttpStatus.OK);
+	public ResponseEntity<User> resetPassword(@RequestBody ResetPasswordUser resetPasswordUser) throws PasswordResetFailedException {
+		return new ResponseEntity<User>(userService.resetPassword(resetPasswordUser), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/users/sendVerificationCode")

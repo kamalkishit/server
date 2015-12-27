@@ -26,10 +26,6 @@ public class User {
 
 	private String password;
 	
-	private String tempPassword;
-	
-	private String invitationCode;
-	
 	private List<String> typeOfArticles;
 	
 	private List<String> categories;
@@ -93,22 +89,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public String getTempPassword() {
-		return tempPassword;
-	}
-
-	public void setTempPassword(String tempPassword) {
-		this.tempPassword = tempPassword;
-	}
-	
-	public String getInvitationCode() {
-		return invitationCode;
-	}
-
-	public void setInvitationCode(String invitationCode) {
-		this.invitationCode = invitationCode;
 	}
 
 	public List<String> getTypeOfArticles() {

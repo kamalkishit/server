@@ -23,9 +23,10 @@ public class TempPasswordServiceImpl implements TempPasswordService {
 		try {
 			String tempPasswordStr = randomStringGeneratorService.getTempPassword();
 			
-			TempPassword tempPassword = new TempPassword(emailId, tempPasswordStr);
-			emailService.sendEmail(new Message(emailId, "Temp Password", tempPasswordStr));
+			String str = "http://www.humannize.com/signup?emailId=" + emailId + "&tempPassword=" + tempPasswordStr; 
+			emailService.sendEmail(new Message(emailId, "Temp Password", str));
 			
+			TempPassword tempPassword = new TempPassword(emailId, tempPasswordStr);
 			repositoryService.createOrUpdate(tempPassword);
 				
 			return true;
