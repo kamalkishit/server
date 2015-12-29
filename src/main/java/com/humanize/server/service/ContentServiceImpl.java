@@ -49,7 +49,7 @@ public class ContentServiceImpl implements ContentService {
 		try {
 			content = htmlScraperService.scrapHtml(content);
 			imageDownloaderService.downloadImage(content);
-			amazonS3Service.putImage(content);
+			//amazonS3Service.putImage(content);
 			return repositoryService.create(content);
 		} catch (ContentCreationException exception) {
 			throw exception;
@@ -59,17 +59,27 @@ public class ContentServiceImpl implements ContentService {
 		}
 	}
 	
+	public void createInBulk(Content content) {
+		try {
+			content = htmlScraperService.scrapHtml(content);
+			imageDownloaderService.downloadImage(content);
+			//amazonS3Service.putImage(content);
+			repositoryService.create(content);
+		} catch (Exception exception) {
+			
+		}
+	}
+	
 	public void upload() throws Exception {
 		ExcelToJson excelToJson = new ExcelToJson(Config.EXCEL_FILE_PATH);
 		List<Content> contents = excelToJson.toJson();
 		try {
 			for (Content content: contents) {
-				create(content);
+				createInBulk(content);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	public Content update(Content content) throws ContentUpdationException {
@@ -100,7 +110,7 @@ public class ContentServiceImpl implements ContentService {
 	
 	public boolean recommendArticle(String contentUrl) throws Exception {
 		try {
-			emailService.sendEmail(new Message("pandey.kishore@gmail.com", "Suggested Article", contentUrl));
+			emailService.sendEmail(new Message("kamal@humannize.com", "Suggested Article", contentUrl));
 			return true;
 		} catch (Exception exception) {
 			exception.printStackTrace();
