@@ -16,6 +16,7 @@ public interface ContentService {
 	public Contents findByCategories(List<String> categories, Long createdDate, boolean refresh) throws ContentNotFoundException;
 	public Contents findByIds(List<String> ids) throws ContentNotFoundException;
 	public Contents findBookmarks(List<String> bookmarkIds) throws Exception;
+	public Contents findRecommendations(List<String> recommendations) throws Exception;
 	public boolean recommendArticle(String contentUrl) throws Exception;
 	public boolean updateRecommendationCount(String contentId, boolean flag) throws Exception;
 	public boolean incrViewedCount(String contentId) throws Exception;

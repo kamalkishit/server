@@ -1,0 +1,124 @@
+<html>
+<head>
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<style type="text/css">
+
+	html, body {
+		height: 100%;
+	}
+			.card1{
+	height:800px;
+	border:0.1px solid black;
+	display:block;
+	margin: 20px;
+	border-radius: 2px;
+	transition: all .2s ease-in-out;
+	margin:0px 0px 30px 0px;
+	padding:0;
+	background-color: #00BFA5;
+
+	}
+	.card2{
+	height:300px;
+	border:0.1px solid black;
+	display:block;
+	margin: 20px;
+	border-radius: 2px;
+	transition: all .2s ease-in-out;
+	padding:0;
+	background-color: white;
+	position:relative;
+		left:30px;
+		top:160px;
+		color:white;
+
+	}
+	.color{
+		background-color:008e70;
+		height:300px;
+		margin:	auto auto;
+		font-size:40px;
+		color:white;
+		text-align: center;
+		}
+		.color > p{
+			position:relative;
+			top:100px;
+		}
+		a{
+			color:white;
+			text-decoration: none;
+			font-size:10px;
+			display:inline;
+		}
+		.footer{
+			position:relative;
+			top:300px;
+			right:100px;
+			color:white;
+			display:inline;
+			
+		}
+	ul{
+		list-style:none;
+		position: relative;
+		top:400px;
+		color:white;
+		padding-bottom:40px;
+		border-bottom:1px solid white;
+	}
+	li{
+		display:inline;
+		color:white;
+		margin:5px;
+	}
+		@media only screen and (max-width:600px){
+			.card2{
+				font-size:20px;
+			}
+		}
+		@media only screen and (max-height:600px){
+			.card2{
+				height:150px;
+				position:relative;
+				left:15px;
+				top:50px;
+			}
+			.card1{
+				height:400px;
+			}
+			.color{
+				height:160px;
+				font-size:20px;
+		}
+			.color > p{
+				position:relative;
+				top:40px;
+			}
+		}
+	</style>
+</head>
+<body>
+	 <div class="fluid-container">
+      	<div class="col-xs-12 col-sm-10 col-md-8 col-lg-5 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
+	      	<div class="card1">
+				<div class="color">
+				 	<p>Humanize</p>
+					<div class="card2 col-lg-10 col-xs-9 col-sm-10">
+						text goes here
+					</div>
+				</div>
+				<ul>
+					<li><a>Our history</a></li>-
+					<li><a>Blog</a></li>-
+					<li><a>About</a></li>-
+					<li><a>Contact</a></li>
+				</ul>
+			</div>
+	    </div>
+    </div>
+</body>
+</html>

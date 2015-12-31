@@ -55,6 +55,11 @@ public class ContentController {
 		return new ResponseEntity<Contents>(contentService.findBookmarks(bookmarkIds), HttpStatus.OK);
 	}
 	
+	@RequestMapping("/recommendations/find")
+	public ResponseEntity<Contents> findRecommendations(@RequestParam("recommendationIds") List<String> recommendationIds) throws Exception {
+		return new ResponseEntity<Contents>(contentService.findRecommendations(recommendationIds), HttpStatus.OK);
+	}
+	
 	@RequestMapping("/content/recommendArticle")
 	public ResponseEntity<Boolean> recommendArticle(@RequestParam("contentUrl") @NotEmpty String contentUrl) throws Exception {
 		return new ResponseEntity<Boolean>(contentService.recommendArticle(contentUrl), HttpStatus.OK);

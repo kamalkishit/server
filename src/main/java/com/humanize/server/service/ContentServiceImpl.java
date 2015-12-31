@@ -108,6 +108,14 @@ public class ContentServiceImpl implements ContentService {
 		}
 	}
 	
+	public Contents findRecommendations(List<String> recommendations) throws Exception {
+		try {
+			return repositoryService.findByIds(recommendations);
+		} catch (Exception exception) {
+			throw exception;
+		}
+	}
+	
 	public boolean recommendArticle(String contentUrl) throws Exception {
 		try {
 			emailService.sendEmail(new Message("kamal@humannize.com", "Suggested Article", contentUrl));
@@ -127,6 +135,7 @@ public class ContentServiceImpl implements ContentService {
 			content.setRecommendedCount(content.getRecommendedCount() - 1);
 		}
 		
+		content.setViewedCount(content.getViewedCount() + 1);
 		repositoryService.update(content);
 		return true;
 	}
@@ -141,6 +150,7 @@ public class ContentServiceImpl implements ContentService {
 	public boolean incrSharedCount(String contentId) throws Exception {
 		Content content = repositoryService.findOne(contentId);
 		content.setSharedCount(content.getSharedCount() + 1);
+		content.setViewedCount(content.getViewedCount() + 1);
 		repositoryService.update(content);
 		return true;
 	}
