@@ -6,120 +6,70 @@
 	<!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<style type="text/css">
-
-	html, body {
-		height: 100%;
+	html,body{
+		height:100%;
 	}
-			.card1{
-	height:800px;
-	border:0.1px solid black;
-	display:block;
-	margin: 20px;
-	border-radius: 2px;
-	transition: all .2s ease-in-out;
-	margin:0px 0px 30px 0px;
-	padding:0;
-	background-color: #00BFA5;
-
-	}
-	.card2{
-	height:300px;
-	border:0.1px solid black;
-	display:block;
-	margin: 20px;
-	border-radius: 2px;
-	transition: all .2s ease-in-out;
-	padding:0;
-	background-color: white;
-	position:relative;
-		left:30px;
-		top:160px;
+	.upper{
+		background-color:#198e70;
+		height:40%;
+		font-size:300%;
 		color:white;
-
+		display:inline-block;
+		width:100%;
+		text-align:center;
+		padding-top:10%;
 	}
-	.color{
-		background-color:008e70;
-		height:300px;
-		margin:	auto auto;
-		font-size:40px;
-		color:white;
-		text-align: center;
-		}
-		.color > p{
-			position:relative;
-			top:100px;
-		}
-		a{
-			color:white;
-			text-decoration: none;
-			font-size:10px;
-			display:inline;
-		}
-		.footer{
-			position:relative;
-			top:300px;
-			right:100px;
-			color:white;
-			display:inline;
-			
-		}
-	ul{
-		list-style:none;
-		position: relative;
-		top:400px;
-		color:white;
-		padding-bottom:40px;
-		border-bottom:1px solid white;
+	.lower{
+		height:60%;
+		background-color:#1da481;
 	}
-	li{
-		display:inline;
-		color:white;
-		margin:5px;
+	.card{
+		height:55%;
+		background-color:white;
+		display:inline-block;
+		position: absolute;
+		top:23%;
+		padding:0;
+		box-shadow:1px 1px 3px #888;
+		margin-left:8.33%;
+		word-wrap: break-word;
+		padding:3% 10%;
 	}
-		@media only screen and (max-width:600px){
-			.card2{
-				font-size:20px;
-			}
+	.main{
+		height:100%;
+		padding:0px;
+	}
+	.card > img{
+		position:relative;
+		top:50%;
+	}
+	@media only screen and (max-width:400px){
+		.upper{
+			font-size:20px;
 		}
-		@media only screen and (max-height:600px){
-			.card2{
-				height:150px;
-				position:relative;
-				left:15px;
-				top:50px;
-			}
-			.card1{
-				height:400px;
-			}
-			.color{
-				height:160px;
-				font-size:20px;
+		.card{
+			font-size:70%;
 		}
-			.color > p{
-				position:relative;
-				top:40px;
-			}
-		}
+		.card > img{
+		height:20px;
+		position:relative;
+		top:30%;
+	}
+	}
 	</style>
 </head>
 <body>
-	 <div class="fluid-container">
-      	<div class="col-xs-12 col-sm-10 col-md-8 col-lg-5 col-lg-offset-3 col-md-offset-2 col-sm-offset-1">
-	      	<div class="card1">
-				<div class="color">
-				 	<p>Humanize</p>
-					<div class="card2 col-lg-10 col-xs-9 col-sm-10">
-						text goes here
-					</div>
-				</div>
-				<ul>
-					<li><a>Our history</a></li>-
-					<li><a>Blog</a></li>-
-					<li><a>About</a></li>-
-					<li><a>Contact</a></li>
-				</ul>
-			</div>
-	    </div>
-    </div>
+	<div class="main col-lg-6 col-lg-offset-3 col-md-offset-2 col-xs-12 col-md-8 col-sm-12">
+		<div class="upper">
+		Humanize
+		</div>
+		<div class="card col-xs-10">
+		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent posuere eu diam ultricies ornare. Nunc fringilla maximus nulla, eget placerat tortor tincidunt ut. Suspendisse et nisi ornare, cursus leo sit amet, feugiat nunc. Integer fermentum et mauris vitae gravida
+		<br><a href="#" title="">Click here</a>
+		<img src="google-play-store.png" height="60px"alt="">
+		</div>
+		<div class="lower">	
+		</div>
+	</div>
 </body>
 </html>

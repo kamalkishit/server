@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.humanize.server.service.ImageService;
 
-
 @RestController
 public class ImageController {
 	

@@ -41,13 +41,14 @@ public class EmailServiceImpl implements EmailService{
 		mimeMessage = javaMailSender.createMimeMessage();
 		try {
 			
-			//send(message.getTo());
+			send(message.getTo());
+			/*
 			mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 			mimeMessageHelper.setTo(message.getTo());
 			mimeMessageHelper.setSubject(message.getSubject());
 			mimeMessageHelper.setText(message.getBody());
 			
-			javaMailSender.send(mimeMessage);
+			javaMailSender.send(mimeMessage);*/
 			
 		} catch(MessagingException exception) {
 			logger.error("", exception);
