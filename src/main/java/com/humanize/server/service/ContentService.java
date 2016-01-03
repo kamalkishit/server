@@ -15,10 +15,10 @@ public interface ContentService {
 	public Content update(Content content) throws ContentUpdationException;
 	public Contents findByCategories(List<String> categories, Long createdDate, boolean refresh) throws ContentNotFoundException;
 	public Contents findByIds(List<String> ids) throws ContentNotFoundException;
-	public Contents findBookmarks(List<String> bookmarkIds) throws Exception;
-	public Contents findRecommendations(List<String> recommendations) throws Exception;
+	public Contents findBookmarks(List<String> bookmarkIds) throws ContentNotFoundException;
+	public Contents findRecommendations(List<String> recommendations) throws ContentNotFoundException;
 	public boolean recommendArticle(String contentUrl) throws Exception;
-	public boolean updateRecommendationCount(String contentId, boolean flag) throws Exception;
-	public boolean incrViewedCount(String contentId) throws Exception;
-	public boolean incrSharedCount(String contentId) throws Exception;
+	public boolean updateRecommendationCount(String contentId, boolean flag) throws ContentUpdationException;
+	public boolean incrViewedCount(String contentId) throws ContentUpdationException;
+	public boolean incrSharedCount(String contentId) throws ContentUpdationException;
 }

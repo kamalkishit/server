@@ -86,7 +86,7 @@ public class InvitationCodeRepositoryServiceImpl implements InvitationCodeReposi
 		
 	}
 	
-	public void delete(InvitationCode invitationCode) {
+	public void delete(InvitationCode invitationCode) throws InvitationCodeDeletionException {
 		repository.delete(invitationCode);
 	}
 }

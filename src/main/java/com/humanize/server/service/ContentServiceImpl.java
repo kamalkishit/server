@@ -100,20 +100,12 @@ public class ContentServiceImpl implements ContentService {
 			return repositoryService.findByIds(ids);
 	}
 	
-	public Contents findBookmarks(List<String> bookmarkIds) throws Exception {
-		try {
+	public Contents findBookmarks(List<String> bookmarkIds) throws ContentNotFoundException {
 			return repositoryService.findByIds(bookmarkIds);
-		} catch (Exception exception) {
-			throw exception;
-		}
 	}
 	
-	public Contents findRecommendations(List<String> recommendations) throws Exception {
-		try {
+	public Contents findRecommendations(List<String> recommendations) throws ContentNotFoundException {
 			return repositoryService.findByIds(recommendations);
-		} catch (Exception exception) {
-			throw exception;
-		}
 	}
 	
 	public boolean recommendArticle(String contentUrl) throws Exception {
@@ -126,33 +118,46 @@ public class ContentServiceImpl implements ContentService {
 		}
 	}
 	
-	public boolean updateRecommendationCount(String contentId, boolean flag) throws Exception {
-		Content content = repositoryService.findOne(contentId);
-		
-		if (flag) {
-			content.setRecommendedCount(content.getRecommendedCount() + 1);
-		} else {
-			content.setRecommendedCount(content.getRecommendedCount() - 1);
+	public boolean updateRecommendationCount(String contentId, boolean flag) throws ContentUpdationException {
+		try {
+			Content content = repositoryService.findOne(contentId);
+			
+			if (flag) {
+				content.setRecommendedCount(content.getRecommendedCount() + 1);
+			} else {
+				content.setRecommendedCount(content.getRecommendedCount() - 1);
+			}
+			
+			content.setViewedCount(content.getViewedCount() + 1);
+			repositoryService.update(content);
+			return true;
+		} catch (ContentNotFoundException exception) {
+			throw new ContentUpdationException(0, null);
 		}
-		
-		content.setViewedCount(content.getViewedCount() + 1);
-		repositoryService.update(content);
-		return true;
 	}
 	
-	public boolean incrViewedCount(String contentId) throws Exception {
-		Content content = repositoryService.findOne(contentId);
-		content.setViewedCount(content.getViewedCount() + 1);
-		repositoryService.update(content);
-		return true;
+	public boolean incrViewedCount(String contentId) throws ContentUpdationException {
+		try {
+			Content content = repositoryService.findOne(contentId);
+			content.setViewedCount(content.getViewedCount() + 1);
+			repositoryService.update(content);
+			return true;
+		} catch (ContentNotFoundException exception) {
+			throw new ContentUpdationException(0, null);
+		}
 	}
 	
-	public boolean incrSharedCount(String contentId) throws Exception {
-		Content content = repositoryService.findOne(contentId);
-		content.setSharedCount(content.getSharedCount() + 1);
-		content.setViewedCount(content.getViewedCount() + 1);
-		repositoryService.update(content);
-		return true;
+	public boolean incrSharedCount(String contentId) throws ContentUpdationException {
+		try {
+			
+			Content content = repositoryService.findOne(contentId);
+			content.setSharedCount(content.getSharedCount() + 1);
+			content.setViewedCount(content.getViewedCount() + 1);
+			repositoryService.update(content);
+			return true;
+		} catch (ContentNotFoundException exception) {
+			throw new ContentUpdationException(0, null);
+		}
 	}
 
 /*

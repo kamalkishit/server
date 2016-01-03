@@ -45,8 +45,6 @@ public class Content {
 	@NotEmpty
 	private String category;
 
-	private ArrayList<String> subCategories;
-
 	private String videoURL;
 
 	private int recommendedCount;
@@ -66,7 +64,6 @@ public class Content {
 	private long lastModifiedDate;
 	
 	public Content() {
-		this.subCategories = new ArrayList<String>();
 	}
 
 	public String getId() {
@@ -155,14 +152,6 @@ public class Content {
 
 	public void setCategory(String category) {
 		this.category = category;
-	}
-
-	public ArrayList<String> getSubCategories() {
-		return subCategories;
-	}
-
-	public void setSubCategories(ArrayList<String> subCategories) {
-		this.subCategories = subCategories;
 	}
 
 	public String getVideoURL() {

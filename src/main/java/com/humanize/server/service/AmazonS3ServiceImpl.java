@@ -18,8 +18,8 @@ import com.amazonaws.services.s3.model.S3Object;
 import com.humanize.server.AmazonS3Properties;
 import com.humanize.server.common.ExceptionConfig;
 import com.humanize.server.content.data.Content;
-import com.humanize.server.exception.AmazonS3ImageCreationException;
-import com.humanize.server.exception.AmazonS3ImageNotFoundException;
+import com.humanize.server.exception.S3ImageCreationException;
+import com.humanize.server.exception.S3ImageNotFoundException;
 
 @Service
 public class AmazonS3ServiceImpl implements AmazonS3Service {
@@ -35,7 +35,7 @@ public class AmazonS3ServiceImpl implements AmazonS3Service {
 		s3Client = new AmazonS3Client(new BasicAWSCredentials("AKIAILGFWMFKMZVXRGIQ", "mcftDmizMAGfPL9vdEmP7G9Zl1wBvAnCcPJGpFmu"));
 	}
 	
-	public void putImage(Content content) throws AmazonS3ImageCreationException {
+	public void putImage(Content content) throws S3ImageCreationException {
 		try {
 			String key = content.getImageURL();
 			File file = new File("/root/images/" + key);
@@ -43,33 +43,33 @@ public class AmazonS3ServiceImpl implements AmazonS3Service {
 			s3Client.putObject(new PutObjectRequest("com-humanize-images", key, file));
 		} catch (AmazonServiceException exception) {
 			logger.error(exception.toString());
-			throw new AmazonS3ImageCreationException(ExceptionConfig.AMAZON_S3_IMAGE_CREATION_ERROR_CODE, ExceptionConfig.AMAZON_S3_IMAGE_CREATION_EXCEPTION);
+			throw new S3ImageCreationException(ExceptionConfig.AMAZON_S3_IMAGE_CREATION_ERROR_CODE, ExceptionConfig.AMAZON_S3_IMAGE_CREATION_EXCEPTION);
 		} catch (AmazonClientException exception) {
 			logger.error(exception.toString());
-			throw new AmazonS3ImageCreationException(ExceptionConfig.AMAZON_S3_IMAGE_CREATION_ERROR_CODE, ExceptionConfig.AMAZON_S3_IMAGE_CREATION_EXCEPTION);
+			throw new S3ImageCreationException(ExceptionConfig.AMAZON_S3_IMAGE_CREATION_ERROR_CODE, ExceptionConfig.AMAZON_S3_IMAGE_CREATION_EXCEPTION);
 		}
 	}
 	
-	public void getImage(Content content) throws AmazonS3ImageNotFoundException {
+	public void getImage(Content content) throws S3ImageNotFoundException {
 		try {
 			S3Object s3Object = s3Client.getObject("com-humanize-images", content.getImageURL());
 		} catch (AmazonServiceException exception) {
 			logger.error(exception.toString());
-			throw new AmazonS3ImageNotFoundException(ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_ERROR_CODE, ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_EXCEPTION);
+			throw new S3ImageNotFoundException(ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_ERROR_CODE, ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_EXCEPTION);
 		} catch (AmazonClientException exception) {
 			logger.error(exception.toString());
-			throw new AmazonS3ImageNotFoundException(ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_ERROR_CODE, ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_EXCEPTION);
+			throw new S3ImageNotFoundException(ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_ERROR_CODE, ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_EXCEPTION);
 		}
 	}
 	
-	public InputStream getImage(String imageName) throws AmazonS3ImageNotFoundException {
+	public InputStream getImage(String imageName) throws S3ImageNotFoundException {
 		S3Object s3Object = null;
 		
 		try {
 			s3Object = s3Client.getObject("com-humanize-images", imageName);
 		} catch (Exception exception) {
 			logger.error("", exception);
-			throw new AmazonS3ImageNotFoundException(ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_ERROR_CODE, ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_EXCEPTION);
+			throw new S3ImageNotFoundException(ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_ERROR_CODE, ExceptionConfig.AMAZON_S3_IMAGE_NOT_FOUND_EXCEPTION);
 		}
 		
 		return s3Object.getObjectContent();

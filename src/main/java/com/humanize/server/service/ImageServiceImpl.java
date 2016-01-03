@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 
+import com.humanize.server.common.ExceptionConfig;
 import com.humanize.server.config.Config;
+import com.humanize.server.exception.ImageNotFoundException;
 
 @Service
 public class ImageServiceImpl implements ImageService {
@@ -22,7 +24,7 @@ public class ImageServiceImpl implements ImageService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public InputStream getImage(String imageName) throws Exception {
+	public InputStream getImage(String imageName) throws ImageNotFoundException {
 		try {
 			FileSystemResource imageResource = new FileSystemResource(Config.IMAGE_FOLDER + imageName);
 			return imageResource.getInputStream();
@@ -43,8 +45,7 @@ public class ImageServiceImpl implements ImageService {
 				return inputStream;
 			} catch (Exception e) {
 				logger.error("", e);
-				throw e;
-				//throw new ImageNotFoundException(ExceptionConfig.IMAGE_NOT_FOUND_ERROR_CODE, ExceptionConfig.IMAGE_NOT_FOUND_EXCEPTION);
+				throw new ImageNotFoundException(0, null);
 			}
 		}
 	}

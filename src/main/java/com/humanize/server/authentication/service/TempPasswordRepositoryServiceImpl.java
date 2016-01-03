@@ -93,7 +93,7 @@ public class TempPasswordRepositoryServiceImpl implements TempPasswordRepository
 		
 	}
 	
-	public void delete(TempPassword tempPassword) {
+	public void delete(TempPassword tempPassword) throws TempPasswordDeletionException {
 		repository.delete(tempPassword);
 	}
 }

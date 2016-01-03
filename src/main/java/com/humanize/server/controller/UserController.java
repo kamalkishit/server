@@ -12,12 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.humanize.server.authentication.exception.PasswordResetFailedException;
 import com.humanize.server.authentication.exception.TempPasswordSendingFailedException;
-import com.humanize.server.authentication.exception.UserCreationFailedException;
+import com.humanize.server.authentication.exception.UserCreationException;
 import com.humanize.server.authentication.exception.UserDataNotFoundException;
-import com.humanize.server.authentication.exception.UserInvitationFailedException;
-import com.humanize.server.authentication.exception.UserLoginFailedException;
-import com.humanize.server.authentication.exception.UserLogoutFailedException;
-import com.humanize.server.authentication.exception.UserUpdationFailedException;
+import com.humanize.server.authentication.exception.UserInvitationException;
+import com.humanize.server.authentication.exception.UserLogoutException;
+import com.humanize.server.authentication.exception.UserNotFoundException;
+import com.humanize.server.authentication.exception.UserUpdationException;
 import com.humanize.server.authentication.exception.UserVerificationFailedException;
 import com.humanize.server.authentication.exception.VerificationCodeSendingFailedException;
 import com.humanize.server.data.LoginUser;
@@ -33,18 +33,12 @@ public class UserController {
 	private UserService userService;
 	
 	@RequestMapping("/users/signup")
-	public ResponseEntity<User> signup(@RequestBody SignupUser signupUser) throws UserCreationFailedException {
+	public ResponseEntity<User> signup(@RequestBody SignupUser signupUser) throws UserCreationException {
 		return new ResponseEntity<User>(userService.signup(signupUser), HttpStatus.OK);
-	}
-	
-	@RequestMapping("/users/verify")
-	public ResponseEntity<Boolean> verifyUser(@RequestParam("emailId") @NotEmpty @Email String emailId, @RequestParam("verificationCode") @NotEmpty String verificationCode) 
-		throws UserVerificationFailedException {
-		return new ResponseEntity<Boolean>(userService.verifyUser(emailId, verificationCode), HttpStatus.OK);
 	}
 
 	@RequestMapping("/users/login")
-	public ResponseEntity<User> login(@RequestBody LoginUser loginUser) throws UserLoginFailedException {
+	public ResponseEntity<User> login(@RequestBody LoginUser loginUser) throws UserNotFoundException {
 		return new ResponseEntity<User>(userService.login(loginUser), HttpStatus.OK);
 	}
 	
@@ -64,32 +58,39 @@ public class UserController {
 	}
 	
 	@RequestMapping("/users/logout")
-	public ResponseEntity<Boolean> logout(@RequestBody User user) throws UserLogoutFailedException {
+	public ResponseEntity<Boolean> logout(@RequestBody User user) throws UserLogoutException {
 		return new ResponseEntity<Boolean>(userService.logout(user), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/users/invite")
-	public ResponseEntity<Boolean> inviteUser(@RequestParam("emailId") @NotEmpty @Email String emailId) throws UserInvitationFailedException {
+	public ResponseEntity<Boolean> inviteUser(@RequestParam("emailId") @NotEmpty @Email String emailId) throws UserInvitationException {
 		return new ResponseEntity<Boolean>(userService.inviteUser(emailId), HttpStatus.OK);
 	}
 
 	@RequestMapping("/users/data")
-	public ResponseEntity<User> userdata(@RequestParam("emailId") @NotEmpty @Email String emailId) throws UserDataNotFoundException {
+	public ResponseEntity<User> userdata(@RequestParam("emailId") @NotEmpty @Email String emailId) throws UserNotFoundException {
 		return new ResponseEntity<User>(userService.getUserdata(emailId), HttpStatus.OK);
 	}
 
 	@RequestMapping("/users/update")
-	public ResponseEntity<User> updateUser(@RequestBody User user) throws UserUpdationFailedException {
+	public ResponseEntity<User> updateUser(@RequestBody User user) throws UserUpdationException {
 		return new ResponseEntity<User>(userService.updateUser(user), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/users/recommend")
-	public ResponseEntity<Boolean> recommend(@RequestParam("userId") @NotEmpty String userId, @RequestParam("contentId") @NotEmpty String contentId, @RequestParam("flag") boolean flag) throws Exception {
+	public ResponseEntity<Boolean> recommend(@RequestParam("userId") @NotEmpty String userId, @RequestParam("contentId") @NotEmpty String contentId, @RequestParam("flag") boolean flag) throws UserUpdationException {
 		return new ResponseEntity<Boolean>(userService.recommend(userId, contentId, flag), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/users/bookmark")
-	public ResponseEntity<Boolean> bookmark(@RequestParam("userId") @NotEmpty String userId, @RequestParam("contentId") @NotEmpty String contentId, @RequestParam("flag") boolean flag) throws Exception {
+	public ResponseEntity<Boolean> bookmark(@RequestParam("userId") @NotEmpty String userId, @RequestParam("contentId") @NotEmpty String contentId, @RequestParam("flag") boolean flag) throws UserUpdationException {
 		return new ResponseEntity<Boolean>(userService.bookmark(userId, contentId, flag), HttpStatus.OK);
+	}
+	
+	// TBD: to be removed (??)
+	@RequestMapping("/users/verify")
+	public ResponseEntity<Boolean> verifyUser(@RequestParam("emailId") @NotEmpty @Email String emailId, @RequestParam("verificationCode") @NotEmpty String verificationCode) 
+		throws UserVerificationFailedException {
+		return new ResponseEntity<Boolean>(userService.verifyUser(emailId, verificationCode), HttpStatus.OK);
 	}
 }

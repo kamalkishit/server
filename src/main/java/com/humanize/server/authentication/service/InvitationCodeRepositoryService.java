@@ -13,5 +13,5 @@ public interface InvitationCodeRepositoryService {
 	public InvitationCode update(InvitationCode invitationCode) throws InvitationCodeUpdationException;
 	public InvitationCode findByEmailId(String emailId) throws InvitationCodeNotFoundException;
 	public void delete(String emailId) throws InvitationCodeDeletionException;
-	public void delete(InvitationCode invitationCode);
+	public void delete(InvitationCode invitationCode) throws InvitationCodeDeletionException;
 }

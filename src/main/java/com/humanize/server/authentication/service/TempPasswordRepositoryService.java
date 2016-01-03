@@ -13,5 +13,5 @@ public interface TempPasswordRepositoryService {
 	public TempPassword update(TempPassword tempPassword) throws TempPasswordUpdationException;
 	public TempPassword findByEmailId(String emailId) throws TempPasswordNotFoundException;
 	public void delete(String emailId) throws TempPasswordDeletionException;
-	public void delete(TempPassword tempPassword);
+	public void delete(TempPassword tempPassword) throws TempPasswordDeletionException;
 }

@@ -20,6 +20,6 @@ public class MongoConfig extends AbstractMongoConfiguration {
 
 	@Override
 	protected String getDatabaseName() {
-		return "mydb";
+		return "humanize";
 	}
 }

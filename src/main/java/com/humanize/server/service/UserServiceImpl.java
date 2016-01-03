@@ -12,11 +12,11 @@ import com.humanize.server.authentication.data.TempPassword;
 import com.humanize.server.authentication.exception.InvitationCodeDeletionException;
 import com.humanize.server.authentication.exception.PasswordResetFailedException;
 import com.humanize.server.authentication.exception.TempPasswordSendingFailedException;
-import com.humanize.server.authentication.exception.UserCreationFailedException;
+import com.humanize.server.authentication.exception.UserCreationException;
 import com.humanize.server.authentication.exception.UserDataNotFoundException;
-import com.humanize.server.authentication.exception.UserInvitationFailedException;
-import com.humanize.server.authentication.exception.UserLoginFailedException;
-import com.humanize.server.authentication.exception.UserUpdationFailedException;
+import com.humanize.server.authentication.exception.UserInvitationException;
+import com.humanize.server.authentication.exception.UserNotFoundException;
+import com.humanize.server.authentication.exception.UserUpdationException;
 import com.humanize.server.authentication.exception.UserValidationFailedException;
 import com.humanize.server.authentication.exception.UserVerificationFailedException;
 import com.humanize.server.authentication.exception.VerificationCodeDeletionException;
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public User login(LoginUser loginUser) throws UserLoginFailedException {
+	public User login(LoginUser loginUser) throws UserNotFoundException {
 		try {
 			User user = repositoryService.findByEmailId(loginUser.getEmailId());
 			
@@ -68,9 +68,9 @@ public class UserServiceImpl implements UserService {
 				return user;
 			}
 			
-			throw new UserValidationFailedException(0, null);
+			throw new UserNotFoundException(0, null);
 		} catch (Exception exception) {
-			throw new UserLoginFailedException(0, null);
+			throw new UserNotFoundException(0, null);
 		}
 	}
 	
@@ -102,19 +102,19 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
 
-	public User getUserdata(String emailId) throws UserDataNotFoundException {
+	public User getUserdata(String emailId) throws UserNotFoundException {
 		try {
 			return repositoryService.findByEmailId(emailId);
 		} catch (Exception exception) {
-			throw new UserDataNotFoundException(0, null);
+			throw new UserNotFoundException(0, null);
 		}
 	}
 
-	public User updateUser(User user) throws UserUpdationFailedException {
+	public User updateUser(User user) throws UserUpdationException {
 		return repositoryService.update(user);
 	}
 
-	public User signup(SignupUser signupUser) throws UserCreationFailedException {
+	public User signup(SignupUser signupUser) throws UserCreationException {
 		try {
 			invitationCodeService.validateInvitationCode(signupUser.getEmailId(), signupUser.getInvitationCode());
 			User user = new User();
@@ -128,22 +128,22 @@ public class UserServiceImpl implements UserService {
 			return user;
 		} catch (InvitationCodeDeletionException exception) {
 			logger.error("", exception);
-			throw new UserCreationFailedException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
-		} catch (UserCreationFailedException exception) {
+			throw new UserCreationException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
+		} catch (UserCreationException exception) {
 			logger.error("", exception);
 			throw exception;
 		} catch (Exception exception) {
 			logger.error("", exception);
-			throw new UserCreationFailedException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
+			throw new UserCreationException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
 		} 
 	}
 	
-	public boolean inviteUser(String emailId) throws UserInvitationFailedException {
+	public boolean inviteUser(String emailId) throws UserInvitationException {
 		try {
 			return invitationCodeService.sendInvitationCode(emailId);
 		} catch (Exception exception) {
 			logger.error("", exception);
-			throw new UserInvitationFailedException(ExceptionConfig.USER_INVITATION_FAILED_ERROR_CODE, ExceptionConfig.USER_INVITATION_FAILED_EXCEPTION);
+			throw new UserInvitationException(ExceptionConfig.USER_INVITATION_FAILED_ERROR_CODE, ExceptionConfig.USER_INVITATION_FAILED_EXCEPTION);
 		}
 		
 	}
@@ -165,33 +165,43 @@ public class UserServiceImpl implements UserService {
 		return true;
 	}
 	
-	public boolean recommend(String userId, String contentId, boolean flag) throws Exception {
-		User user = repositoryService.findOne(userId);
-		List<String> recommendedContents = user.getRecommended();
-		
-		if (flag) {
-			recommendedContents.add(contentId);
-		} else {
-			recommendedContents.remove(contentId);
+	public boolean recommend(String userId, String contentId, boolean flag) throws UserUpdationException {
+		try {
+			User user = repositoryService.findOne(userId);
+			List<String> recommendedContents = user.getRecommended();
+			
+			if (flag) {
+				recommendedContents.add(contentId);
+			} else {
+				recommendedContents.remove(contentId);
+			}
+			
+			user.setRecommended(recommendedContents);
+			repositoryService.update(user);
+			return true;
+		} catch (UserNotFoundException exception) {
+			throw new UserUpdationException(0, null);
+		} catch (Exception exception) {
+			throw new UserUpdationException(0, null);
 		}
-		
-		user.setRecommended(recommendedContents);
-		repositoryService.update(user);
-		return true;
 	}
 	
-	public boolean bookmark(String userId, String contentId, boolean flag) throws Exception {
-		User user = repositoryService.findOne(userId);
-		List<String> bookmarkedContents = user.getBookmarked();
-		
-		if (flag) {
-			bookmarkedContents.add(contentId);
-		} else {
-			bookmarkedContents.remove(contentId);
+	public boolean bookmark(String userId, String contentId, boolean flag) throws UserUpdationException {
+		try {
+			User user = repositoryService.findOne(userId);
+			List<String> bookmarkedContents = user.getBookmarked();
+			
+			if (flag) {
+				bookmarkedContents.add(contentId);
+			} else {
+				bookmarkedContents.remove(contentId);
+			}
+			
+			user.setBookmarked(bookmarkedContents); 
+			repositoryService.update(user);
+			return true;
+		} catch (UserNotFoundException exception) {
+			throw new UserUpdationException(0, null);
 		}
-		
-		user.setBookmarked(bookmarkedContents); 
-		repositoryService.update(user);
-		return true;
 	}
 }
