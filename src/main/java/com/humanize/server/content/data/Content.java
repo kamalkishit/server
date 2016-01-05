@@ -15,7 +15,7 @@ public class Content {
 
 	// business id
 	@Indexed(unique = true)
-	private String contentId;
+	private long contentId;
 
 	@Indexed(unique = true)
 	@NotEmpty
@@ -72,11 +72,11 @@ public class Content {
 		this.id = id;
 	}
 
-	public String getContentId() {
+	public long getContentId() {
 		return contentId;
 	}
 
-	public void setContentId(String contentId) {
+	public void setContentId(long contentId) {
 		this.contentId = contentId;
 	}
 

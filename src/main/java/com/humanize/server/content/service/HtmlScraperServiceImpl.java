@@ -29,7 +29,7 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 		try {
 			createConnection(content.getUrl());
 			content.setUserId("pandey.kishore@gmail.com");
-			//content.setContentId(new Timestamp(new Date().getTime()).getTime());
+			content.setContentId(new Timestamp(new Date().getTime()).getTime());
 			content.setTitle(scrapTitle());
 			content.setDescription(scrapDescription());
 			content.setSource(scrapSource());
