@@ -37,14 +37,14 @@ public class EmailServiceImpl implements EmailService{
 		mimeMessage = javaMailSender.createMimeMessage();
 		try {
 			
-			//send(message.getTo());
-			
+			send(message.getTo());
+			/*
 			mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 			mimeMessageHelper.setTo(message.getTo());
 			mimeMessageHelper.setSubject(message.getSubject());
 			mimeMessageHelper.setText(message.getBody());
 			
-			javaMailSender.send(mimeMessage);
+			javaMailSender.send(mimeMessage);*/
 			
 		} catch(MessagingException exception) {
 			logger.error("", exception);
@@ -59,7 +59,7 @@ public class EmailServiceImpl implements EmailService{
 	
 	private void send(String emailId) throws Exception {
 		mimeMessage = javaMailSender.createMimeMessage();
-	  Template template = velocityEngine.getTemplate("./invitecode.vm");
+	  Template template = velocityEngine.getTemplate("./template.vm");
 	
 	  VelocityContext velocityContext = new VelocityContext();
 	   
@@ -69,7 +69,7 @@ public class EmailServiceImpl implements EmailService{
 	  
 	  mimeMessage.setFrom(new InternetAddress("kamal@humannize.com"));
 	  mimeMessage.setRecipients(javax.mail.Message.RecipientType.TO, emailId);
-	  mimeMessage.setSubject("Welcome to Triplived, a platform to share and relive memorable travel experiences");
+	  mimeMessage.setSubject("asdgasdgasgasdga platform to share and relive memorable travel experiences");
 	  
 	  mimeMessage.setText(stringWriter.toString());
 	  mimeMessage.setContent(stringWriter.toString(), "text/html");

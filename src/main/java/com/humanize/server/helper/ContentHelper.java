@@ -19,7 +19,7 @@ public class ContentHelper {
 
 		while (iterator.hasNext()) {
 			Content content = iterator.next();
-			ids.add(content.getContentId());
+			//ids.add(content.getContentId());
 		}
 
 		return ids;
