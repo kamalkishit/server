@@ -24,7 +24,6 @@ import com.humanize.server.authentication.service.InvitationCodeService;
 import com.humanize.server.authentication.service.TempPasswordRepositoryService;
 import com.humanize.server.authentication.service.TempPasswordService;
 import com.humanize.server.authentication.service.UserRepositoryService;
-import com.humanize.server.authentication.service.VerificationCodeService;
 import com.humanize.server.common.ExceptionConfig;
 import com.humanize.server.data.LoginUser;
 import com.humanize.server.data.ResetPasswordUser;
@@ -40,9 +39,6 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private InvitationCodeRepositoryService invitationCodeRepositoryService;
-	
-	@Autowired
-	VerificationCodeService verificationCodeService;
 	
 	@Autowired
 	InvitationCodeService invitationCodeService;

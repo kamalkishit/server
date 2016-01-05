@@ -1,11 +1,13 @@
 package com.humanize.server.data;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class ResetPasswordUser {
 	
+	@Email
 	private String emailId;
 	private String tempPassword;
 	private String newPassword;

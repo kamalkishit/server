@@ -1,14 +1,11 @@
 package com.humanize.server.service;
 
-import com.humanize.server.authentication.exception.ResetPasswordException;
 import com.humanize.server.authentication.exception.ForgotPasswordException;
+import com.humanize.server.authentication.exception.ResetPasswordException;
 import com.humanize.server.authentication.exception.UserCreationException;
-import com.humanize.server.authentication.exception.UserDataNotFoundException;
 import com.humanize.server.authentication.exception.UserInvitationException;
 import com.humanize.server.authentication.exception.UserNotFoundException;
 import com.humanize.server.authentication.exception.UserUpdationException;
-import com.humanize.server.authentication.exception.UserVerificationFailedException;
-import com.humanize.server.authentication.exception.VerificationCodeSendingFailedException;
 import com.humanize.server.data.LoginUser;
 import com.humanize.server.data.ResetPasswordUser;
 import com.humanize.server.data.SignupUser;

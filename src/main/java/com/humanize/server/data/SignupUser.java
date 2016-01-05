@@ -1,11 +1,13 @@
 package com.humanize.server.data;
 
+import org.hibernate.validator.constraints.Email;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
 public class SignupUser {
 	
+	@Email
 	private String emailId;
 	private String invitationCode;
 	private String password;
