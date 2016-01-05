@@ -12,10 +12,10 @@ import com.humanize.server.content.data.Contents;
 @Component
 public class ContentHelper {
 
-	public List<String> getIds(Contents contents) {
+	public List<Long> getIds(Contents contents) {
 
 		Iterator<Content> iterator = contents.getContents().iterator();
-		List<String> ids = new ArrayList<String>();
+		List<Long> ids = new ArrayList<>();
 
 		while (iterator.hasNext()) {
 			Content content = iterator.next();

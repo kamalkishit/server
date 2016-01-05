@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.humanize.server.Message;
 import com.humanize.server.authentication.data.InvitationCode;
 import com.humanize.server.authentication.exception.InvitationCodeSendingException;
-import com.humanize.server.authentication.exception.InvitationCodeValidationFailedException;
+import com.humanize.server.authentication.exception.InvitationCodeValidationException;
 
 @Service
 public class InvitationCodeServiceImpl implements InvitationCodeService {
@@ -41,7 +41,7 @@ public class InvitationCodeServiceImpl implements InvitationCodeService {
 		}
 	}
 	
-	public boolean validateInvitationCode(String emailId, String invitationCodeStr) throws InvitationCodeValidationFailedException {
+	public boolean validateInvitationCode(String emailId, String invitationCodeStr) throws InvitationCodeValidationException {
 		try {
 			InvitationCode invitationCode = repositoryService.findByEmailId(emailId);
 			
@@ -52,7 +52,7 @@ public class InvitationCodeServiceImpl implements InvitationCodeService {
 			}
 		} catch (Exception exception) {
 			logger.error("", exception);
-			throw new InvitationCodeValidationFailedException(0, null);
+			throw new InvitationCodeValidationException(0, null);
 		}
 	}
 }

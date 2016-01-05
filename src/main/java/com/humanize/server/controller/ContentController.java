@@ -51,12 +51,12 @@ public class ContentController {
 	}
 	
 	@RequestMapping("/bookmarks/find")
-	public ResponseEntity<Contents> findBookmarks(@RequestParam("bookmarkIds") List<String> bookmarkIds) throws Exception {
+	public ResponseEntity<Contents> findBookmarks(@RequestParam("bookmarkIds") List<String> bookmarkIds) throws ContentNotFoundException {
 		return new ResponseEntity<Contents>(contentService.findBookmarks(bookmarkIds), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/recommendations/find")
-	public ResponseEntity<Contents> findRecommendations(@RequestParam("recommendationIds") List<String> recommendationIds) throws Exception {
+	public ResponseEntity<Contents> findRecommendations(@RequestParam("recommendationIds") List<String> recommendationIds) throws ContentNotFoundException {
 		return new ResponseEntity<Contents>(contentService.findRecommendations(recommendationIds), HttpStatus.OK);
 	}
 	
@@ -71,12 +71,12 @@ public class ContentController {
 	}
 	
 	@RequestMapping("/content/viewed")
-	public ResponseEntity<Boolean> viewed(@RequestParam("contentId") @NotEmpty String contentId) throws Exception {
+	public ResponseEntity<Boolean> viewed(@RequestParam("contentId") @NotEmpty String contentId) throws ContentUpdationException {
 		return new ResponseEntity<Boolean>(contentService.incrViewedCount(contentId), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/content/shared")
-	public ResponseEntity<Boolean> shared(@RequestParam("contentId") @NotEmpty String contentId) throws Exception {
+	public ResponseEntity<Boolean> shared(@RequestParam("contentId") @NotEmpty String contentId) throws ContentUpdationException {
 		return new ResponseEntity<Boolean>(contentService.incrSharedCount(contentId), HttpStatus.OK);
 	}
 }

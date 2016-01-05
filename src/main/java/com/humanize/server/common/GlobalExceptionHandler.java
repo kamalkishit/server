@@ -1,36 +1,6 @@
 package com.humanize.server.common;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-
-import com.humanize.server.authentication.exception.InvitationCodeCreationException;
-import com.humanize.server.authentication.exception.InvitationCodeDeletionException;
-import com.humanize.server.authentication.exception.InvitationCodeNotFoundException;
-import com.humanize.server.authentication.exception.InvitationCodeUpdationException;
-import com.humanize.server.authentication.exception.NullPasswordException;
-import com.humanize.server.authentication.exception.NullTempPasswordException;
-import com.humanize.server.authentication.exception.NullUserException;
-import com.humanize.server.authentication.exception.NullVerificationCodeException;
-import com.humanize.server.authentication.exception.UserDeletionException;
-import com.humanize.server.authentication.exception.UserInvitationException;
-import com.humanize.server.authentication.exception.UserNotFoundException;
-import com.humanize.server.authentication.exception.UserUpdationException;
-import com.humanize.server.authentication.exception.VerificationCodeCreationException;
-import com.humanize.server.authentication.exception.VerificationCodeDeletionException;
-import com.humanize.server.authentication.exception.VerificationCodeNotFoundException;
-import com.humanize.server.authentication.exception.VerificationCodeUpdationException;
-import com.humanize.server.authentication.exception.WrongEmailIdException;
-import com.humanize.server.authentication.exception.WrongInvitationCodeException;
-import com.humanize.server.authentication.exception.WrongPasswordException;
-import com.humanize.server.authentication.exception.WrongTempPasswordException;
-import com.humanize.server.authentication.exception.WrongVerificationCodeException;
-import com.humanize.server.content.exception.ContentCreationException;
-import com.humanize.server.content.exception.ContentDeletionException;
-import com.humanize.server.content.exception.ContentNotFoundException;
-import com.humanize.server.content.exception.ContentUpdationException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

@@ -1,6 +1,8 @@
 package com.humanize.server;
 
 import java.io.InputStream;
+import java.sql.Timestamp;
+import java.sql.Date;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +25,23 @@ public class ImageController {
 	@RequestMapping(value = "/images", method = RequestMethod.GET, 
 			headers="Accept=image/jpeg, image/jpg, image/png", produces = "image/jpeg")
 	public ResponseEntity<InputStreamResource> getImage(@RequestParam("imageName") @NotEmpty String imageName) throws Exception {
+		java.util.Date date= new java.util.Date();
+		System.out.println("timestamp: kamal");
+		System.out.println(new Timestamp(date.getTime()).getTime());
 		InputStream inputStream = imageService.getImage(imageName);
+		
+
 		
 	    return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/jpeg"))
 	            .body(new InputStreamResource(inputStream));
 	}
+	
+	/*@RequestMapping(value = "/images", method = RequestMethod.GET, 
+			headers="Accept=image/jpeg, image/jpg, image/png", produces = "image/jpeg")
+	public ResponseEntity<File> getImage(@RequestParam("imageName") @NotEmpty String imageName) throws Exception {
+		InputStream inputStream = imageService.getImage(imageName);
+		
+	    return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/jpeg"))
+	            .body(new File(inputStream));
+	}*/
 }

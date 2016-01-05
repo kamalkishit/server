@@ -1,10 +1,7 @@
 package com.humanize.server.data;
 
-import java.sql.Time;
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -19,7 +16,7 @@ public class User {
 	private String id;
 
 	@Indexed(unique = true)
-	private String userId;
+	private long userId;
 
 	@Indexed(unique = true)
 	private String emailId;
@@ -36,7 +33,7 @@ public class User {
 
 	private List<String> created;
 	
-	private long paperConfigurationTime; 
+	private PaperTime paperTime; 
 	
 	private boolean isVerified;
 	
@@ -54,9 +51,22 @@ public class User {
 		this.recommended = new ArrayList<>();
 		this.bookmarked = new ArrayList<>();
 		this.created = new ArrayList<>();
-		//this.paperReminderTime = new Time(8, 0, 0);
+		this.paperTime = new PaperTime(8, 0);
 		this.typeOfArticles = new ArrayList<>();
 		this.categories = new ArrayList<>();
+		
+		this.categories.add("Achievers");
+		this.categories.add("Beautiful");
+		this.categories.add("Education");
+		this.categories.add("Empowerment");
+		this.categories.add("Environment");
+		this.categories.add("Governance");
+		this.categories.add("Health");
+		this.categories.add("Humanity");
+		this.categories.add("Real Heroes");
+		this.categories.add("Science and Tech");
+		this.categories.add("Law and Justice");
+		this.categories.add("Sports");
 	}
 	
 	public String getId() {
@@ -67,11 +77,11 @@ public class User {
 		this.id = id;
 	}
 
-	public String getUserId() {
+	public long getUserId() {
 		return userId;
 	}
 
-	public void setUserId(String userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 
@@ -131,12 +141,12 @@ public class User {
 		this.created = created;
 	}
 
-	public long getPaperConfigurationTime() {
-		return paperConfigurationTime;
+	public PaperTime getPaperTime() {
+		return paperTime;
 	}
 
-	public void setPaperConfigurationTime(long paperConfigurationTime) {
-		this.paperConfigurationTime = paperConfigurationTime;
+	public void setPaperTime(PaperTime paperTime) {
+		this.paperTime = paperTime;
 	}
 
 	public long getCreatedDate() {

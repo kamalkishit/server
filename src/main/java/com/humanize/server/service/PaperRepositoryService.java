@@ -7,7 +7,7 @@ import com.humanize.server.exception.PaperUpdationException;
 
 public interface PaperRepositoryService {
 	
-	public Paper create(Paper paper) throws PaperCreationException;
-	public Paper update(Paper paper) throws PaperUpdationException;
-	public Paper findByDate(String paperDate) throws PaperNotFoundException;
+	Paper create(Paper paper) throws PaperCreationException;
+	Paper update(Paper paper) throws PaperUpdationException;
+	Paper findByDate(String paperDate) throws PaperNotFoundException;
 }

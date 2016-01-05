@@ -1,8 +1,9 @@
 package com.humanize.server.content.service;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -28,7 +29,7 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 		try {
 			createConnection(content.getUrl());
 			content.setUserId("pandey.kishore@gmail.com");
-			content.setContentId(UUID.randomUUID().toString());
+			content.setContentId(new Timestamp(new Date().getTime()).getTime());
 			content.setTitle(scrapTitle());
 			content.setDescription(scrapDescription());
 			content.setSource(scrapSource());

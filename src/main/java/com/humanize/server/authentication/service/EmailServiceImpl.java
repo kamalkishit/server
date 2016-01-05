@@ -1,11 +1,8 @@
 package com.humanize.server.authentication.service;
 
 import java.io.StringWriter;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.mail.MessagingException;
-import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -18,10 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import com.humanize.server.Message;
-import com.humanize.server.exception.SendEmailException;
+import com.humanize.server.exception.EmailSendingException;
 
 @Service
 public class EmailServiceImpl implements EmailService{
@@ -37,24 +33,25 @@ public class EmailServiceImpl implements EmailService{
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public boolean sendEmail(Message message) throws SendEmailException {
+	public boolean sendEmail(Message message) throws EmailSendingException {
 		mimeMessage = javaMailSender.createMimeMessage();
 		try {
 			
-			send(message.getTo());
-			/*
+			//send(message.getTo());
+			
 			mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 			mimeMessageHelper.setTo(message.getTo());
 			mimeMessageHelper.setSubject(message.getSubject());
 			mimeMessageHelper.setText(message.getBody());
 			
-			javaMailSender.send(mimeMessage);*/
+			javaMailSender.send(mimeMessage);
 			
 		} catch(MessagingException exception) {
 			logger.error("", exception);
-			throw new SendEmailException(0, null);
+			throw new EmailSendingException(0, null);
 		} catch (Exception exception) {
-			throw new SendEmailException(0, null);
+			exception.printStackTrace();
+			throw new EmailSendingException(0, null);
 		}
 		
 		return true;

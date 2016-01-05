@@ -1,7 +1,5 @@
 package com.humanize.server.content.data;
 
-import java.util.ArrayList;
-
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -17,7 +15,7 @@ public class Content {
 
 	// business id
 	@Indexed(unique = true)
-	private String contentId;
+	private long contentId;
 
 	@Indexed(unique = true)
 	@NotEmpty
@@ -74,11 +72,11 @@ public class Content {
 		this.id = id;
 	}
 
-	public String getContentId() {
+	public long getContentId() {
 		return contentId;
 	}
 
-	public void setContentId(String contentId) {
+	public void setContentId(long contentId) {
 		this.contentId = contentId;
 	}
 

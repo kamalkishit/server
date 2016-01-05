@@ -74,10 +74,8 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 		OutputStream outputStream = null;
 		
 		try {
-			inputStream = new BufferedInputStream(
-					urlConnection.getInputStream());
-			outputStream = new BufferedOutputStream(new FileOutputStream(
-					tempImageFilename));
+			inputStream = new BufferedInputStream(urlConnection.getInputStream());
+			outputStream = new BufferedOutputStream(new FileOutputStream(tempImageFilename));
 
 			for (int i; (i = inputStream.read()) != -1;) {
 				outputStream.write(i);

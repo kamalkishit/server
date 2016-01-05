@@ -1,6 +1,7 @@
 package com.humanize.server.service;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 
-import com.humanize.server.common.ExceptionConfig;
 import com.humanize.server.config.Config;
 import com.humanize.server.exception.ImageNotFoundException;
 
@@ -48,6 +48,10 @@ public class ImageServiceImpl implements ImageService {
 				throw new ImageNotFoundException(0, null);
 			}
 		}
+	}
+	
+	public File get(String imageName) {
+		return new File(Config.IMAGE_FOLDER + imageName);
 	}
 	
 	/*public void putImage(Image image) throws ImageCreationException {

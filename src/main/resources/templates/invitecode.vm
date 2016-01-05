@@ -1,16 +1,14 @@
-<!DOCTYPE html>
 <html>
 <head>
 	<title></title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 	<style type="text/css">
 	html,body{
 		height:100%;
 	}
 	.upper{
-		background-color:#198e70;
+		background-color:#1FA080;
 		height:40%;
 		font-size:300%;
 		color:white;
@@ -21,14 +19,14 @@
 	}
 	.lower{
 		height:60%;
-		background-color:#1da481;
+		background-color:#00BFA5;
 	}
 	.card{
-		height:55%;
+		height:40%;
 		background-color:white;
 		display:inline-block;
 		position: absolute;
-		top:23%;
+		top:24%;
 		padding:0;
 		box-shadow:1px 1px 3px #888;
 		margin-left:8.33%;
@@ -41,7 +39,7 @@
 	}
 	.card > img{
 		position:relative;
-		top:50%;
+		top:20%;
 	}
 	@media only screen and (max-width:400px){
 		.upper{
@@ -53,22 +51,41 @@
 		.card > img{
 		height:20px;
 		position:relative;
+		top:10%;
+	}
+	}
+	@media only screen and (max-width:600px){
+		.card > img{
+		height:40px;
+		position:relative;
 		top:30%;
 	}
 	}
 	</style>
 </head>
 <body>
-	<div class="main col-lg-6 col-lg-offset-3 col-md-offset-2 col-xs-12 col-md-8 col-sm-12">
+	<div class="main" style="height:100%;
+		padding:0px;">
 		<div class="upper">
 		Humanize
 		</div>
-		<div class="card col-xs-10">
+		<div class="card" style="height:40%;
+		background-color:white;
+		display:inline-block;
+		position: absolute;
+		top:24%;
+		padding:0;
+		box-shadow:1px 1px 3px #888;
+		margin-left:8.33%;
+		word-wrap: break-word;
+		padding:3% 10%;">
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent posuere eu diam ultricies ornare. Nunc fringilla maximus nulla, eget placerat tortor tincidunt ut. Suspendisse et nisi ornare, cursus leo sit amet, feugiat nunc. Integer fermentum et mauris vitae gravida
 		<br><a href="#" title="">Click here</a>
-		<img src="google-play-store.png" height="60px"alt="">
+		<img src="google-play-badge2.png" height="60px"alt="" style="position:relative;
+		top:20%;">
 		</div>
-		<div class="lower">	
+		<div class="lower" style="height:60%;
+		background-color:#00BFA5;">	
 		</div>
 	</div>
 </body>
