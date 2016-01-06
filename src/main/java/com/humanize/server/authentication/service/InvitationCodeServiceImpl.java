@@ -28,7 +28,7 @@ public class InvitationCodeServiceImpl implements InvitationCodeService {
 	public boolean sendInvitationCode(String emailId, String invitedBy) throws InvitationCodeSendingException {		
 		try {
 			String invitationCodeStr = randomStringGeneratorService.getInvitationCode();
-			String str = "http://www.humannize.com/invite?emailId=" + emailId + "&invitationCode=" + invitationCodeStr;
+			String str = "http://www.humannize.com/signup?emailId=" + emailId + "&invitationCode=" + invitationCodeStr;
 			emailService.sendEmail(new Message(emailId, "Invitation Code", str));
 			
 			InvitationCode invitationCodeObj = new InvitationCode(emailId, invitedBy, invitationCodeStr);
