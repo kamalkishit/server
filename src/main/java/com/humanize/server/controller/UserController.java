@@ -60,8 +60,8 @@ public class UserController {
 	}
 	
 	@RequestMapping("/users/invite")
-	public ResponseEntity<Boolean> inviteUser(@RequestParam("emailId") @NotEmpty @Email String emailId) throws UserInvitationException {
-		return new ResponseEntity<Boolean>(userService.inviteUser(emailId), HttpStatus.OK);
+	public ResponseEntity<Boolean> inviteUser(@RequestParam("emailId") @NotEmpty @Email String emailId, @RequestParam("invitedBy") @NotEmpty @Email String invitedBy) throws UserInvitationException {
+		return new ResponseEntity<Boolean>(userService.inviteUser(emailId, invitedBy), HttpStatus.OK);
 	}
 
 	@RequestMapping("/users/recommend")

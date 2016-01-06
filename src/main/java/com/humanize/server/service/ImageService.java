@@ -7,6 +7,6 @@ import com.humanize.server.exception.ImageNotFoundException;
 
 public interface ImageService {
 	
-	public InputStream getImage(String imageName) throws ImageNotFoundException;
-	public File get(String imageName);
+	InputStream getImage(String imageName) throws ImageNotFoundException;
+	File get(String imageName);
 }

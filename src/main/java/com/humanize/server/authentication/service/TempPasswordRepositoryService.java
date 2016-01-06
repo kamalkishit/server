@@ -8,10 +8,10 @@ import com.humanize.server.authentication.exception.TempPasswordUpdationExceptio
 
 public interface TempPasswordRepositoryService {
 
-	public TempPassword create(TempPassword tempPassword) throws TempPasswordCreationException;
-	public TempPassword createOrUpdate(TempPassword tempPassword) throws TempPasswordCreationException, TempPasswordUpdationException;
-	public TempPassword update(TempPassword tempPassword) throws TempPasswordUpdationException;
-	public TempPassword findByEmailId(String emailId) throws TempPasswordNotFoundException;
-	public void delete(String emailId) throws TempPasswordDeletionException;
-	public void delete(TempPassword tempPassword) throws TempPasswordDeletionException;
+	TempPassword create(TempPassword tempPassword) throws TempPasswordCreationException;
+	TempPassword createOrUpdate(TempPassword tempPassword) throws TempPasswordCreationException, TempPasswordUpdationException;
+	TempPassword update(TempPassword tempPassword) throws TempPasswordUpdationException;
+	TempPassword findByEmailId(String emailId) throws TempPasswordNotFoundException;
+	void delete(String emailId) throws TempPasswordDeletionException;
+	void delete(TempPassword tempPassword) throws TempPasswordDeletionException;
 }

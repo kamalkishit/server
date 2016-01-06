@@ -20,28 +20,14 @@ import com.humanize.server.service.ImageService;
 public class ImageController {
 	
 	@Autowired
-	ImageService imageService;
-	
-	@RequestMapping(value = "/images", method = RequestMethod.GET, 
-			headers="Accept=image/jpeg, image/jpg, image/png", produces = "image/jpeg")
-	public ResponseEntity<InputStreamResource> getImage(@RequestParam("imageName") @NotEmpty String imageName) throws Exception {
-		java.util.Date date= new java.util.Date();
-		System.out.println("timestamp: kamal");
-		System.out.println(new Timestamp(date.getTime()).getTime());
-		InputStream inputStream = imageService.getImage(imageName);
-		
-
-		
-	    return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/jpeg"))
-	            .body(new InputStreamResource(inputStream));
-	}
+	private ImageService imageService;
 	
 	/*@RequestMapping(value = "/images", method = RequestMethod.GET, 
 			headers="Accept=image/jpeg, image/jpg, image/png", produces = "image/jpeg")
-	public ResponseEntity<File> getImage(@RequestParam("imageName") @NotEmpty String imageName) throws Exception {
+	public ResponseEntity<InputStreamResource> getImage(@RequestParam("imageName") @NotEmpty String imageName) throws Exception {
 		InputStream inputStream = imageService.getImage(imageName);
 		
 	    return ResponseEntity.ok().contentType(MediaType.parseMediaType("image/jpeg"))
-	            .body(new File(inputStream));
+	            .body(new InputStreamResource(inputStream));
 	}*/
 }

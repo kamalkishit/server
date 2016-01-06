@@ -16,7 +16,7 @@ import com.humanize.server.exception.PaperUpdationException;
 public class PaperRepositoryServiceImpl implements PaperRepositoryService {
 
 	@Autowired
-	PaperRepository repository;
+	private PaperRepository repository;
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	

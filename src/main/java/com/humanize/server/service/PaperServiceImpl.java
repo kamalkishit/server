@@ -15,10 +15,10 @@ import com.humanize.server.exception.PaperUpdationException;
 public class PaperServiceImpl implements PaperService {
 
 	@Autowired
-	PaperRepositoryService repositoryService;
+	private PaperRepositoryService repositoryService;
 	
 	@Autowired
-	ContentService contentService;
+	private ContentService contentService;
 
 	public Paper create(Paper paper) throws PaperCreationException {
 		return repositoryService.create(paper);

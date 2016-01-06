@@ -23,7 +23,7 @@ import com.humanize.server.content.exception.ContentUpdationException;
 public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 
 	@Autowired
-	ContentRepository repository;
+	private ContentRepository repository;
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	

@@ -23,6 +23,8 @@ public class User {
 
 	private String password;
 	
+	private String invitedBy;
+	
 	private List<String> typeOfArticles;
 	
 	private List<String> categories;
@@ -99,6 +101,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getInvitedBy() {
+		return invitedBy;
+	}
+
+	public void setInvitedBy(String invitedBy) {
+		this.invitedBy = invitedBy;
 	}
 
 	public List<String> getTypeOfArticles() {

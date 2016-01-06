@@ -24,10 +24,10 @@ import com.humanize.server.service.ContentService;
 @RestController
 public class ContentController {
 	
-	static Logger logger = Logger.getLogger(ContentController.class);
-
 	@Autowired
 	private ContentService contentService;
+	
+	private static Logger logger = Logger.getLogger(ContentController.class);
 
 	@RequestMapping("/content/create")
 	public ResponseEntity<Content> create(@RequestBody Content content) throws ContentCreationException {

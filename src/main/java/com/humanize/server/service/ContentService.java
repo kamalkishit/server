@@ -10,15 +10,15 @@ import com.humanize.server.content.exception.ContentUpdationException;
 
 public interface ContentService {
 
-	public Content create(Content content) throws ContentCreationException;
-	public void upload() throws Exception;
-	public Content update(Content content) throws ContentUpdationException;
-	public Contents findByCategories(List<String> categories, Long createdDate, boolean refresh) throws ContentNotFoundException;
-	public Contents findByIds(List<String> ids) throws ContentNotFoundException;
-	public Contents findBookmarks(List<String> bookmarkIds) throws ContentNotFoundException;
-	public Contents findRecommendations(List<String> recommendations) throws ContentNotFoundException;
-	public boolean recommendArticle(String contentUrl) throws Exception;
-	public boolean updateRecommendationCount(String contentId, boolean flag) throws ContentUpdationException;
-	public boolean incrViewedCount(String contentId) throws ContentUpdationException;
-	public boolean incrSharedCount(String contentId) throws ContentUpdationException;
+	Content create(Content content) throws ContentCreationException;
+	void upload() throws Exception;
+	Content update(Content content) throws ContentUpdationException;
+	Contents findByCategories(List<String> categories, Long createdDate, boolean refresh) throws ContentNotFoundException;
+	Contents findByIds(List<String> ids) throws ContentNotFoundException;
+	Contents findBookmarks(List<String> bookmarkIds) throws ContentNotFoundException;
+	Contents findRecommendations(List<String> recommendations) throws ContentNotFoundException;
+	boolean recommendArticle(String contentUrl) throws Exception;
+	boolean updateRecommendationCount(String contentId, boolean flag) throws ContentUpdationException;
+	boolean incrViewedCount(String contentId) throws ContentUpdationException;
+	boolean incrSharedCount(String contentId) throws ContentUpdationException;
 }

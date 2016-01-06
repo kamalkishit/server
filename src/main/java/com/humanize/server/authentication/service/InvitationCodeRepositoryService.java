@@ -8,10 +8,10 @@ import com.humanize.server.authentication.exception.InvitationCodeUpdationExcept
 
 public interface InvitationCodeRepositoryService {
 	
-	public InvitationCode create(InvitationCode invitationCode) throws InvitationCodeCreationException;
-	public InvitationCode createOrUpdate(InvitationCode invitationCode) throws InvitationCodeCreationException, InvitationCodeUpdationException;
-	public InvitationCode update(InvitationCode invitationCode) throws InvitationCodeUpdationException;
-	public InvitationCode findByEmailId(String emailId) throws InvitationCodeNotFoundException;
-	public void delete(String emailId) throws InvitationCodeDeletionException;
-	public void delete(InvitationCode invitationCode) throws InvitationCodeDeletionException;
+	InvitationCode create(InvitationCode invitationCode) throws InvitationCodeCreationException;
+	InvitationCode createOrUpdate(InvitationCode invitationCode) throws InvitationCodeCreationException, InvitationCodeUpdationException;
+	InvitationCode update(InvitationCode invitationCode) throws InvitationCodeUpdationException;
+	InvitationCode findByEmailId(String emailId) throws InvitationCodeNotFoundException;
+	void delete(String emailId) throws InvitationCodeDeletionException;
+	void delete(InvitationCode invitationCode) throws InvitationCodeDeletionException;
 }

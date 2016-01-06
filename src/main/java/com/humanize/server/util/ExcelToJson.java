@@ -19,9 +19,9 @@ import com.humanize.server.content.exception.ExcelToJsonConversionException;
 
 public class ExcelToJson {
 	
-	static Logger logger = Logger.getLogger(ExcelToJson.class);
-
-	String filename;
+	private String filename;
+	
+	private static Logger logger = Logger.getLogger(ExcelToJson.class);
 
 	public ExcelToJson(String filename) {
 		this.filename = filename;

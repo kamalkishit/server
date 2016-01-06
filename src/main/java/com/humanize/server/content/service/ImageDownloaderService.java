@@ -5,5 +5,5 @@ import com.humanize.server.content.exception.ImageDownloadException;
 
 public interface ImageDownloaderService {
 	
-	public boolean downloadImage(Content content) throws ImageDownloadException;
+	boolean downloadImage(Content content) throws ImageDownloadException;
 }

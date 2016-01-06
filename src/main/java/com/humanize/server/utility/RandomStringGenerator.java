@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class RandomStringGenerator {
 	
-	String characters;
-	StringBuffer buffer;
+	private String characters;
+	private StringBuffer buffer;
 	
 	public RandomStringGenerator() {
 		this.characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";

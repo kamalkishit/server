@@ -6,6 +6,6 @@ import com.humanize.server.authentication.data.TempPassword;
 
 public interface TempPasswordRepository extends MongoRepository<TempPassword, String>{
 	
-	public TempPassword findByEmailId(String emailId);
+	TempPassword findByEmailId(String emailId);
 }
  

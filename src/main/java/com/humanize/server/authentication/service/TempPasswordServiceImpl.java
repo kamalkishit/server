@@ -17,13 +17,13 @@ import com.humanize.server.exception.TempPasswordSendingException;
 public class TempPasswordServiceImpl implements TempPasswordService {
 
 	@Autowired
-	RandomStringGeneratorService randomStringGeneratorService;
+	private RandomStringGeneratorService randomStringGeneratorService;
 	
 	@Autowired
-	TempPasswordRepositoryService repositoryService;
+	private TempPasswordRepositoryService repositoryService;
 	
 	@Autowired
-	EmailService emailService;
+	private EmailService emailService;
 	
 	public boolean sendTempPassword(String emailId) throws TempPasswordSendingException {
 		try {

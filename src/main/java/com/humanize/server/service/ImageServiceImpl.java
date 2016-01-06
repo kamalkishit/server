@@ -20,7 +20,7 @@ import com.humanize.server.exception.ImageNotFoundException;
 public class ImageServiceImpl implements ImageService {
 
 	@Autowired
-	AmazonS3Service amazonS3Service;
+	private AmazonS3Service amazonS3Service;
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	

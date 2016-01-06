@@ -1,6 +1,7 @@
 package com.humanize.server.config;
 
 public class Config {
+	
 	public static String USER_ID = "userId";
 	public static String EMAIL_ID = "emailId";
 	public static String PASSWORD = "password";

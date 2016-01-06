@@ -8,10 +8,10 @@ import com.humanize.server.data.User;
 
 public interface UserRepositoryService {
 	
-	public User create(User user) throws UserCreationException;
-	public User update(User user) throws UserUpdationException;
-	public User findOne(String contentId) throws UserNotFoundException;
-	public User findByEmailId(String emailId) throws UserNotFoundException;
-	public void deleteByEmailId(String emailId) throws UserDeletionException;
-	public void delete(User user) throws UserDeletionException;
+	User create(User user) throws UserCreationException;
+	User update(User user) throws UserUpdationException;
+	User findOne(String contentId) throws UserNotFoundException;
+	User findByEmailId(String emailId) throws UserNotFoundException;
+	void deleteByEmailId(String emailId) throws UserDeletionException;
+	void delete(User user) throws UserDeletionException;
 }

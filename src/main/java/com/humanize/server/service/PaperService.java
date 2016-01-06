@@ -9,7 +9,7 @@ import com.humanize.server.exception.PaperUpdationException;
 
 public interface PaperService {
 
-	public Paper create(Paper paper) throws PaperCreationException;
-	public Paper update(Paper paper) throws PaperUpdationException;
-	public Contents findByDate(String paperDate) throws PaperNotFoundException, PaperContentNotFoundException;
+	Paper create(Paper paper) throws PaperCreationException;
+	Paper update(Paper paper) throws PaperUpdationException;
+	Contents findByDate(String paperDate) throws PaperNotFoundException, PaperContentNotFoundException;
 }

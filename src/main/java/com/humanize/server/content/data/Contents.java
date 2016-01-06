@@ -6,6 +6,7 @@ import java.util.List;
 import com.humanize.server.content.data.Content;
 
 public class Contents {
+	
 	private List<Content> contents;
 
 	public Contents() {

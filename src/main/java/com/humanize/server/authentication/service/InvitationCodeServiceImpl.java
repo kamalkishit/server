@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.humanize.server.Message;
 import com.humanize.server.authentication.data.InvitationCode;
+import com.humanize.server.authentication.exception.InvitationCodeNotFoundException;
 import com.humanize.server.authentication.exception.InvitationCodeSendingException;
 import com.humanize.server.authentication.exception.InvitationCodeValidationException;
 
@@ -14,25 +15,25 @@ import com.humanize.server.authentication.exception.InvitationCodeValidationExce
 public class InvitationCodeServiceImpl implements InvitationCodeService {
 
 	@Autowired
-	InvitationCodeRepositoryService repositoryService;
+	private InvitationCodeRepositoryService repositoryService;
 	
 	@Autowired
-	RandomStringGeneratorService randomStringGeneratorService;
+	private RandomStringGeneratorService randomStringGeneratorService;
 	
 	@Autowired
-	EmailService emailService;
+	private EmailService emailService;
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
-	public boolean sendInvitationCode(String emailId) throws InvitationCodeSendingException {		
+	public boolean sendInvitationCode(String emailId, String invitedBy) throws InvitationCodeSendingException {		
 		try {
 			String invitationCodeStr = randomStringGeneratorService.getInvitationCode();
 			String str = "http://www.humannize.com/invite?emailId=" + emailId + "&invitationCode=" + invitationCodeStr;
 			emailService.sendEmail(new Message(emailId, "Invitation Code", str));
 			
-			InvitationCode invitationCode = new InvitationCode(emailId, invitationCodeStr);
+			InvitationCode invitationCodeObj = new InvitationCode(emailId, invitedBy, invitationCodeStr);
 			
-			repositoryService.createOrUpdate(invitationCode);
+			repositoryService.createOrUpdate(invitationCodeObj);
 			
 			return true;
 		} catch (Exception exception) {
@@ -45,7 +46,7 @@ public class InvitationCodeServiceImpl implements InvitationCodeService {
 		try {
 			InvitationCode invitationCode = repositoryService.findByEmailId(emailId);
 			
-			if (invitationCode != null && invitationCode.getInvitationCode().equals(invitationCodeStr)) {
+			if (invitationCode.getInvitationCode().equals(invitationCodeStr)) {
 				return true;
 			} else {
 				return false;
@@ -54,5 +55,9 @@ public class InvitationCodeServiceImpl implements InvitationCodeService {
 			logger.error("", exception);
 			throw new InvitationCodeValidationException(0, null);
 		}
+	}
+	
+	public String getInvitedBy(String emailId) throws InvitationCodeNotFoundException {
+		return repositoryService.findByEmailId(emailId).getInvitedBy();
 	}
 }

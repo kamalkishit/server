@@ -13,10 +13,13 @@ public class InvitationCode {
 	@Indexed(unique = true)
 	private String emailId;
 	
+	private String invitedBy;
+	
 	private String invitationCode;
 	
-	public InvitationCode(String emailId, String invitationCode) {
+	public InvitationCode(String emailId, String invitedBy, String invitationCode) {
 		this.emailId = emailId;
+		this.invitedBy = invitedBy;
 		this.invitationCode = invitationCode;
 	}
 
@@ -42,5 +45,13 @@ public class InvitationCode {
 
 	public void setInvitationCode(String invitationCode) {
 		this.invitationCode = invitationCode;
+	}
+
+	public String getInvitedBy() {
+		return invitedBy;
+	}
+
+	public void setInvitedBy(String invitedBy) {
+		this.invitedBy = invitedBy;
 	}
 }

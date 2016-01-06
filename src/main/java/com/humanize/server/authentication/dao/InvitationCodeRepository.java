@@ -6,5 +6,5 @@ import com.humanize.server.authentication.data.InvitationCode;
 
 public interface InvitationCodeRepository extends MongoRepository<InvitationCode, String>{
 	
-	public InvitationCode findByEmailId(String emailId);
+	InvitationCode findByEmailId(String emailId);
 }

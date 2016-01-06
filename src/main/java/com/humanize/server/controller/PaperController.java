@@ -20,7 +20,7 @@ import com.humanize.server.service.PaperService;
 public class PaperController {
 	
 	@Autowired
-	PaperService paperService;
+	private PaperService paperService;
 
 	@RequestMapping("/paper/create")
 	public ResponseEntity<Paper> create(@RequestBody Paper paper) throws PaperCreationException {

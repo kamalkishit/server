@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.humanize.server.authentication.data.Password;
 import com.humanize.server.authentication.exception.ForgotPasswordException;
 import com.humanize.server.authentication.exception.InvitationCodeDeletionException;
+import com.humanize.server.authentication.exception.InvitationCodeNotFoundException;
 import com.humanize.server.authentication.exception.InvitationCodeSendingException;
 import com.humanize.server.authentication.exception.ResetPasswordException;
 import com.humanize.server.authentication.exception.TempPasswordValidationException;
@@ -41,13 +42,13 @@ public class UserServiceImpl implements UserService {
 	private InvitationCodeRepositoryService invitationCodeRepositoryService;
 	
 	@Autowired
-	InvitationCodeService invitationCodeService;
+	private InvitationCodeService invitationCodeService;
 	
 	@Autowired
-	TempPasswordService tempPasswordService;
+	private TempPasswordService tempPasswordService;
 	
 	@Autowired
-	TempPasswordRepositoryService tempPasswordRepositoryService;
+	private TempPasswordRepositoryService tempPasswordRepositoryService;
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -107,6 +108,7 @@ public class UserServiceImpl implements UserService {
 			user.setEmailId(signupUser.getEmailId());
 			user.setPassword(Password.getSaltedHash(signupUser.getPassword()));
 			user.setUserId(new Timestamp(new Date().getTime()).getTime());
+			user.setInvitedBy(invitationCodeService.getInvitedBy(signupUser.getEmailId()));
 			repositoryService.create(user);
 			//verificationCodeService.sendVerificationCode(user.getEmailId());
 			invitationCodeRepositoryService.delete(user.getEmailId());
@@ -118,18 +120,25 @@ public class UserServiceImpl implements UserService {
 		} catch (UserCreationException exception) {
 			logger.error("", exception);
 			throw exception;
+		} catch (InvitationCodeNotFoundException exception) {
+			throw new UserCreationException(0, null);
 		} catch (Exception exception) {
 			logger.error("", exception);
 			throw new UserCreationException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
 		} 
 	}
 	
-	public boolean inviteUser(String emailId) throws UserInvitationException {
+	public boolean inviteUser(String emailId, String invitedBy) throws UserInvitationException {
 		try {
-			return invitationCodeService.sendInvitationCode(emailId);
-		} catch (InvitationCodeSendingException exception) {
-			logger.error("", exception);
-			throw new UserInvitationException(ExceptionConfig.USER_INVITATION_FAILED_ERROR_CODE, ExceptionConfig.USER_INVITATION_FAILED_EXCEPTION);
+			repositoryService.findByEmailId(emailId);
+			throw new UserInvitationException(0, null);
+		} catch (UserNotFoundException exception) {
+			try {
+				return invitationCodeService.sendInvitationCode(emailId, invitedBy);
+			} catch (InvitationCodeSendingException exp) {
+				logger.error("", exp);
+				throw new UserInvitationException(ExceptionConfig.USER_INVITATION_FAILED_ERROR_CODE, ExceptionConfig.USER_INVITATION_FAILED_EXCEPTION);
+			}
 		}
 	}
 	

@@ -13,13 +13,13 @@ import com.humanize.server.data.User;
 
 public interface UserService {
 
-	public User login(LoginUser loginUser) throws UserNotFoundException;
-	public boolean forgotPassword(String emailId) throws ForgotPasswordException;
-	public User resetPassword(ResetPasswordUser resetPasswordUser) throws ResetPasswordException;
-	public User getUserdata(String emailId) throws UserNotFoundException;
-	public User updateUser(User user) throws UserUpdationException;
-	public User signup(SignupUser user) throws UserCreationException;
-	public boolean inviteUser(String emailId) throws UserInvitationException;
-	public boolean recommend(String userId, String contentId, boolean flag) throws UserUpdationException;
-	public boolean bookmark(String userId, String contentId, boolean flag) throws UserUpdationException;
+	User login(LoginUser loginUser) throws UserNotFoundException;
+	boolean forgotPassword(String emailId) throws ForgotPasswordException;
+	User resetPassword(ResetPasswordUser resetPasswordUser) throws ResetPasswordException;
+	User getUserdata(String emailId) throws UserNotFoundException;
+	User updateUser(User user) throws UserUpdationException;
+	User signup(SignupUser user) throws UserCreationException;
+	boolean inviteUser(String emailId, String invitedBy) throws UserInvitationException;
+	boolean recommend(String userId, String contentId, boolean flag) throws UserUpdationException;
+	boolean bookmark(String userId, String contentId, boolean flag) throws UserUpdationException;
 }

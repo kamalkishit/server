@@ -10,7 +10,7 @@ import com.humanize.server.exception.S3ImageNotFoundException;
 
 public interface AmazonS3Service {
 
-	public void putImage(Content content) throws S3ImageCreationException;
-	public void getImage(Content content) throws S3ImageNotFoundException;
-	public InputStream getImage(String imageName) throws S3ImageNotFoundException;
+	void putImage(Content content) throws S3ImageCreationException;
+	void getImage(Content content) throws S3ImageNotFoundException;
+	InputStream getImage(String imageName) throws S3ImageNotFoundException;
 }

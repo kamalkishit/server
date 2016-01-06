@@ -5,5 +5,5 @@ import com.humanize.server.exception.EmailSendingException;
 
 public interface EmailService {
 	
-	public boolean sendEmail(Message message) throws EmailSendingException;
+	boolean sendEmail(Message message) throws EmailSendingException;
 }

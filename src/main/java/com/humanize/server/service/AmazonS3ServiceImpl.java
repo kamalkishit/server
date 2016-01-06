@@ -25,7 +25,7 @@ import com.humanize.server.exception.S3ImageNotFoundException;
 public class AmazonS3ServiceImpl implements AmazonS3Service {
 
 	@Autowired
-	AmazonS3Properties amazonS3Properties;
+	private AmazonS3Properties amazonS3Properties;
 	
 	private AmazonS3 s3Client;
 	
