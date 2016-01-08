@@ -10,7 +10,7 @@ import com.humanize.server.dao.PaperRepository;
 import com.humanize.server.data.Paper;
 import com.humanize.server.exception.PaperCreationException;
 import com.humanize.server.exception.PaperNotFoundException;
-import com.humanize.server.exception.PaperUpdationException;
+import com.humanize.server.exception.PaperUpdateException;
 
 @Service
 public class PaperRepositoryServiceImpl implements PaperRepositoryService {
@@ -30,7 +30,7 @@ public class PaperRepositoryServiceImpl implements PaperRepositoryService {
 		return paper;
 	}
 	
-	public Paper update(Paper paper) throws PaperUpdationException {
+	public Paper update(Paper paper) throws PaperUpdateException {
 		try {
 			Paper tempPaper = repository.findByPaperDate(paper.getPaperDate());
 			
@@ -43,13 +43,13 @@ public class PaperRepositoryServiceImpl implements PaperRepositoryService {
 			tempPaper = repository.save(tempPaper);
 			
 			if (tempPaper == null) {
-				throw new PaperUpdationException(ExceptionConfig.PAPER_UPDATION_ERROR_CODE, ExceptionConfig.PAPER_UPDATION_EXCEPTION);
+				throw new PaperUpdateException(ExceptionConfig.PAPER_UPDATION_ERROR_CODE, ExceptionConfig.PAPER_UPDATION_EXCEPTION);
 			}
 			
 			return tempPaper;
 		} catch (Exception exception) {
 			logger.error("", exception);
-			throw new PaperUpdationException(ExceptionConfig.PAPER_UPDATION_ERROR_CODE, ExceptionConfig.PAPER_UPDATION_EXCEPTION);
+			throw new PaperUpdateException(ExceptionConfig.PAPER_UPDATION_ERROR_CODE, ExceptionConfig.PAPER_UPDATION_EXCEPTION);
 		}
 	}
 	

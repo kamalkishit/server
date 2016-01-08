@@ -15,7 +15,7 @@ public class Config {
 	
 	public static String URL_SERVER = "http://www.humannize.com/";
 	
-	public static String URL_PASSWORD_RESET = URL_SERVER + "users/reset";
+	public static String URL_PASSWORD_RESET = URL_SERVER + "reset";
 	
 	public static final String EXCEL_FILE_PATH = "/root/December.xlsx";
 }

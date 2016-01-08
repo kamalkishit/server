@@ -28,7 +28,6 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 	public Content scrapHtml(Content content) throws HtmlScrapException {
 		try {
 			createConnection(content.getUrl());
-			content.setUserId("pandey.kishore@gmail.com");
 			content.setContentId(new Timestamp(new Date().getTime()).getTime());
 			content.setTitle(scrapTitle());
 			content.setDescription(scrapDescription());

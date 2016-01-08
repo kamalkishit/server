@@ -1,5 +1,6 @@
 package com.humanize.server.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -8,18 +9,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.Message;
+import com.humanize.server.authentication.exception.UserNotFoundException;
 import com.humanize.server.authentication.service.EmailService;
+import com.humanize.server.authentication.service.UserRepositoryService;
 import com.humanize.server.common.ExceptionConfig;
+import com.humanize.server.common.JsonWebTokenServiceImpl;
 import com.humanize.server.config.Config;
 import com.humanize.server.content.dao.ContentRepository;
 import com.humanize.server.content.data.Content;
 import com.humanize.server.content.data.Contents;
 import com.humanize.server.content.exception.ContentCreationException;
 import com.humanize.server.content.exception.ContentNotFoundException;
-import com.humanize.server.content.exception.ContentUpdationException;
+import com.humanize.server.content.exception.ContentUpdateException;
 import com.humanize.server.content.service.ContentRepositoryService;
 import com.humanize.server.content.service.HtmlScraperService;
 import com.humanize.server.content.service.ImageDownloaderService;
+import com.humanize.server.data.User;
+import com.humanize.server.exception.TokenValidationException;
 import com.humanize.server.util.ExcelToJson;
 
 @Service
@@ -43,11 +49,17 @@ public class ContentServiceImpl implements ContentService {
 	@Autowired
 	private AmazonS3Service amazonS3Service;
 	
+	@Autowired
+	private UserRepositoryService userRepositoryService;
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public Content create(Content content) throws ContentCreationException {
+	public Content create(String token, Content content) throws ContentCreationException {
 		try {
+			User user = getUser(token);
 			content = htmlScraperService.scrapHtml(content);
+			content.setUserId(user.getEmailId());
+			content.setType("Positive");
 			imageDownloaderService.downloadImage(content);
 			//amazonS3Service.putImage(content);
 			return repositoryService.create(content);
@@ -70,46 +82,95 @@ public class ContentServiceImpl implements ContentService {
 		}
 	}
 	
-	public void upload() throws Exception {
-		ExcelToJson excelToJson = new ExcelToJson(Config.EXCEL_FILE_PATH);
-		List<Content> contents = excelToJson.toJson();
+	public void upload(String token) throws Exception {
 		try {
+			getUser(token);
+			ExcelToJson excelToJson = new ExcelToJson(Config.EXCEL_FILE_PATH);
+			List<Content> contents = excelToJson.toJson();
+				
 			for (Content content: contents) {
 				createInBulk(content);
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Exception exception) {
+			exception.printStackTrace();
 		}
+		
 	}
 	
-	public Content update(Content content) throws ContentUpdationException {
-		return repositoryService.update(content);
-	}
-	
-	public Contents findByCategories(List<String> categories, Long createdDate, boolean refresh) throws ContentNotFoundException {
-		if (createdDate == null) {
-			return repositoryService.findByCategories(categories);
-		} else if (refresh) {
-			return repositoryService.findNewByCategories(categories, createdDate);
-		} else {
-			return repositoryService.findMoreByCategories(categories, createdDate);
-		}
-	}
-	
-	public Contents findByIds(List<String> ids) throws ContentNotFoundException {
-			return repositoryService.findByIds(ids);
-	}
-	
-	public Contents findBookmarks(List<String> bookmarkIds) throws ContentNotFoundException {
-			return repositoryService.findByIds(bookmarkIds);
-	}
-	
-	public Contents findRecommendations(List<String> recommendations) throws ContentNotFoundException {
-			return repositoryService.findByIds(recommendations);
-	}
-	
-	public boolean recommendArticle(String contentUrl) throws Exception {
+	public Content update(String token, Content content) throws ContentUpdateException {
 		try {
+			getUser(token);
+			return repositoryService.update(content);
+		} catch (Exception exception) {
+			throw new ContentUpdateException(0, null);
+		}
+	}
+	
+	public Contents findByCategories(String token, Long createdDate, boolean refresh) throws ContentNotFoundException {
+		User user = null;
+		
+		if (!token.isEmpty()) {
+			try {
+				user = getUser(token);
+				if (createdDate == null) {
+					return repositoryService.findByCategories(user.getCategories());
+				} else if (refresh) {
+					return repositoryService.findNewByCategories(user.getCategories(), createdDate);
+				} else {
+					return repositoryService.findMoreByCategories(user.getCategories(), createdDate);
+				}
+			} catch (Exception exception) {
+				exception.printStackTrace();
+				throw new ContentNotFoundException(0, null);
+			}
+		} else {
+			List<String> categories = new ArrayList<>();
+			categories.add("Achievers");
+			categories.add("Humanity");
+			categories.add("Education");
+			categories.add("Environment");
+			categories.add("Governance");
+			
+			if (createdDate == null) {
+				return repositoryService.findByCategories(categories);
+			} else if (refresh) {
+				return repositoryService.findNewByCategories(categories, createdDate);
+			} else {
+				return repositoryService.findMoreByCategories(categories, createdDate);
+			}
+		}
+	}
+	
+	public Contents findByIds(String token, List<String> ids) throws ContentNotFoundException {
+		try {
+			getUser(token);
+			return repositoryService.findByIds(ids);
+		} catch (Exception exception) {
+			throw new ContentNotFoundException(0, null);
+		}
+	}
+	
+	public Contents findBookmarks(String token, List<String> bookmarkIds) throws ContentNotFoundException {
+		try {
+			getUser(token);
+			return repositoryService.findByIds(bookmarkIds);
+		} catch (Exception exception) {
+			throw new ContentNotFoundException(0, null);
+		}
+	}
+	
+	public Contents findRecommendations(String token, List<String> recommendations) throws ContentNotFoundException {
+		try {
+			getUser(token);
+			return repositoryService.findByIds(recommendations);
+		} catch (Exception exception) {
+			throw new ContentNotFoundException(0, null);
+		}		
+	}
+	
+	public boolean recommendArticle(String token, String contentUrl) throws Exception {
+		try {
+			getUser(token);
 			emailService.sendEmail(new Message("kamal@humannize.com", "Suggested Article", contentUrl));
 			return true;
 		} catch (Exception exception) {
@@ -118,8 +179,9 @@ public class ContentServiceImpl implements ContentService {
 		}
 	}
 	
-	public boolean updateRecommendationCount(String contentId, boolean flag) throws ContentUpdationException {
+	public boolean updateRecommendationCount(String token, String contentId, boolean flag) throws ContentUpdateException {
 		try {
+			getUser(token);
 			Content content = repositoryService.findOne(contentId);
 			
 			if (flag) {
@@ -132,32 +194,48 @@ public class ContentServiceImpl implements ContentService {
 			repositoryService.update(content);
 			return true;
 		} catch (ContentNotFoundException exception) {
-			throw new ContentUpdationException(0, null);
+			throw new ContentUpdateException(0, null);
+		} catch (Exception exception) {
+			throw new ContentUpdateException(0, null);
 		}
 	}
 	
-	public boolean incrViewedCount(String contentId) throws ContentUpdationException {
+	public boolean incrViewedCount(String token, String contentId) throws ContentUpdateException {
 		try {
+			getUser(token);
 			Content content = repositoryService.findOne(contentId);
 			content.setViewedCount(content.getViewedCount() + 1);
 			repositoryService.update(content);
 			return true;
 		} catch (ContentNotFoundException exception) {
-			throw new ContentUpdationException(0, null);
+			throw new ContentUpdateException(0, null);
+		} catch (Exception exception) {
+			throw new ContentUpdateException(0, null);
 		}
 	}
 	
-	public boolean incrSharedCount(String contentId) throws ContentUpdationException {
+	public boolean incrSharedCount(String token, String contentId) throws ContentUpdateException {
 		try {
-			
+			getUser(token);
 			Content content = repositoryService.findOne(contentId);
 			content.setSharedCount(content.getSharedCount() + 1);
 			content.setViewedCount(content.getViewedCount() + 1);
 			repositoryService.update(content);
 			return true;
 		} catch (ContentNotFoundException exception) {
-			throw new ContentUpdationException(0, null);
+			throw new ContentUpdateException(0, null);
+		} catch (Exception exception) {
+			throw new ContentUpdateException(0, null);
 		}
+	}
+	
+	private User getUser(String token) throws UserNotFoundException {
+		try {
+			String emailId = JsonWebTokenServiceImpl.getInstance().validateToken(token);
+			return userRepositoryService.findByEmailId(emailId);
+		} catch (TokenValidationException exception) {
+			throw new UserNotFoundException(0, null);
+		}	
 	}
 
 /*

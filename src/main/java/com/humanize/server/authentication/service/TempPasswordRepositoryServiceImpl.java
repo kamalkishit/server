@@ -10,7 +10,7 @@ import com.humanize.server.authentication.data.TempPassword;
 import com.humanize.server.authentication.exception.TempPasswordCreationException;
 import com.humanize.server.authentication.exception.TempPasswordDeletionException;
 import com.humanize.server.authentication.exception.TempPasswordNotFoundException;
-import com.humanize.server.authentication.exception.TempPasswordUpdationException;
+import com.humanize.server.authentication.exception.TempPasswordUpdateException;
 import com.humanize.server.common.ExceptionConfig;
 
 @Service
@@ -31,7 +31,7 @@ public class TempPasswordRepositoryServiceImpl implements TempPasswordRepository
 		throw new TempPasswordCreationException(ExceptionConfig.TEMP_PASSWORD_CREATION_ERROR_CODE, ExceptionConfig.TEMP_PASSWORD_CREATION_EXCEPTION);
 	}
 	
-	public TempPassword createOrUpdate(TempPassword tempPassword) throws TempPasswordCreationException, TempPasswordUpdationException {
+	public TempPassword createOrUpdate(TempPassword tempPassword) throws TempPasswordCreationException, TempPasswordUpdateException {
 		try {
 			TempPassword tempTempPassword = findByEmailId(tempPassword.getEmailId());
 			
@@ -40,7 +40,7 @@ public class TempPasswordRepositoryServiceImpl implements TempPasswordRepository
 			tempTempPassword = repository.save(tempTempPassword);
 			
 			if (tempTempPassword == null) {
-				throw new TempPasswordUpdationException(ExceptionConfig.TEMP_PASSWORD_UPDATION_ERROR_CODE, ExceptionConfig.TEMP_PASSWORD_UPDATION_EXCEPTION);
+				throw new TempPasswordUpdateException(ExceptionConfig.TEMP_PASSWORD_UPDATION_ERROR_CODE, ExceptionConfig.TEMP_PASSWORD_UPDATION_EXCEPTION);
 				
 			}
 			
@@ -56,7 +56,7 @@ public class TempPasswordRepositoryServiceImpl implements TempPasswordRepository
 		} 
 	}
 	
-	public TempPassword update(TempPassword tempPassword) throws TempPasswordUpdationException {
+	public TempPassword update(TempPassword tempPassword) throws TempPasswordUpdateException {
 		try {
 			findByEmailId(tempPassword.getEmailId());
 			
@@ -66,9 +66,9 @@ public class TempPasswordRepositoryServiceImpl implements TempPasswordRepository
 				return tempPassword;
 			}
 			
-			throw new TempPasswordUpdationException(ExceptionConfig.TEMP_PASSWORD_UPDATION_ERROR_CODE, ExceptionConfig.TEMP_PASSWORD_UPDATION_EXCEPTION);
+			throw new TempPasswordUpdateException(ExceptionConfig.TEMP_PASSWORD_UPDATION_ERROR_CODE, ExceptionConfig.TEMP_PASSWORD_UPDATION_EXCEPTION);
 		} catch (Exception exception) {
-			throw new TempPasswordUpdationException(ExceptionConfig.TEMP_PASSWORD_UPDATION_ERROR_CODE, ExceptionConfig.TEMP_PASSWORD_UPDATION_EXCEPTION);
+			throw new TempPasswordUpdateException(ExceptionConfig.TEMP_PASSWORD_UPDATION_ERROR_CODE, ExceptionConfig.TEMP_PASSWORD_UPDATION_EXCEPTION);
 		}
 	}
 	

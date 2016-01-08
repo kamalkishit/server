@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class AuthenticationManager {
 	
 	@Autowired
-	private JsonWebTokenService jsonWebTokenService;
+	private JsonWebTokenServiceImpl jsonWebTokenService;
 	
 	public void authenticate(String token) {
 		if (token == null || token.length() == 0) {

@@ -38,6 +38,7 @@ public class Content {
 	private String source;
 
 	// positive, info, negative
+	@NotEmpty
 	private String type;
 
 	@NotEmpty

@@ -1,8 +1,12 @@
 package com.humanize.server.authentication.service;
 
 import java.io.StringWriter;
+import java.util.Properties;
 
 import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
@@ -34,17 +38,36 @@ public class EmailServiceImpl implements EmailService{
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	public boolean sendEmail(Message message) throws EmailSendingException {
-		mimeMessage = javaMailSender.createMimeMessage();
+		//mimeMessage = javaMailSender.createMimeMessage();
 		try {
+			 final String username = "hello@humannize.com";
+				final String password = "1@SHreyash";
+
+				Properties props = new Properties();
+				props.put("mail.smtp.auth", "true");
+				props.put("mail.smtp.starttls.enable", "true");
+				props.put("mail.smtp.host", "smtp.gmail.com");
+				props.put("mail.smtp.ssl.trust", "smtp.gmail.com");
+				props.put("mail.smtp.port", "587");
+
+		   // Get the default Session object.
+				Session session = Session.getInstance(props,
+						  new javax.mail.Authenticator() {
+							protected PasswordAuthentication getPasswordAuthentication() {
+								return new PasswordAuthentication(username, password);
+							}
+						  });
+				
+				 mimeMessage = new MimeMessage(session);
 			
-			//send(message.getTo());
-			
+			send(message);
+			/*
 			mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
 			mimeMessageHelper.setTo(message.getTo());
 			mimeMessageHelper.setSubject(message.getSubject());
 			mimeMessageHelper.setText(message.getBody());
 			
-			javaMailSender.send(mimeMessage);
+			javaMailSender.send(mimeMessage);*/
 			
 		} catch(MessagingException exception) {
 			logger.error("", exception);
@@ -57,24 +80,26 @@ public class EmailServiceImpl implements EmailService{
 		return true;
 	}
 	
-	private void send(String emailId) throws Exception {
-		mimeMessage = javaMailSender.createMimeMessage();
-	  Template template = velocityEngine.getTemplate("./template.vm");
+	private void send(Message message) throws Exception {
+	//mimeMessage = javaMailSender.createMimeMessage();
+	  Template template = velocityEngine.getTemplate("./email.vm");
 	
 	  VelocityContext velocityContext = new VelocityContext();
+	  velocityContext.put("email", "kamal@humannize.com");
+	  velocityContext.put("link", message.getBody());
 	   
 	  StringWriter stringWriter = new StringWriter();
 	  
 	  template.merge(velocityContext, stringWriter);
 	  
 	  mimeMessage.setFrom(new InternetAddress("kamal@humannize.com"));
-	  mimeMessage.setRecipients(javax.mail.Message.RecipientType.TO, emailId);
+	  mimeMessage.setRecipients(javax.mail.Message.RecipientType.TO, message.getTo());
 	  mimeMessage.setSubject("asdgasdgasgasdga platform to share and relive memorable travel experiences");
 	  
 	  mimeMessage.setText(stringWriter.toString());
 	  mimeMessage.setContent(stringWriter.toString(), "text/html");
 	  
 	  //mailSender.send(message);
-	  javaMailSender.send(mimeMessage);
+	  Transport.send(mimeMessage);
 	}
 }

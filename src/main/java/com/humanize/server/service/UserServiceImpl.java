@@ -19,13 +19,15 @@ import com.humanize.server.authentication.exception.TempPasswordValidationExcept
 import com.humanize.server.authentication.exception.UserCreationException;
 import com.humanize.server.authentication.exception.UserInvitationException;
 import com.humanize.server.authentication.exception.UserNotFoundException;
-import com.humanize.server.authentication.exception.UserUpdationException;
+import com.humanize.server.authentication.exception.UserUpdateException;
 import com.humanize.server.authentication.service.InvitationCodeRepositoryService;
 import com.humanize.server.authentication.service.InvitationCodeService;
 import com.humanize.server.authentication.service.TempPasswordRepositoryService;
 import com.humanize.server.authentication.service.TempPasswordService;
 import com.humanize.server.authentication.service.UserRepositoryService;
 import com.humanize.server.common.ExceptionConfig;
+import com.humanize.server.common.JsonWebTokenServiceImpl;
+import com.humanize.server.common.TokenService;
 import com.humanize.server.data.LoginUser;
 import com.humanize.server.data.ResetPasswordUser;
 import com.humanize.server.data.SignupUser;
@@ -52,12 +54,12 @@ public class UserServiceImpl implements UserService {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public User login(LoginUser loginUser) throws UserNotFoundException {
+	public String login(LoginUser loginUser) throws UserNotFoundException {
 		try {
 			User user = repositoryService.findByEmailId(loginUser.getEmailId());
 			
-			if (Password.check(loginUser.getPassword(), user.getPassword()) /*&& user.isVerified()*/) {
-				return user;
+			if (Password.check(loginUser.getPassword(), user.getPassword())) {
+				return JsonWebTokenServiceImpl.getInstance().createToken(loginUser.getEmailId());
 			}
 			
 			throw new UserNotFoundException(0, null);
@@ -79,8 +81,10 @@ public class UserServiceImpl implements UserService {
 		try {
 			if (tempPasswordService.validateTempPassword(resetPasswordUser.getEmailId(), resetPasswordUser.getTempPassword())) {
 				User user = repositoryService.findByEmailId(resetPasswordUser.getEmailId());
-				user.setPassword(resetPasswordUser.getNewPassword());
-				return repositoryService.update(user);
+				user.setPassword(Password.getSaltedHash(resetPasswordUser.getNewPassword()));
+				user = repositoryService.update(user);
+				tempPasswordRepositoryService.delete(resetPasswordUser.getEmailId());
+				return user;
 			}
 			
 			throw new ResetPasswordException(0, null);
@@ -88,17 +92,33 @@ public class UserServiceImpl implements UserService {
 			throw new ResetPasswordException(0, null);
 		} catch (UserNotFoundException exception) {
 			throw new ResetPasswordException(0, null);
-		} catch (UserUpdationException exception) {
+		} catch (UserUpdateException exception) {
+			throw new ResetPasswordException(0, null);
+		} catch (Exception exception) {
 			throw new ResetPasswordException(0, null);
 		}
 	}
 
-	public User getUserdata(String emailId) throws UserNotFoundException {
-		return repositoryService.findByEmailId(emailId);
+	public User getUserdata(String token) throws UserNotFoundException {
+		try {
+			return getUser(token);
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			throw new UserNotFoundException(0, null);
+		}
 	}
 
-	public User updateUser(User user) throws UserUpdationException {
-		return repositoryService.update(user);
+	public User updateUser(String token, User user) throws UserUpdateException {
+		try {
+			User tempUser = getUser(token);
+			if (tempUser.getId() == user.getId()) {
+				return repositoryService.update(user);
+			}
+			
+			throw new UserUpdateException(0, null);
+		} catch (Exception exception) {
+			throw new UserUpdateException(0, null);
+		}
 	}
 
 	public User signup(SignupUser signupUser) throws UserCreationException {
@@ -128,26 +148,31 @@ public class UserServiceImpl implements UserService {
 		} 
 	}
 	
-	public boolean inviteUser(String emailId, String invitedBy) throws UserInvitationException {
+	public boolean inviteUser(String token, String emailId) throws UserInvitationException {
+		User user = null;
+		
 		try {
+			user = getUser(token);
 			repositoryService.findByEmailId(emailId);
 			throw new UserInvitationException(0, null);
 		} catch (UserNotFoundException exception) {
 			try {
-				return invitationCodeService.sendInvitationCode(emailId, invitedBy);
+				return invitationCodeService.sendInvitationCode(emailId, user.getEmailId());
 			} catch (InvitationCodeSendingException exp) {
 				logger.error("", exp);
 				throw new UserInvitationException(ExceptionConfig.USER_INVITATION_FAILED_ERROR_CODE, ExceptionConfig.USER_INVITATION_FAILED_EXCEPTION);
 			}
+		} catch (Exception exception) {
+			throw new UserInvitationException(ExceptionConfig.USER_INVITATION_FAILED_ERROR_CODE, ExceptionConfig.USER_INVITATION_FAILED_EXCEPTION);
 		}
 	}
 	
-	public boolean recommend(String userId, String contentId, boolean flag) throws UserUpdationException {
+	public boolean recommend(String token, String contentId, boolean flag) throws UserUpdateException {
 		try {
-			User user = repositoryService.findOne(userId);
+			User user = getUser(token);
 			List<String> recommendedContents = user.getRecommended();
 			
-			if (flag) {
+			if (flag && !recommendedContents.contains(contentId)) {
 				recommendedContents.add(contentId);
 			} else {
 				recommendedContents.remove(contentId);
@@ -157,18 +182,18 @@ public class UserServiceImpl implements UserService {
 			repositoryService.update(user);
 			return true;
 		} catch (UserNotFoundException exception) {
-			throw new UserUpdationException(0, null);
+			throw new UserUpdateException(0, null);
 		} catch (Exception exception) {
-			throw new UserUpdationException(0, null);
+			throw new UserUpdateException(0, null);
 		}
 	}
 	
-	public boolean bookmark(String userId, String contentId, boolean flag) throws UserUpdationException {
+	public boolean bookmark(String token, String contentId, boolean flag) throws UserUpdateException {
 		try {
-			User user = repositoryService.findOne(userId);
+			User user = getUser(token);
 			List<String> bookmarkedContents = user.getBookmarked();
 			
-			if (flag) {
+			if (flag && !bookmarkedContents.contains(contentId)) {
 				bookmarkedContents.add(contentId);
 			} else {
 				bookmarkedContents.remove(contentId);
@@ -178,7 +203,18 @@ public class UserServiceImpl implements UserService {
 			repositoryService.update(user);
 			return true;
 		} catch (UserNotFoundException exception) {
-			throw new UserUpdationException(0, null);
+			throw new UserUpdateException(0, null);
+		} catch (Exception exception) {
+			throw new UserUpdateException(0, null);
 		}
+	}
+	
+	private User getUser(String token) throws Exception {
+		try {
+			String emailId = JsonWebTokenServiceImpl.getInstance().validateToken(token);
+			return repositoryService.findByEmailId(emailId);
+		} catch (Exception exception) {
+			throw exception;
+		}		
 	}
 }

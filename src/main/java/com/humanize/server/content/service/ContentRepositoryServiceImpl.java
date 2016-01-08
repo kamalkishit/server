@@ -17,7 +17,7 @@ import com.humanize.server.content.data.Content;
 import com.humanize.server.content.data.Contents;
 import com.humanize.server.content.exception.ContentCreationException;
 import com.humanize.server.content.exception.ContentNotFoundException;
-import com.humanize.server.content.exception.ContentUpdationException;
+import com.humanize.server.content.exception.ContentUpdateException;
 
 @Service
 public class ContentRepositoryServiceImpl implements ContentRepositoryService {
@@ -53,19 +53,19 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 		return contents;
 	}
 	
-	public Content update(Content content) throws ContentUpdationException {
+	public Content update(Content content) throws ContentUpdateException {
 		try {
 			repository.findOne(content.getId());
 			
 			content = repository.save(content);
 			
 			if (content == null) {
-				throw new ContentUpdationException(ExceptionConfig.CONTENT_UPDATION_ERROR_CODE, ExceptionConfig.CONTENT_UPDATION_EXCEPTION);
+				throw new ContentUpdateException(ExceptionConfig.CONTENT_UPDATION_ERROR_CODE, ExceptionConfig.CONTENT_UPDATION_EXCEPTION);
 			}
 			
 			return content;
 		} catch (Exception exception) {
-			throw new ContentUpdationException(ExceptionConfig.CONTENT_UPDATION_ERROR_CODE, ExceptionConfig.CONTENT_UPDATION_EXCEPTION);
+			throw new ContentUpdateException(ExceptionConfig.CONTENT_UPDATION_ERROR_CODE, ExceptionConfig.CONTENT_UPDATION_EXCEPTION);
 		}
 	}
 	

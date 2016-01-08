@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.humanize.server.authentication.exception.UserCreationException;
 import com.humanize.server.authentication.exception.UserDeletionException;
 import com.humanize.server.authentication.exception.UserNotFoundException;
-import com.humanize.server.authentication.exception.UserUpdationException;
+import com.humanize.server.authentication.exception.UserUpdateException;
 import com.humanize.server.common.ExceptionConfig;
 import com.humanize.server.dao.UserRepository;
 import com.humanize.server.data.User;
@@ -31,7 +31,7 @@ public class UserRepositoryServiceImpl implements UserRepositoryService {
 		throw new UserCreationException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
 	}
 	
-	public User update(User user) throws UserUpdationException {
+	public User update(User user) throws UserUpdateException {
 		try {
 			findByEmailId(user.getEmailId());
 			
@@ -41,9 +41,9 @@ public class UserRepositoryServiceImpl implements UserRepositoryService {
 				return user;
 			}
 			
-			throw new UserUpdationException(ExceptionConfig.USER_UPDATION_ERROR_CODE, ExceptionConfig.USER_UPDATION_EXCEPTION);
+			throw new UserUpdateException(ExceptionConfig.USER_UPDATION_ERROR_CODE, ExceptionConfig.USER_UPDATION_EXCEPTION);
 		} catch (UserNotFoundException exception) {
-			throw new UserUpdationException(ExceptionConfig.USER_UPDATION_ERROR_CODE, ExceptionConfig.USER_UPDATION_EXCEPTION);
+			throw new UserUpdateException(ExceptionConfig.USER_UPDATION_ERROR_CODE, ExceptionConfig.USER_UPDATION_EXCEPTION);
 		}
 	}
 	

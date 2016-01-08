@@ -7,7 +7,7 @@ import com.humanize.server.Message;
 import com.humanize.server.authentication.data.TempPassword;
 import com.humanize.server.authentication.exception.TempPasswordCreationException;
 import com.humanize.server.authentication.exception.TempPasswordNotFoundException;
-import com.humanize.server.authentication.exception.TempPasswordUpdationException;
+import com.humanize.server.authentication.exception.TempPasswordUpdateException;
 import com.humanize.server.authentication.exception.TempPasswordValidationException;
 import com.humanize.server.config.Config;
 import com.humanize.server.exception.EmailSendingException;
@@ -37,7 +37,7 @@ public class TempPasswordServiceImpl implements TempPasswordService {
 		} catch (EmailSendingException exception) {
 			exception.printStackTrace();
 			throw new TempPasswordSendingException(0, null);
-		} catch (TempPasswordCreationException | TempPasswordUpdationException exception) {
+		} catch (TempPasswordCreationException | TempPasswordUpdateException exception) {
 			throw new TempPasswordSendingException(0, null);
 		}
 	}
@@ -57,6 +57,6 @@ public class TempPasswordServiceImpl implements TempPasswordService {
 	}
 	
 	private String createPasswordResetString(String emailId, String tempPassword) {
-		return Config.URL_PASSWORD_RESET + "?emailId" + emailId + "&tempPassword=" + tempPassword;
+		return Config.URL_PASSWORD_RESET + "?emailId=" + emailId + "&tempPassword=" + tempPassword;
 	}
 }

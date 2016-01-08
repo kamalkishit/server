@@ -9,7 +9,7 @@ import com.humanize.server.content.exception.PaperContentNotFoundException;
 import com.humanize.server.data.Paper;
 import com.humanize.server.exception.PaperCreationException;
 import com.humanize.server.exception.PaperNotFoundException;
-import com.humanize.server.exception.PaperUpdationException;
+import com.humanize.server.exception.PaperUpdateException;
 
 @Service
 public class PaperServiceImpl implements PaperService {
@@ -24,20 +24,19 @@ public class PaperServiceImpl implements PaperService {
 		return repositoryService.create(paper);
 	}
 	
-	public Paper update(Paper paper) throws PaperUpdationException {
+	public Paper update(Paper paper) throws PaperUpdateException {
 		return repositoryService.update(paper);
 	}
 	
 	public Contents findByDate(String paperDate) throws PaperNotFoundException, PaperContentNotFoundException {
 		try {
 			Paper paper = repositoryService.findByDate(paperDate);
+			return null;
 			
-			return contentService.findByIds(paper.getContentIds());
+			//return contentService.findByIds(paper.getContentIds());
 		} catch (PaperNotFoundException exception) {
 			throw exception;
-		} catch (ContentNotFoundException exception) {
-			throw new PaperContentNotFoundException(0, null);
-		}
+		} 
 		
 	}
 }

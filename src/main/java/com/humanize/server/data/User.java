@@ -3,6 +3,7 @@ package com.humanize.server.data;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -21,8 +22,10 @@ public class User {
 	@Indexed(unique = true)
 	private String emailId;
 
+	@NotEmpty
 	private String password;
 	
+	@NotEmpty
 	private String invitedBy;
 	
 	private List<String> typeOfArticles;

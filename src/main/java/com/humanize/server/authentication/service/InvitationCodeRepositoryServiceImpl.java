@@ -10,7 +10,7 @@ import com.humanize.server.authentication.data.InvitationCode;
 import com.humanize.server.authentication.exception.InvitationCodeCreationException;
 import com.humanize.server.authentication.exception.InvitationCodeDeletionException;
 import com.humanize.server.authentication.exception.InvitationCodeNotFoundException;
-import com.humanize.server.authentication.exception.InvitationCodeUpdationException;
+import com.humanize.server.authentication.exception.InvitationCodeUpdateException;
 import com.humanize.server.common.ExceptionConfig;
 
 @Service
@@ -31,7 +31,7 @@ public class InvitationCodeRepositoryServiceImpl implements InvitationCodeReposi
 		throw new InvitationCodeCreationException(ExceptionConfig.INVITATION_CODE_CREATION_ERROR_CODE, ExceptionConfig.INVITATION_CODE_CREATION_EXCEPTION);
 	}
 	
-	public InvitationCode createOrUpdate(InvitationCode invitationCode) throws InvitationCodeCreationException, InvitationCodeUpdationException {
+	public InvitationCode createOrUpdate(InvitationCode invitationCode) throws InvitationCodeCreationException, InvitationCodeUpdateException {
 		try {
 			InvitationCode tempInvitationCode = findByEmailId(invitationCode.getEmailId());
 			
@@ -40,7 +40,7 @@ public class InvitationCodeRepositoryServiceImpl implements InvitationCodeReposi
 			tempInvitationCode = repository.save(tempInvitationCode);
 			
 			if (tempInvitationCode == null) {
-				throw new InvitationCodeUpdationException(ExceptionConfig.INVITATION_CODE_UPDATION_ERROR_CODE, ExceptionConfig.INVITATION_CODE_UPDATION_EXCEPTION);
+				throw new InvitationCodeUpdateException(ExceptionConfig.INVITATION_CODE_UPDATION_ERROR_CODE, ExceptionConfig.INVITATION_CODE_UPDATION_EXCEPTION);
 			}
 			
 			return tempInvitationCode;
@@ -55,14 +55,14 @@ public class InvitationCodeRepositoryServiceImpl implements InvitationCodeReposi
 		}
 	}
 	
-	public InvitationCode update(InvitationCode invitationCode) throws InvitationCodeUpdationException {
+	public InvitationCode update(InvitationCode invitationCode) throws InvitationCodeUpdateException {
 		invitationCode = repository.save(invitationCode);
 		
 		if (invitationCode != null) {
 			return invitationCode;
 		}
 		
-		throw new InvitationCodeUpdationException(ExceptionConfig.INVITATION_CODE_UPDATION_ERROR_CODE, ExceptionConfig.INVITATION_CODE_UPDATION_EXCEPTION);
+		throw new InvitationCodeUpdateException(ExceptionConfig.INVITATION_CODE_UPDATION_ERROR_CODE, ExceptionConfig.INVITATION_CODE_UPDATION_EXCEPTION);
 	}
 	
 	public InvitationCode findByEmailId(String emailId) throws InvitationCodeNotFoundException {

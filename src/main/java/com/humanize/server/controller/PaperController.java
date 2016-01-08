@@ -13,7 +13,7 @@ import com.humanize.server.content.exception.PaperContentNotFoundException;
 import com.humanize.server.data.Paper;
 import com.humanize.server.exception.PaperCreationException;
 import com.humanize.server.exception.PaperNotFoundException;
-import com.humanize.server.exception.PaperUpdationException;
+import com.humanize.server.exception.PaperUpdateException;
 import com.humanize.server.service.PaperService;
 
 @RestController
@@ -28,7 +28,7 @@ public class PaperController {
 	}
 	
 	@RequestMapping("/paper/update")
-	public ResponseEntity<Paper> update(@RequestBody Paper paper) throws PaperUpdationException {
+	public ResponseEntity<Paper> update(@RequestBody Paper paper) throws PaperUpdateException {
 		return new ResponseEntity<Paper>(paperService.update(paper), HttpStatus.OK);
 	}
 	
