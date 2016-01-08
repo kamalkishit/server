@@ -40,8 +40,8 @@ public class EmailServiceImpl implements EmailService{
 	public boolean sendEmail(Message message) throws EmailSendingException {
 		//mimeMessage = javaMailSender.createMimeMessage();
 		try {
-			 final String username = "hello@humannize.com";
-				final String password = "1@SHreyash";
+			 final String username = "humannizeapp@gmail.com";
+				final String password = "1@Shreyash";
 
 				Properties props = new Properties();
 				props.put("mail.smtp.auth", "true");

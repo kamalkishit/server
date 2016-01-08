@@ -152,12 +152,12 @@ public class UserServiceImpl implements UserService {
 		User user = null;
 		
 		try {
-			user = getUser(token);
+			//user = getUser(token);
 			repositoryService.findByEmailId(emailId);
 			throw new UserInvitationException(0, null);
 		} catch (UserNotFoundException exception) {
 			try {
-				return invitationCodeService.sendInvitationCode(emailId, user.getEmailId());
+				return invitationCodeService.sendInvitationCode(emailId, "kamal@ab.com");
 			} catch (InvitationCodeSendingException exp) {
 				logger.error("", exp);
 				throw new UserInvitationException(ExceptionConfig.USER_INVITATION_FAILED_ERROR_CODE, ExceptionConfig.USER_INVITATION_FAILED_EXCEPTION);
