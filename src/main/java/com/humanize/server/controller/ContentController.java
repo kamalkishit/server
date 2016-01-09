@@ -46,9 +46,9 @@ public class ContentController {
 	}
 
 	@RequestMapping("/content/find")
-	public ResponseEntity<Contents> findByCategories(@RequestHeader(value="token") String token, @RequestParam(value= "createdDate", required= false) Long createdDate, @RequestParam(value= "refresh", required= false, defaultValue= "false") Boolean refresh) 
+	public ResponseEntity<Contents> findByCategories(@RequestHeader(value="token") String token, @RequestParam(value = "categories", required = false) List<String> categories, @RequestParam(value = "createdDate", required = false) Long createdDate, @RequestParam(value= "refresh", required= false, defaultValue= "false") Boolean refresh) 
 		throws ContentNotFoundException {
-		return new ResponseEntity<Contents>(contentService.findByCategories(token, createdDate, refresh), HttpStatus.OK);
+		return new ResponseEntity<Contents>(contentService.findByCategories(token, categories, createdDate, refresh), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/content/bookmarks")

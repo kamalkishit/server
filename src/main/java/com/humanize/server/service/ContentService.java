@@ -13,7 +13,7 @@ public interface ContentService {
 	Content create(String token, Content content) throws ContentCreationException;
 	void upload(String token) throws Exception;
 	Content update(String token, Content content) throws ContentUpdateException;
-	Contents findByCategories(String token, Long createdDate, boolean refresh) throws ContentNotFoundException;
+	Contents findByCategories(String token, List<String> categories, Long createdDate, boolean refresh) throws ContentNotFoundException;
 	Contents findByIds(String token, List<String> ids) throws ContentNotFoundException;
 	Contents findBookmarks(String token, List<String> bookmarkIds) throws ContentNotFoundException;
 	Contents findRecommendations(String token, List<String> recommendations) throws ContentNotFoundException;

@@ -106,10 +106,24 @@ public class ContentServiceImpl implements ContentService {
 		}
 	}
 	
-	public Contents findByCategories(String token, Long createdDate, boolean refresh) throws ContentNotFoundException {
+	public Contents findByCategories(String token, List<String> categories, Long createdDate, boolean refresh) throws ContentNotFoundException {
 		User user = null;
 		
-		if (!token.isEmpty()) {
+		if (!token.isEmpty() && categories != null) {
+			try {
+				user = getUser(token);
+				if (createdDate == null) {
+					return repositoryService.findByCategories(categories);
+				} else if (refresh) {
+					return repositoryService.findNewByCategories(categories, createdDate);
+				} else {
+					return repositoryService.findMoreByCategories(categories, createdDate);
+				}
+			} catch (Exception exception) {
+				exception.printStackTrace();
+				throw new ContentNotFoundException(0, null);
+			}
+		} else if (!token.isEmpty() && categories == null){
 			try {
 				user = getUser(token);
 				if (createdDate == null) {
@@ -123,20 +137,21 @@ public class ContentServiceImpl implements ContentService {
 				exception.printStackTrace();
 				throw new ContentNotFoundException(0, null);
 			}
-		} else {
-			List<String> categories = new ArrayList<>();
-			categories.add("Achievers");
-			categories.add("Humanity");
-			categories.add("Education");
-			categories.add("Environment");
-			categories.add("Governance");
-			
+		} else if (token.isEmpty() && categories != null){
 			if (createdDate == null) {
 				return repositoryService.findByCategories(categories);
 			} else if (refresh) {
 				return repositoryService.findNewByCategories(categories, createdDate);
 			} else {
 				return repositoryService.findMoreByCategories(categories, createdDate);
+			}
+		} else {
+			if (createdDate == null) {
+				return repositoryService.findByCategories(getCategories());
+			} else if (refresh) {
+				return repositoryService.findNewByCategories(getCategories(), createdDate);
+			} else {
+				return repositoryService.findMoreByCategories(getCategories(), createdDate);
 			}
 		}
 	}
@@ -236,6 +251,24 @@ public class ContentServiceImpl implements ContentService {
 		} catch (TokenValidationException exception) {
 			throw new UserNotFoundException(0, null);
 		}	
+	}
+	
+	private List<String> getCategories() {
+		List<String> categories = new ArrayList<>();
+		categories.add("Achievers");
+		categories.add("Beautiful");
+		categories.add("Education");
+		categories.add("Environment");
+		categories.add("Empowerment");
+		categories.add("Governance");
+		categories.add("Health");
+		categories.add("Humanity");
+		categories.add("Law and Justice");
+		categories.add("Real Heroes");
+		categories.add("Science and Tech");
+		categories.add("Sports");
+		
+		return categories;
 	}
 
 /*
