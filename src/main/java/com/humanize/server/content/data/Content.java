@@ -20,6 +20,10 @@ public class Content {
 	@Indexed(unique = true)
 	@NotEmpty
 	private String url;
+	
+	private String shortUrl;
+	
+	private String originalUrl;
 
 	@NotEmpty
 	private String userId;
@@ -33,7 +37,7 @@ public class Content {
 	@NotEmpty
 	private String imageURL;
 
-	private String originalImageURL;
+	private String originalImageUrl;
 
 	private String source;
 
@@ -89,6 +93,22 @@ public class Content {
 		this.url = url;
 	}
 
+	public String getShortUrl() {
+		return shortUrl;
+	}
+
+	public void setShortUrl(String shortUrl) {
+		this.shortUrl = shortUrl;
+	}
+
+	public String getOriginalUrl() {
+		return originalUrl;
+	}
+
+	public void setOriginalUrl(String originalUrl) {
+		this.originalUrl = originalUrl;
+	}
+
 	public String getUserId() {
 		return userId;
 	}
@@ -121,12 +141,12 @@ public class Content {
 		this.imageURL = imageURL;
 	}
 
-	public String getOriginalImageURL() {
-		return originalImageURL;
+	public String getOriginalImageUrl() {
+		return originalImageUrl;
 	}
 
-	public void setOriginalImageURL(String originalImageURL) {
-		this.originalImageURL = originalImageURL;
+	public void setOriginalImageUrl(String originalImageUrl) {
+		this.originalImageUrl = originalImageUrl;
 	}
 
 	public String getSource() {

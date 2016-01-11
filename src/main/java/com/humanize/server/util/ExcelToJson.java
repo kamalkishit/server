@@ -71,7 +71,7 @@ public class ExcelToJson {
 				
 				if (columnCount >= 1) {
 					Content content = new Content();
-					content.setUrl(row.getCell(0).getStringCellValue());
+					content.setOriginalUrl(row.getCell(0).getStringCellValue());
 					content.setCategory(row.getCell(1).getStringCellValue());
 					contents.add(content);
 				} else {

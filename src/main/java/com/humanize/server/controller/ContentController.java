@@ -2,9 +2,9 @@
 package com.humanize.server.controller;
 
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.log4j.Logger;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -79,5 +79,19 @@ public class ContentController {
 	@RequestMapping("/content/shared")
 	public ResponseEntity<Boolean> shared(@RequestHeader(value="token") String token, @RequestParam("contentId") @NotEmpty String contentId) throws ContentUpdateException {
 		return new ResponseEntity<Boolean>(contentService.incrSharedCount(token, contentId), HttpStatus.OK);
+	}
+	
+	@RequestMapping("/content/abc")
+	public void abc() throws ContentUpdateException {
+		//UrlShortner urlShortner = new GoogleUrlShortnerImpl();
+		//urlShortner.getShortUrl("http://inshorts.com");
+		String delims = " ";
+		StringTokenizer stringTokenizer = new StringTokenizer("My Name is Kamal", delims);
+		String str = "";
+		while(stringTokenizer.hasMoreElements()) {
+			str += stringTokenizer.nextElement() + "-";
+			
+		}
+		System.out.println(str);
 	}
 }

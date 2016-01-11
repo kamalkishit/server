@@ -148,6 +148,30 @@ public class UserServiceImpl implements UserService {
 		} 
 	}
 	
+	public User signupFirst(SignupUser signupUser) throws UserCreationException {
+		try {
+			User user = new User();
+			user.setEmailId(signupUser.getEmailId());
+			user.setPassword(Password.getSaltedHash(signupUser.getPassword()));
+			user.setUserId(new Timestamp(new Date().getTime()).getTime());
+			user.setInvitedBy(user.getEmailId());
+			repositoryService.create(user);
+			
+			return user;
+		} catch (InvitationCodeDeletionException exception) {
+			logger.error("", exception);
+			throw new UserCreationException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
+		} catch (UserCreationException exception) {
+			logger.error("", exception);
+			throw exception;
+		} catch (InvitationCodeNotFoundException exception) {
+			throw new UserCreationException(0, null);
+		} catch (Exception exception) {
+			logger.error("", exception);
+			throw new UserCreationException(ExceptionConfig.USER_CREATION_ERROR_CODE, ExceptionConfig.USER_CREATION_EXCEPTION);
+		} 
+	}
+	
 	public boolean inviteUser(String token, String emailId) throws UserInvitationException {
 		User user = null;
 		

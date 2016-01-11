@@ -19,6 +19,7 @@ public interface UserService {
 	User getUserdata(String token) throws UserNotFoundException;
 	User updateUser(String token, User user) throws UserUpdateException;
 	User signup(SignupUser user) throws UserCreationException;
+	User signupFirst(SignupUser user) throws UserCreationException;
 	boolean inviteUser(String token, String emailId) throws UserInvitationException;
 	boolean recommend(String token, String contentId, boolean flag) throws UserUpdateException;
 	boolean bookmark(String token, String contentId, boolean flag) throws UserUpdateException;

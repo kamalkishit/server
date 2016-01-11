@@ -71,9 +71,12 @@ public class ContentServiceImpl implements ContentService {
 		}
 	}
 	
-	public void createInBulk(Content content) {
+	public void createInBulk(String token, Content content) {
 		try {
+			User user = getUser(token);
 			content = htmlScraperService.scrapHtml(content);
+			content.setUserId(user.getEmailId());
+			content.setType("Positive");
 			imageDownloaderService.downloadImage(content);
 			//amazonS3Service.putImage(content);
 			repositoryService.create(content);
@@ -89,7 +92,7 @@ public class ContentServiceImpl implements ContentService {
 			List<Content> contents = excelToJson.toJson();
 				
 			for (Content content: contents) {
-				createInBulk(content);
+				createInBulk(token, content);
 			}
 		} catch (Exception exception) {
 			exception.printStackTrace();

@@ -35,6 +35,11 @@ public class UserController {
 	public ResponseEntity<User> signup(@RequestBody SignupUser signupUser) throws UserCreationException {
 		return new ResponseEntity<User>(userService.signup(signupUser), HttpStatus.OK);
 	}
+	
+	@RequestMapping("/user/signupFirst")
+	public ResponseEntity<User> signupFirst(@RequestBody SignupUser signupUser) throws UserCreationException {
+		return new ResponseEntity<User>(userService.signupFirst(signupUser), HttpStatus.OK);
+	}
 
 	@RequestMapping("/user/login")
 	public ResponseEntity<String> login(@RequestBody LoginUser loginUser) throws UserNotFoundException {

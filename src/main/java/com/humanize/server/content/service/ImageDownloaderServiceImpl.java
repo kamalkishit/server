@@ -31,12 +31,13 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 	
 	public boolean downloadImage(Content content) throws ImageDownloadException {
 		try {
-			createConnection(content.getOriginalImageURL());
+			createConnection(content.getOriginalImageUrl());
 			String tempImageFilename = getTempImageFilename(content);
 			String imageFilename = getImageFilename(content);
 			readImage(tempImageFilename);
 			BufferedImage bufferedImage = processImage(tempImageFilename);
 			saveImage(bufferedImage, getExtension(imageFilename), imageFilename);
+			removeTempImage(tempImageFilename);
 			content.setImageURL(content.getContentId() + "." + getExtension(imageFilename));
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -58,13 +59,13 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 	}
 	
 	private String getTempImageFilename(Content content) {
-		String tempImageFilename = Config.TEMP_FOLDER + content.getContentId() + content.getOriginalImageURL().substring(content.getOriginalImageURL().lastIndexOf('.'));
+		String tempImageFilename = Config.TEMP_FOLDER + content.getContentId() + content.getOriginalImageUrl().substring(content.getOriginalImageUrl().lastIndexOf('.'));
 		
 		return tempImageFilename;
 	}
 	
 	private String getImageFilename(Content content) {
-		String imageFilename = Config.IMAGE_FOLDER + content.getContentId() + content.getOriginalImageURL().substring(content.getOriginalImageURL().lastIndexOf('.'));
+		String imageFilename = Config.IMAGE_FOLDER + content.getContentId() + content.getOriginalImageUrl().substring(content.getOriginalImageUrl().lastIndexOf('.'));
 		
 		return imageFilename;
 	}
@@ -128,5 +129,10 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 			logger.error("", exception);
 			throw exception;
 		}
+	}
+	
+	private void removeTempImage(String tempImageFilename) {
+		File file = new File(tempImageFilename);
+		file.delete();
 	}
 }

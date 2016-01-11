@@ -4,12 +4,14 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.common.ExceptionConfig;
@@ -17,22 +19,29 @@ import com.humanize.server.content.data.Content;
 import com.humanize.server.exception.HtmlPropertyContentNotFoundException;
 import com.humanize.server.exception.HtmlPropertyNotFoundException;
 import com.humanize.server.exception.HtmlScrapException;
+import com.humanize.server.service.UrlShortner;
 
 @Service
 public class HtmlScraperServiceImpl implements HtmlScraperService{
 
 	private Document document;
 	
+	@Autowired
+	UrlShortner urlShortner;
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	public Content scrapHtml(Content content) throws HtmlScrapException {
 		try {
-			createConnection(content.getUrl());
+			createConnection(content.getOriginalUrl());
 			content.setContentId(new Timestamp(new Date().getTime()).getTime());
 			content.setTitle(scrapTitle());
+			//content.setUrl("http://humannize.com/content/" + createUrl(content.getTitle(), content.getContentId()));
+			content.setUrl(content.getOriginalUrl());
+			content.setShortUrl(urlShortner.getShortUrl(content.getUrl()));
 			content.setDescription(scrapDescription());
 			content.setSource(scrapSource());
-			content.setOriginalImageURL(scrapImageURL());
+			content.setOriginalImageUrl(scrapImageURL());
 			return content;
 		} catch (Exception exception) {
 			exception.printStackTrace();
@@ -48,6 +57,17 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 		}
 		
 		return contentList;
+	}
+	
+	private String createUrl(String str, long contentId) {
+		String delims = " ";
+		StringTokenizer stringTokenizer = new StringTokenizer(str, delims);
+		String urlString = "";
+		while(stringTokenizer.hasMoreElements()) {
+			urlString += stringTokenizer.nextElement() + "-";			
+		}
+		
+		return urlString + contentId;
 	}
 	
 	private void createConnection(String url) throws Exception {
