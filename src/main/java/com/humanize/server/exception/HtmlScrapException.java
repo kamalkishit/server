@@ -1,7 +1,5 @@
 package com.humanize.server.exception;
 
-import com.humanize.server.ServerException;
-
 public class HtmlScrapException extends ServerException {
 	
 	public HtmlScrapException(int errorCode, String errorMsg) {

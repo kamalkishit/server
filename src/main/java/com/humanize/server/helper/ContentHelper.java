@@ -6,8 +6,8 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.humanize.server.content.data.Content;
-import com.humanize.server.content.data.Contents;
+import com.humanize.server.data.Content;
+import com.humanize.server.data.Contents;
 
 @Component
 public class ContentHelper {

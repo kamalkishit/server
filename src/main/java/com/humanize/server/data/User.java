@@ -1,6 +1,5 @@
 package com.humanize.server.data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -36,9 +35,7 @@ public class User {
 
 	private List<String> bookmarked;
 
-	private List<String> created;
-	
-	private PaperTime paperTime; 
+	private List<String> created; 
 	
 	private boolean isVerified;
 	
@@ -51,28 +48,6 @@ public class User {
 
 	@LastModifiedDate
 	private long lastModifiedDate;
-
-	public User() {
-		this.recommended = new ArrayList<>();
-		this.bookmarked = new ArrayList<>();
-		this.created = new ArrayList<>();
-		this.paperTime = new PaperTime(8, 0);
-		this.typeOfArticles = new ArrayList<>();
-		this.categories = new ArrayList<>();
-		
-		this.categories.add("Achievers");
-		this.categories.add("Beautiful");
-		this.categories.add("Education");
-		this.categories.add("Empowerment");
-		this.categories.add("Environment");
-		this.categories.add("Governance");
-		this.categories.add("Health");
-		this.categories.add("Humanity");
-		this.categories.add("Real Heroes");
-		this.categories.add("Science and Tech");
-		this.categories.add("Law and Justice");
-		this.categories.add("Sports");
-	}
 	
 	public String getId() {
 		return id;
@@ -152,14 +127,6 @@ public class User {
 
 	public void setCreated(List<String> created) {
 		this.created = created;
-	}
-
-	public PaperTime getPaperTime() {
-		return paperTime;
-	}
-
-	public void setPaperTime(PaperTime paperTime) {
-		this.paperTime = paperTime;
 	}
 
 	public long getCreatedDate() {

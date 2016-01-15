@@ -6,7 +6,6 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 
 @SpringBootApplication
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class HumanizeServerApp extends SpringBootServletInitializer {
 
 	@Override

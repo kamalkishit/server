@@ -25,8 +25,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.humanize.server.ServerException;
-
 public class GlobalDefaultExceptionHandlerResolver implements HandlerExceptionResolver, Ordered {
 
     private static final String REQUEST_UUID_HEADER = "X-REQUEST-UUID";

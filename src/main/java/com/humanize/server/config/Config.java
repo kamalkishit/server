@@ -17,5 +17,9 @@ public class Config {
 	
 	public static String URL_PASSWORD_RESET = URL_SERVER + "reset";
 	
+	public static String POSITIVE = "Positive";
+	public static String INFO = "Info";
+	public static String NEGATIVE = "Negative";
+	
 	public static final String EXCEL_FILE_PATH = "/root/December.xlsx";
 }
