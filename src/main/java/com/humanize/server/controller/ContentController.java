@@ -51,6 +51,11 @@ public class ContentController {
 		return new ResponseEntity<Contents>(contentService.findByCategories(token, categories, createdDate, refresh), HttpStatus.OK);
 	}
 	
+	@RequestMapping("/content/findById")
+	public ResponseEntity<Content> findById(@RequestHeader(value="token") String token, @RequestParam("id") String id) throws ContentNotFoundException {
+		return new ResponseEntity<Content>(contentService.findByUrlId(token, id), HttpStatus.OK);
+	}
+	
 	@RequestMapping("/content/bookmarks")
 	public ResponseEntity<Contents> findBookmarks(@RequestHeader(value="token") String token, @RequestParam("bookmarkIds") List<String> bookmarkIds) throws ContentNotFoundException {
 		return new ResponseEntity<Contents>(contentService.findBookmarks(token, bookmarkIds), HttpStatus.OK);

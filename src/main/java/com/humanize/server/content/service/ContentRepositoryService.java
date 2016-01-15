@@ -19,4 +19,5 @@ public interface ContentRepositoryService {
 	Contents findNewByCategories(List<String> categories, long createdDate) throws ContentNotFoundException;
 	Contents findMoreByCategories(List<String> categories, long createdDate) throws ContentNotFoundException;
 	Contents findByIds(List<String> ids) throws ContentNotFoundException;
+	Content findByUrlId(String urlId) throws ContentNotFoundException;
 }

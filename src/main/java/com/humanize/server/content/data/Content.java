@@ -10,10 +10,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document
 public class Content {
 
+	// mongo id
 	@Id
 	private String id;
 
-	// business id
+	// business id, currently timestamp in milliseconds
 	@Indexed(unique = true)
 	private long contentId;
 
@@ -21,10 +22,15 @@ public class Content {
 	@NotEmpty
 	private String url;
 	
+	@Indexed(unique = true)
+	@NotEmpty
+	private String urlId;
+	
 	private String shortUrl;
 	
 	private String originalUrl;
 
+	// maill id of user who created this article
 	@NotEmpty
 	private String userId;
 
@@ -33,8 +39,10 @@ public class Content {
 
 	@NotEmpty
 	private String description;
-
+	
 	@NotEmpty
+	private String imageId;
+
 	private String imageURL;
 
 	private String originalImageUrl;
@@ -235,5 +243,21 @@ public class Content {
 
 	public void setLastModifiedDate(long lastModifiedDate) {
 		this.lastModifiedDate = lastModifiedDate;
+	}
+
+	public String getImageId() {
+		return imageId;
+	}
+
+	public void setImageId(String imageId) {
+		this.imageId = imageId;
+	}
+
+	public String getUrlId() {
+		return urlId;
+	}
+
+	public void setUrlId(String urlId) {
+		this.urlId = urlId;
 	}
 }

@@ -168,6 +168,10 @@ public class ContentServiceImpl implements ContentService {
 		}
 	}
 	
+	public Content findByUrlId(String token, String urlId) throws ContentNotFoundException {
+		return repositoryService.findByUrlId(urlId);
+	}
+	
 	public Contents findBookmarks(String token, List<String> bookmarkIds) throws ContentNotFoundException {
 		try {
 			getUser(token);
@@ -189,7 +193,8 @@ public class ContentServiceImpl implements ContentService {
 	public boolean recommendArticle(String token, String contentUrl) throws Exception {
 		try {
 			getUser(token);
-			emailService.sendEmail(new Message("kamal@humannize.com", "Suggested Article", contentUrl));
+			//emailService.sendEmail(new Message("kamal@humannize.com", "Suggested Article", contentUrl));
+			emailService.sendEmail(null);
 			return true;
 		} catch (Exception exception) {
 			exception.printStackTrace();

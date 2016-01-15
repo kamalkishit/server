@@ -15,6 +15,7 @@ public interface ContentService {
 	Content update(String token, Content content) throws ContentUpdateException;
 	Contents findByCategories(String token, List<String> categories, Long createdDate, boolean refresh) throws ContentNotFoundException;
 	Contents findByIds(String token, List<String> ids) throws ContentNotFoundException;
+	Content findByUrlId(String token, String urlId) throws ContentNotFoundException;
 	Contents findBookmarks(String token, List<String> bookmarkIds) throws ContentNotFoundException;
 	Contents findRecommendations(String token, List<String> recommendations) throws ContentNotFoundException;
 	boolean recommendArticle(String token, String contentUrl) throws Exception;

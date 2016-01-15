@@ -29,7 +29,7 @@ public class InvitationCodeServiceImpl implements InvitationCodeService {
 		try {
 			String invitationCodeStr = randomStringGeneratorService.getInvitationCode();
 			String str = "http://www.humannize.com/signup?emailId=" + emailId + "&invitationCode=" + invitationCodeStr;
-			emailService.sendEmail(new Message(emailId, "Invitation Code", str));
+			//emailService.sendEmail(new Message(emailId, "Invitation Code", str));
 			
 			InvitationCode invitationCodeObj = new InvitationCode(emailId, invitedBy, invitationCodeStr);
 			

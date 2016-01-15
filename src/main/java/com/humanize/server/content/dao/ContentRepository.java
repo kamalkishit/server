@@ -13,30 +13,32 @@ import com.humanize.server.content.data.Content;
 public interface ContentRepository extends MongoRepository<Content, String> {
 	
 	@Query("{ 'category': ?0 }")
-	public List<Content> findByCategory(String category, Pageable pageRequest);
+	List<Content> findByCategory(String category, Pageable pageRequest);
 	
 	@Query("{ 'category': ?0, 'createdDate': { $gt : ?1 }}")
-	public List<Content> findNewByCategory(String category, long createdDate,
+	List<Content> findNewByCategory(String category, long createdDate,
 			Pageable pageRequest);
 	
 	@Query("{ 'category': ?0, 'createdDate': { $lt : ?1 }}")
-	public List<Content> findMoreByCategory(String category, long createdDate,
+	List<Content> findMoreByCategory(String category, long createdDate,
 			Pageable pageRequest);
 
 	@Query("{ 'category': { $in: ?0 }}")
-	public List<Content> findByCategories(List<String> categories, Pageable pageRequest);
+	List<Content> findByCategories(List<String> categories, Pageable pageRequest);
 	
 	@Query("{ 'category': { $in: ?0 }, 'createdDate': { $gt : ?1 }}")
-	public List<Content> findNewByCategories(List<String> categories, long createdDate,
+	List<Content> findNewByCategories(List<String> categories, long createdDate,
 			Pageable pageRequest);
 	
 	@Query("{ 'category': { $in: ?0 }, 'createdDate': { $lt : ?1 }}")
-	public List<Content> findMoreByCategories(List<String> categories, long createdDate,
+	List<Content> findMoreByCategories(List<String> categories, long createdDate,
 			Pageable pageRequest);
 	
-	public List<Content> findAll(Iterable<String> ids);
+	List<Content> findAll(Iterable<String> ids);
 	
-	public List<Content> findAll();
+	List<Content> findAll();
+	
+	Content findByUrlId(String urlId);
 
 	/*
 	public List<Content> findAllOrderByCreatedDate(PageRequest pageRequest);

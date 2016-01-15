@@ -123,6 +123,10 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 		throw new ContentNotFoundException(ExceptionConfig.CONTENT_NOT_FOUND_ERROR_CODE, ExceptionConfig.CONTENT_NOT_FOUND_EXCEPTION);
 	}
 	
+	public Content findByUrlId(String urlId) throws ContentNotFoundException {
+		return repository.findByUrlId(urlId);
+	}
+	
 	private Pageable createPagination(Direction direction, String field) {
 		Pageable pageRequest = new PageRequest(0, 20, new Sort(direction,
 				field));

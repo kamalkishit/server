@@ -28,7 +28,8 @@ public class TempPasswordServiceImpl implements TempPasswordService {
 	public boolean sendTempPassword(String emailId) throws TempPasswordSendingException {
 		try {
 			String tempPasswordStr = randomStringGeneratorService.getTempPassword();
-			emailService.sendEmail(new Message(emailId, "Temp Password", createPasswordResetString(emailId, tempPasswordStr)));
+			//emailService.sendEmail(new Message(emailId, "Temp Password", createPasswordResetString(emailId, tempPasswordStr)));
+			emailService.sendEmail(null);
 			
 			TempPassword tempPassword = new TempPassword(emailId, tempPasswordStr);
 			repositoryService.createOrUpdate(tempPassword);

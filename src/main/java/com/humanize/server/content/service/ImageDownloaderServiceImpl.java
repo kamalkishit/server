@@ -38,7 +38,8 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 			BufferedImage bufferedImage = processImage(tempImageFilename);
 			saveImage(bufferedImage, getExtension(imageFilename), imageFilename);
 			removeTempImage(tempImageFilename);
-			content.setImageURL(content.getContentId() + "." + getExtension(imageFilename));
+			content.setImageId(content.getContentId() + "." + getExtension(imageFilename));
+			content.setImageURL("http://humannize.com/images/" + content.getImageId());
 		} catch (Exception exception) {
 			exception.printStackTrace();
 			throw new ImageDownloadException(0, null);

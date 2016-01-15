@@ -1,9 +1,10 @@
 package com.humanize.server.authentication.service;
 
-import com.humanize.server.Message;
+import javax.mail.internet.MimeMessage;
+
 import com.humanize.server.exception.EmailSendingException;
 
 public interface EmailService {
 	
-	boolean sendEmail(Message message) throws EmailSendingException;
+	boolean sendEmail(MimeMessage mimeMessage) throws EmailSendingException;
 }

@@ -36,9 +36,9 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 			createConnection(content.getOriginalUrl());
 			content.setContentId(new Timestamp(new Date().getTime()).getTime());
 			content.setTitle(scrapTitle());
-			//content.setUrl("http://humannize.com/content/" + createUrl(content.getTitle(), content.getContentId()));
-			content.setUrl(content.getOriginalUrl());
-			content.setShortUrl(urlShortner.getShortUrl(content.getUrl()));
+			content.setUrlId(createUrl(content.getTitle(), content.getContentId()));
+			content.setUrl("http://humannize.com/content/" + content.getUrlId());
+			content.setShortUrl(urlShortner.getShortUrl(content.getOriginalUrl()));
 			content.setDescription(scrapDescription());
 			content.setSource(scrapSource());
 			content.setOriginalImageUrl(scrapImageURL());
