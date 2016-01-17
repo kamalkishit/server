@@ -9,7 +9,7 @@ import com.humanize.server.exception.GlobalDefaultExceptionHandlerResolver;
 @Configuration
 public class ErrorHandlingAutoConfiguration {
 
-    private static final String BASE_NAME = "exceptions";
+    private static final String BASE_NAME = Config.EXCEPTIONS;
 
     @Bean
     public GlobalDefaultExceptionHandlerResolver globalDefaultExceptionHandlerResolver() {

@@ -33,8 +33,7 @@ public class JsonWebTokenServiceImpl implements TokenService {
 	public String createToken(String emailId) throws TokenCreationException {
 		try {
 			String token = Jwts.builder().setSubject(emailId).signWith(SignatureAlgorithm.HS512, key).compact();
-			String validate = Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody().getSubject();
-			System.out.println(token);
+			Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody().getSubject();
 			return token;
 		} catch (Exception exception) {
 			throw new TokenCreationException(0, null);
@@ -43,7 +42,6 @@ public class JsonWebTokenServiceImpl implements TokenService {
 	
 	public String validateToken(String token) throws TokenValidationException {
 		try {
-			System.out.println(token);
 		    return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody().getSubject();
 		} catch (Exception exception) {
 			exception.printStackTrace();

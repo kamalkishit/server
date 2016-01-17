@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.config.Config;
+import com.humanize.server.dao.ContentRepositoryService;
 import com.humanize.server.data.Content;
 import com.humanize.server.data.ContentSearchParams;
 import com.humanize.server.data.Contents;
@@ -34,7 +35,7 @@ public class ContentServiceImpl implements ContentService {
 	public Content create(String token, Content content) throws ContentCreationException {
 		try {
 			content = htmlScraperService.scrapHtml(content);
-			content.setType("Positive");
+			content.setType(Config.POSITIVE);
 			imageDownloaderService.downloadImage(content);
 			return repositoryService.create(content);
 		} catch (ContentCreationException exception) {

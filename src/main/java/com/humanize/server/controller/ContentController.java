@@ -1,7 +1,8 @@
 
 package com.humanize.server.controller;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import com.humanize.server.data.Content;
 import com.humanize.server.data.ContentSearchParams;
 import com.humanize.server.data.Contents;
 import com.humanize.server.exception.ContentCreationException;
+import com.humanize.server.exception.ContentNotFoundException;
 import com.humanize.server.service.ContentService;
 
 @RestController
@@ -22,7 +24,7 @@ public class ContentController {
 	@Autowired
 	private ContentService contentService;
 	
-	private static Logger logger = Logger.getLogger(ContentController.class);
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping("/content/create")
 	public ResponseEntity<Content> create(@RequestHeader(value="token") String token, @RequestBody Content content) throws ContentCreationException {
@@ -37,5 +39,16 @@ public class ContentController {
 	@RequestMapping("/content/find")
 	public ResponseEntity<Contents> find(@RequestBody ContentSearchParams contentSearchParams) throws Exception {
 		return new ResponseEntity<Contents>(contentService.find(contentSearchParams), HttpStatus.OK);
+	}
+	
+	@RequestMapping("/content/abc")
+	public ResponseEntity<Contents> abc() throws Exception {
+		try {
+			throw new ContentNotFoundException(0, null);
+		} catch (Exception exception) {
+			//logger.error(exception.toString());
+			throw exception;
+		}
+		
 	}
 }

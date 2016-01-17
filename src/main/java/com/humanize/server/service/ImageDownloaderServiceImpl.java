@@ -13,6 +13,7 @@ import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
 
+import org.imgscalr.Scalr;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -37,7 +38,7 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 			readImage(tempImageFilename);
 			BufferedImage bufferedImage = processImage(tempImageFilename);
 			saveImage(bufferedImage, getExtension(imageFilename), imageFilename);
-			removeTempImage(tempImageFilename);
+			//removeTempImage(tempImageFilename);
 			content.setImageId(content.getContentId() + "." + getExtension(imageFilename));
 			content.setImageURL("http://humannize.com/images/" + content.getImageId());
 		} catch (Exception exception) {
@@ -60,7 +61,7 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 	}
 	
 	private String getTempImageFilename(Content content) {
-		String tempImageFilename = Config.TEMP_FOLDER + content.getContentId() + content.getOriginalImageUrl().substring(content.getOriginalImageUrl().lastIndexOf('.'));
+		String tempImageFilename = Config.TEMP_IMAGE_FOLDER + content.getContentId() + content.getOriginalImageUrl().substring(content.getOriginalImageUrl().lastIndexOf('.'));
 		
 		return tempImageFilename;
 	}
@@ -105,9 +106,7 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 			inputFile = new File(tempImageFilename);
 			inputImage = ImageIO.read(inputFile);
 			outputImage = ImageIO.read(inputFile);
-			/*outputImage = Scalr.resize(inputImage,
-					Scalr.Method.QUALITY, Scalr.Mode.FIT_EXACT, 512, 288,
-					Scalr.OP_ANTIALIAS);*/
+			outputImage = Scalr.resize(inputImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.AUTOMATIC, 512, Scalr.OP_ANTIALIAS);
 		} catch (Exception exception) {
 			logger.error("", exception);
 			throw exception;

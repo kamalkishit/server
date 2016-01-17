@@ -1,4 +1,4 @@
-package com.humanize.server.service;
+package com.humanize.server.dao;
 
 import java.util.List;
 
@@ -11,7 +11,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
-import com.humanize.server.dao.ContentRepository;
 import com.humanize.server.data.Content;
 import com.humanize.server.data.Contents;
 import com.humanize.server.exception.ContentCreationException;

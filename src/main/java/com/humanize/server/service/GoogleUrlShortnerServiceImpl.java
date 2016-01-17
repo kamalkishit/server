@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.springframework.stereotype.Service;
 
+import com.humanize.server.config.Config;
 import com.humanize.server.data.GoogleUrlShortnerResponse;
 
 import okhttp3.MediaType;
@@ -20,13 +21,11 @@ public class GoogleUrlShortnerServiceImpl implements UrlShortnerService {
 			MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 			OkHttpClient client = new OkHttpClient();
 			
-			String json = "{\"longUrl\": \"" + longUrl + "\"}";
-			System.out.println(json);
+			RequestBody requestBody = RequestBody.create(JSON, createJson(longUrl));
 			
-			RequestBody requestBody = RequestBody.create(JSON, json);
+			Request request = new Request.Builder().url(createUrlShortnerUrl()).post(requestBody).build();
+			//"https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyCQiHgcWArX0lfhGSxqwGepDpc1W9eJEIc"
 			
-			Request request = new Request.Builder().url("https://www.googleapis.com/urlshortener/v1/url?key=AIzaSyCQiHgcWArX0lfhGSxqwGepDpc1W9eJEIc").post(requestBody).build();
-
 		    Response response = client.newCall(request).execute();
 		    if (!response.isSuccessful()) {
 		    	throw new IOException("Unexpected code " + response);
@@ -39,5 +38,12 @@ public class GoogleUrlShortnerServiceImpl implements UrlShortnerService {
 		}
 		
 		return null;
+	}
+	
+	private String createUrlShortnerUrl() {
+		return Config.GOOGLE_URL_SHORNER_API_URL + "?key=" + Config.GOOLE_URL_SHORTNER_API_KEY;
+	}
+	private String createJson(String longUrl) {
+		return "{\"longUrl\": \"" + longUrl + "\"}";
 	}
 }

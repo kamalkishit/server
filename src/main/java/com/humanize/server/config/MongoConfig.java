@@ -15,11 +15,11 @@ public class MongoConfig extends AbstractMongoConfiguration {
 	@Override
 	@Bean
 	public Mongo mongo() throws Exception {
-		return new MongoClient("localhost");
+		return new MongoClient(Config.DB_SERVER);
 	}
 
 	@Override
 	protected String getDatabaseName() {
-		return "humanize";
+		return Config.DATABASE;
 	}
 }

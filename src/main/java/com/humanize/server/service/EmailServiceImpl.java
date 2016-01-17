@@ -21,15 +21,7 @@ public class EmailServiceImpl implements EmailService{
 	public boolean sendEmail(MimeMessage mimeMessage) throws EmailSendingException {
 		try {
 			Transport.send(mimeMessage);
-			return true;
-			/*
-			mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-			mimeMessageHelper.setTo(message.getTo());
-			mimeMessageHelper.setSubject(message.getSubject());
-			mimeMessageHelper.setText(message.getBody());
-			
-			javaMailSender.send(mimeMessage);*/
-			
+			return true;			
 		} catch(MessagingException exception) {
 			logger.error("", exception);
 			throw new EmailSendingException(0, null);

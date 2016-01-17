@@ -1,4 +1,4 @@
-package com.humanize.server.service;
+package com.humanize.server.dao;
 
 import java.util.List;
 
