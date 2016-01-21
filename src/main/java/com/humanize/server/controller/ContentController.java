@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.humanize.server.data.Content;
+import com.humanize.server.data.ContentParams;
 import com.humanize.server.data.ContentSearchParams;
 import com.humanize.server.data.Contents;
 import com.humanize.server.exception.ContentCreationException;
@@ -39,6 +40,11 @@ public class ContentController {
 	@RequestMapping("/content/find")
 	public ResponseEntity<Contents> find(@RequestBody ContentSearchParams contentSearchParams) throws Exception {
 		return new ResponseEntity<Contents>(contentService.find(contentSearchParams), HttpStatus.OK);
+	}
+	
+	@RequestMapping("/content")
+	public ResponseEntity<Contents> findOne(@RequestBody ContentParams contentParams) throws Exception {
+		return new ResponseEntity<Contents>(contentService.findByUrlId(contentParams), HttpStatus.OK);
 	}
 	
 	@RequestMapping("/content/abc")

@@ -37,8 +37,8 @@ public class EmailHelper {
 	}
 	
 	private void initialize() {
-		username = "kamal@humannize.com";
-		password = "up25h9912";
+		username = "humannizeapp@gmail.com";
+		password = "1@Shreyash";
 		
 		properties = new Properties();
 		properties.put("mail.smtp.auth", "true");

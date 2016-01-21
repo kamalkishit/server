@@ -38,9 +38,9 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 			readImage(tempImageFilename);
 			BufferedImage bufferedImage = processImage(tempImageFilename);
 			saveImage(bufferedImage, getExtension(imageFilename), imageFilename);
-			//removeTempImage(tempImageFilename);
+			removeTempImage(tempImageFilename);
 			content.setImageId(content.getContentId() + "." + getExtension(imageFilename));
-			content.setImageURL("http://humannize.com/images/" + content.getImageId());
+			content.setImageURL(Config.URL_IMAGES + content.getImageId());
 		} catch (Exception exception) {
 			exception.printStackTrace();
 			throw new ImageDownloadException(0, null);
@@ -53,7 +53,7 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 		try {
 			url = new URL(imageUrl);
 			urlConnection = url.openConnection();
-			urlConnection.setRequestProperty("User-Agent", "Mozilla");
+			urlConnection.setRequestProperty(Config.USER_AGENT, Config.MOZILLA);
 		} catch (Exception exception) {
 			logger.error("", exception);
 			throw exception;
@@ -106,7 +106,7 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 			inputFile = new File(tempImageFilename);
 			inputImage = ImageIO.read(inputFile);
 			outputImage = ImageIO.read(inputFile);
-			outputImage = Scalr.resize(inputImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.AUTOMATIC, 512, Scalr.OP_ANTIALIAS);
+			outputImage = Scalr.resize(inputImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.AUTOMATIC, Config.IMAGE_SIZE, Scalr.OP_ANTIALIAS);
 		} catch (Exception exception) {
 			logger.error("", exception);
 			throw exception;

@@ -11,9 +11,10 @@ public class Config {
 	public static final String IMAGE_FOLDER = "/root/images/";
 	public static final String TEMP_IMAGE_FOLDER = "/root/temp/";
 	
-	public static final String URL_SERVER = "http://www.humannize.com/";
+	public static final String URL_SERVER = "http://www.humannize.com";
+	public static final String URL_IMAGES = URL_SERVER + "/images/";
 	
-	public static final String URL_PASSWORD_RESET = URL_SERVER + "reset";
+	public static final String URL_PASSWORD_RESET = URL_SERVER + "/reset";
 	
 	public static final String EXCEPTIONS = "exceptions";
 	
@@ -22,4 +23,9 @@ public class Config {
 	public static final String NEGATIVE = "Negative";
 	
 	public static final String EXCEL_FILE_PATH = "/root/December.xlsx";
+	
+	public static final String USER_AGENT = "User-Agent";
+	public static final String MOZILLA = "Mozilla";
+	
+	public static final int IMAGE_SIZE = 512;
 }

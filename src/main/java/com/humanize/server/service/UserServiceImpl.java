@@ -69,11 +69,11 @@ public class UserServiceImpl implements UserService {
 	
 	public boolean invite(InviteUser inviteFriend) throws EmailSendingException {
 		try {
-			throw new EmailSendingException(0, null);
-			//return emailService.sendEmail(emailHelper.createInviteFriendMail(inviteFriend));
+			return emailService.sendEmail(emailHelper.createInviteFriendMail(inviteFriend));
 		} catch (Exception exception) {
 			logger.error(exception.toString());
 		}
+		
 		return false;
 	}
 	

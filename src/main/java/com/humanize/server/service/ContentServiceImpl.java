@@ -1,5 +1,6 @@
 package com.humanize.server.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.humanize.server.config.Config;
 import com.humanize.server.dao.ContentRepositoryService;
 import com.humanize.server.data.Content;
+import com.humanize.server.data.ContentParams;
 import com.humanize.server.data.ContentSearchParams;
 import com.humanize.server.data.Contents;
 import com.humanize.server.exception.ContentCreationException;
@@ -69,6 +71,13 @@ public class ContentServiceImpl implements ContentService {
 		} else {
 			return repositoryService.findByCategories(contentSearchParams.getCategories());
 		}
+	}
+	
+	public Contents findByUrlId(ContentParams contentParams) throws ContentNotFoundException {
+		Content content = repositoryService.findByUrlId(contentParams.getContentId());
+		List<Content> contents = new ArrayList<>();
+		contents.add(content);
+		return new Contents(contents);
 	}
 	
 	private void createInBulk(String token, Content content) {
