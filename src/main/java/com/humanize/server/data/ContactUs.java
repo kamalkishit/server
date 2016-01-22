@@ -12,7 +12,6 @@ public class ContactUs {
         return emailId;
     }
 
-    @Required
     public void setEmailId(String emailId) {
         this.emailId = emailId;
     }

@@ -15,6 +15,7 @@ import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.humanize.server.config.Config;
 import com.humanize.server.data.ContactUs;
 import com.humanize.server.data.InviteUser;
 import com.humanize.server.data.SuggestArticle;
@@ -37,8 +38,8 @@ public class EmailHelper {
 	}
 	
 	private void initialize() {
-		username = "humannizeapp@gmail.com";
-		password = "1@Shreyash";
+		username = "hello@humannize.com";
+		password = "1@SHreyash";
 		
 		properties = new Properties();
 		properties.put("mail.smtp.auth", "true");
@@ -60,15 +61,15 @@ public class EmailHelper {
 		try {
 			Template template = velocityEngine.getTemplate("./InviteFriend.vm");
 			VelocityContext velocityContext = new VelocityContext();
-			velocityContext.put("email", "kamal@humannize.com");
+			velocityContext.put("email", inviteFriend.getEmailId());
 			   
 			StringWriter stringWriter = new StringWriter();
 			  
 			template.merge(velocityContext, stringWriter);
 			  
-			mimeMessage.setFrom(new InternetAddress("pandey.kishore@gmail.com"));
+			mimeMessage.setFrom(new InternetAddress(Config.HELLO_EMAIL_ID));
 			mimeMessage.setRecipients(javax.mail.Message.RecipientType.TO, inviteFriend.getEmailId());
-			mimeMessage.setSubject("Invitation");
+			mimeMessage.setSubject(Config.INVITATION_SUBJECT);
 			  
 			mimeMessage.setText(stringWriter.toString());
 			mimeMessage.setContent(stringWriter.toString(), "text/html");
@@ -82,9 +83,9 @@ public class EmailHelper {
 	
 	public MimeMessage createSuggestArticleMail(SuggestArticle suggestArticle) throws EmailSendingException {
 		try { 
-			mimeMessage.setFrom(new InternetAddress("pandey.kishore@gmail.com"));
-			mimeMessage.setRecipients(javax.mail.Message.RecipientType.TO, "pandey.kishore@gmail.com");
-			mimeMessage.setSubject("Suggest Article");
+			mimeMessage.setFrom(new InternetAddress(Config.HELLO_EMAIL_ID));
+			mimeMessage.setRecipients(javax.mail.Message.RecipientType.TO, Config.ADMIN_EMAIL_ID);
+			mimeMessage.setSubject(Config.SUBMIT_ARTICLE_SUBJECT);
 
 			mimeMessage.setContent(suggestArticle.getArticleUrl(), "text/html");
 			
@@ -97,9 +98,9 @@ public class EmailHelper {
 	
 	public MimeMessage createContactUsMail(ContactUs contactUs) throws EmailSendingException {
 		try { 
-			mimeMessage.setFrom(contactUs.getEmailId());
-			mimeMessage.setRecipients(javax.mail.Message.RecipientType.TO, "pandey.kishore@gmail.com");
-			mimeMessage.setSubject("Contact Us");
+			mimeMessage.setFrom(Config.HELLO_EMAIL_ID);
+			mimeMessage.setRecipients(javax.mail.Message.RecipientType.TO, Config.CONTACT_EMAIL_ID);
+			mimeMessage.setSubject(Config.CONTACT_US_SUBJECT);
 
 			mimeMessage.setContent(contactUs.getBody(), "text/html");
 			
