@@ -18,6 +18,8 @@ import com.humanize.server.data.Content;
 import com.humanize.server.exception.HtmlPropertyContentNotFoundException;
 import com.humanize.server.exception.HtmlPropertyNotFoundException;
 import com.humanize.server.exception.HtmlScrapException;
+import com.humanize.server.helper.InternetHelper;
+import com.humanize.server.helper.RandomNumberGenerator;
 
 @Service
 public class HtmlScraperServiceImpl implements HtmlScraperService{
@@ -27,12 +29,18 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 	@Autowired
 	UrlShortnerService urlShortner;
 	
+	@Autowired
+	RandomNumberGenerator randomNumberGenerator;
+	
+	@Autowired
+	InternetHelper internetHelper;
+	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	public Content scrapHtml(Content content) throws HtmlScrapException {
 		try {
 			createConnection(content.getOriginalUrl());
-			content.setContentId(new Timestamp(new Date().getTime()).getTime());
+			content.setContentId(createUniqueId());
 			content.setTitle(scrapTitle());
 			content.setUrlId(createUrl(content.getTitle(), content.getContentId()));
 			content.setUrl("http://humannize.com/content/" + content.getUrlId());
@@ -55,6 +63,25 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 		}
 		
 		return contentList;
+	}
+	
+	private long createUniqueId() {
+		long uniqueId = new Timestamp(new Date().getTime()).getTime();
+		System.out.println(uniqueId);
+		int randomNumber = randomNumberGenerator.randInt(0, 9)%10;
+		System.out.println(randomNumber);
+		int ipDigits = internetHelper.getIpAddressIntValue()%100;
+		
+		if (ipDigits < 10) {
+			ipDigits = ipDigits*10;
+		}
+		
+		System.out.println(ipDigits);
+		uniqueId = uniqueId*1000 + randomNumber*100 + ipDigits;
+		
+		System.out.println(uniqueId);
+		
+		return uniqueId;
 	}
 	
 	private String createUrl(String str, long contentId) {

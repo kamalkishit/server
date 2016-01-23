@@ -73,8 +73,8 @@ public class ContentServiceImpl implements ContentService {
 		}
 	}
 	
-	public Contents findByUrlId(ContentParams contentParams) throws ContentNotFoundException {
-		Content content = repositoryService.findByUrlId(contentParams.getContentId());
+	public Contents findByUrlId(String contentId) throws ContentNotFoundException {
+		Content content = repositoryService.findByUrlId(contentId);
 		List<Content> contents = new ArrayList<>();
 		contents.add(content);
 		return new Contents(contents);

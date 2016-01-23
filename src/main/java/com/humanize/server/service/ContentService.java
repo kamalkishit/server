@@ -12,5 +12,5 @@ public interface ContentService {
 	Content create(String token, Content content) throws ContentCreationException;
 	boolean upload(String token) throws Exception;
 	Contents find(ContentSearchParams contentSearchParams) throws ContentNotFoundException;
-	Contents findByUrlId(ContentParams contentParams) throws ContentNotFoundException;
+	Contents findByUrlId(String contentId) throws ContentNotFoundException;
 }
