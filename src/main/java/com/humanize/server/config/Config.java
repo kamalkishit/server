@@ -11,6 +11,8 @@ public class Config {
 	public static final String IMAGE_FOLDER = "/root/images/";
 	public static final String TEMP_IMAGE_FOLDER = "/root/temp/";
 	
+	public static final String S3_BUCKET_IMAGES = "humanize-images-prod";
+	
 	public static final String URL_SERVER = "http://www.humannize.com";
 	public static final String URL_IMAGES = URL_SERVER + "/images/";
 	public static final String URL_CONTENT = "http://humannize.com/content/";

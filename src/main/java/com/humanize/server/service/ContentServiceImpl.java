@@ -30,6 +30,9 @@ public class ContentServiceImpl implements ContentService {
 	private ImageDownloaderService imageDownloaderService;
 	
 	@Autowired
+	private AmazonS3Service amazonS3Service;
+	
+	@Autowired
 	ExcelToJsonService excelToJson;
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -39,6 +42,7 @@ public class ContentServiceImpl implements ContentService {
 			content = htmlScraperService.scrapHtml(content);
 			content.setType(Config.POSITIVE);
 			imageDownloaderService.downloadImage(content);
+			amazonS3Service.putImage(content);
 			return repositoryService.create(content);
 		} catch (ContentCreationException exception) {
 			throw exception;
@@ -85,6 +89,7 @@ public class ContentServiceImpl implements ContentService {
 			content = htmlScraperService.scrapHtml(content);
 			content.setType(Config.POSITIVE);
 			imageDownloaderService.downloadImage(content);
+			amazonS3Service.putImage(content);
 			repositoryService.create(content);
 		} catch (Exception exception) {
 			
