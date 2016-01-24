@@ -24,27 +24,27 @@ public class UserController {
 	@Autowired
 	UserService userService;
 
-	@RequestMapping("/user/invite")
+	@RequestMapping("/api/user/invite")
 	public ResponseEntity<Boolean> invite(@RequestBody InviteUser inviteUser) throws EmailSendingException {
 		return new ResponseEntity<Boolean>(userService.invite(inviteUser), HttpStatus.OK);
 	}
 	
-	@RequestMapping("/user/suggest")
+	@RequestMapping("/api/user/suggest")
 	public ResponseEntity<Boolean> suggest(@RequestBody SuggestArticle suggestArticle) throws EmailSendingException {
 		return new ResponseEntity<Boolean>(userService.suggest(suggestArticle), HttpStatus.OK);
 	}
 	
-	@RequestMapping("/user/contactUs")
+	@RequestMapping("/api/user/contactUs")
 	public ResponseEntity<Boolean> contactUs(@RequestBody ContactUs contactUs) throws EmailSendingException {
 		return new ResponseEntity<Boolean>(userService.contactUs(contactUs), HttpStatus.OK);
 	}
 	
-	@RequestMapping("/user/login")
+	@RequestMapping("/api/user/login")
 	public ResponseEntity<String> login(@RequestBody LoginUser loginUser) throws UserNotFoundException {
 		return new ResponseEntity<String>(userService.login(loginUser), HttpStatus.OK);
 	}
 	
-	@RequestMapping("/user/signup")
+	@RequestMapping("/api/user/signup")
 	public ResponseEntity<User> signup(@RequestBody SignupUser signupUser) throws UserCreationException {
 		return new ResponseEntity<User>(userService.signup(signupUser), HttpStatus.OK);
 	}

@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.humanize.server.config.Config;
 import com.humanize.server.data.Content;
 import com.humanize.server.exception.HtmlPropertyContentNotFoundException;
 import com.humanize.server.exception.HtmlPropertyNotFoundException;
@@ -43,8 +44,8 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 			content.setContentId(createUniqueId());
 			content.setTitle(scrapTitle());
 			content.setUrlId(createUrl(content.getTitle(), content.getContentId()));
-			content.setUrl("http://humannize.com/content/" + content.getUrlId());
-			content.setShortUrl(urlShortner.getShortUrl(content.getOriginalUrl()));
+			content.setUrl(Config.URL_CONTENT + content.getUrlId());
+			content.setShortUrl(urlShortner.getShortUrl(content.getUrl()));
 			content.setDescription(scrapDescription());
 			content.setSource(scrapSource());
 			content.setOriginalImageUrl(scrapImageURL());

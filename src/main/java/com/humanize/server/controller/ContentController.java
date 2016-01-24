@@ -28,23 +28,23 @@ public class ContentController {
 	
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	@RequestMapping("/content/create")
+	@RequestMapping("/api/content/create")
 	public ResponseEntity<Content> create(@RequestHeader(value="token") String token, @RequestBody Content content) throws ContentCreationException {
 		return new ResponseEntity<Content>(contentService.create(token, content), HttpStatus.OK);
 	}
 	
-	@RequestMapping("/content/upload")
+	@RequestMapping("/api/content/upload")
 	public ResponseEntity<Boolean> upload(@RequestHeader(value="token") String token) throws Exception {
 		return new ResponseEntity<Boolean>(contentService.upload(token), HttpStatus.OK);
 	}
 	
-	@RequestMapping("/content/find")
+	@RequestMapping("/api/content/find")
 	public ResponseEntity<Contents> find(@RequestBody ContentSearchParams contentSearchParams) throws ContentNotFoundException {
 		return new ResponseEntity<Contents>(contentService.find(contentSearchParams), HttpStatus.OK);
 	}
 	
 	@CrossOrigin
-	@RequestMapping("/content")
+	@RequestMapping("/api/content")
 	public ResponseEntity<Contents> findByUrlId(@RequestParam("urlId") String urlId) throws ContentNotFoundException {
 		return new ResponseEntity<Contents>(contentService.findByUrlId(urlId), HttpStatus.OK);
 	}

@@ -13,6 +13,7 @@ public class Config {
 	
 	public static final String URL_SERVER = "http://www.humannize.com";
 	public static final String URL_IMAGES = URL_SERVER + "/images/";
+	public static final String URL_CONTENT = "http://humannize.com/content/";
 	
 	public static final String URL_PASSWORD_RESET = URL_SERVER + "/reset";
 	
