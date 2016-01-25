@@ -16,8 +16,8 @@
   <tr height="30%">
       <td style="width:4%;background:#00BFA5"></td>
       <td style="width:70%;background:white">
-      		<p style="margin:0px 10px 0px 10px;font-size:14px; color:black;">HUMANIZE brings you the entire world of positive and good things happening around you. <a href=${link}>Click here</a> to singup.</p>
-      		<p style="margin: 20px 0px 10px 0px; font-size:14px; color:black;" align="center"><img align="middle" src='http://images.newsinshorts.com.edgesuite.net/website_assets/images/playstore-light.png' height='60px' width=auto/></p>
+      		<p style="margin:0px 10px 0px 10px;font-size:14px; color:black;">HUMANIZE brings you the entire world of positive and good things happening around you.
+      		<p style="margin: 20px 0px 10px 0px; font-size:14px; color:black;" align="center"><img align="middle" src='http://humannize.com/static/playstore.png' height='60px' width=auto/></p>
       </td>
   	  <td style="width:4%;background:#00BFA5"></td>
   </tr> 

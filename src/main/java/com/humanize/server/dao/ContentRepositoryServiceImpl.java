@@ -122,7 +122,13 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 	}
 	
 	public Content findByUrlId(String urlId) throws ContentNotFoundException {
-		return repository.findByUrlId(urlId);
+		Content content = repository.findByUrlId(urlId);
+		
+		if (content != null) {
+			return content;
+		}
+		
+		throw new ContentNotFoundException(0, null);
 	}
 	
 	private Pageable createPagination(Direction direction, String field) {
