@@ -28,6 +28,8 @@ public class Content {
 	
 	private String shortUrl;
 	
+	@Indexed(unique = true)
+	@NotEmpty
 	private String originalUrl;
 
 	// maill id of user who created this article
