@@ -2,8 +2,8 @@ package com.humanize.server.exception;
 
 public class HtmlPropertyParseException extends ServerException {
 	
-	public HtmlPropertyParseException(int errorCode, String errorMsg) {
-		this.errorCode = errorCode;
-		this.errorMsg = errorMsg;
-	}	
+	public HtmlPropertyParseException(ErrorCodes errorCodes) {
+		this.errorCode = errorCodes.getErrorCode();
+		this.errorMsg = errorCodes.getErrorMsg();
+	}
 }

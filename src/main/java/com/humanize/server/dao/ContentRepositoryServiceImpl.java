@@ -16,6 +16,8 @@ import com.humanize.server.data.Contents;
 import com.humanize.server.exception.ContentCreationException;
 import com.humanize.server.exception.ContentNotFoundException;
 import com.humanize.server.exception.ContentUpdateException;
+import com.humanize.server.exception.ErrorCodes;
+import com.humanize.server.service.ContentServiceImpl;
 
 @Service
 public class ContentRepositoryServiceImpl implements ContentRepositoryService {
@@ -23,7 +25,8 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 	@Autowired
 	private ContentRepository repository;
 	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final Logger logger = LoggerFactory.getLogger(ContentRepositoryServiceImpl.class);
+	private static final String TAG = ContentRepositoryServiceImpl.class.getSimpleName();
 	
 	public Content create(Content content) throws ContentCreationException {
 		try {
@@ -31,13 +34,13 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 			
 			if (content == null) {
 				logger.error("content is null");
-				throw new ContentCreationException(0, null);
+				throw new ContentCreationException(ErrorCodes.CONTENT_CREATION_ERROR);
 			}
 			
 			return content;
 		} catch (Exception exception) {
-			exception.printStackTrace();
-			throw new ContentCreationException(0, null);
+			logger.error(TAG, exception);
+			throw new ContentCreationException(ErrorCodes.CONTENT_CREATION_ERROR);
 		}
 	}
 	
@@ -45,7 +48,7 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 		contents = repository.save(contents);
 		
 		if (contents == null) {
-			throw new ContentCreationException(0, null);
+			throw new ContentCreationException(ErrorCodes.CONTENT_CREATION_ERROR);
 		}
 		
 		return contents;
@@ -58,12 +61,13 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 			content = repository.save(content);
 			
 			if (content == null) {
-				throw new ContentUpdateException(0, null);
+				throw new ContentUpdateException(ErrorCodes.CONTENT_UPDATE_ERROR);
 			}
 			
 			return content;
 		} catch (Exception exception) {
-			throw new ContentUpdateException(0, null);
+			logger.error(TAG, exception);
+			throw new ContentUpdateException(ErrorCodes.CONTENT_UPDATE_ERROR);
 		}
 	}
 	
@@ -71,7 +75,7 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 		try {
 			return repository.findOne(contentId);
 		} catch (Exception exception) {
-			throw new ContentNotFoundException(0, null);
+			throw new ContentNotFoundException(ErrorCodes.CONTENT_NOT_FOUND_ERROR);
 		}
 	}
 	
@@ -84,7 +88,7 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 			return new Contents(contents);
 		}
 		
-		throw new ContentNotFoundException(0, null);
+		throw new ContentNotFoundException(ErrorCodes.CONTENT_NOT_FOUND_ERROR);
 	}
 	
 	public Contents findNewByCategories(List<String> categories, long createdDate) throws ContentNotFoundException {
@@ -96,7 +100,7 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 			return new Contents(contents);
 		}
 		
-		throw new ContentNotFoundException(0, null);
+		throw new ContentNotFoundException(ErrorCodes.CONTENT_NOT_FOUND_ERROR);
 	}
 	
 	public Contents findMoreByCategories(List<String> categories, long createdDate) throws ContentNotFoundException {
@@ -108,7 +112,7 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 			return new Contents(contents);
 		}
 		
-		throw new ContentNotFoundException(0, null);
+		throw new ContentNotFoundException(ErrorCodes.CONTENT_NOT_FOUND_ERROR);
 	}
 	
 	public Contents findByIds(List<String> ids) throws ContentNotFoundException {
@@ -118,7 +122,7 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 			return new Contents(contents);
 		}
 		
-		throw new ContentNotFoundException(0, null);
+		throw new ContentNotFoundException(ErrorCodes.CONTENT_NOT_FOUND_ERROR);
 	}
 	
 	public Content findByUrlId(String urlId) throws ContentNotFoundException {
@@ -128,7 +132,7 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 			return content;
 		}
 		
-		throw new ContentNotFoundException(0, null);
+		throw new ContentNotFoundException(ErrorCodes.CONTENT_NOT_FOUND_ERROR);
 	}
 	
 	private Pageable createPagination(Direction direction, String field) {

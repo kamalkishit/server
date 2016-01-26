@@ -16,6 +16,7 @@ import com.humanize.server.data.SignupUser;
 import com.humanize.server.data.SuggestArticle;
 import com.humanize.server.data.User;
 import com.humanize.server.exception.EmailSendingException;
+import com.humanize.server.exception.ErrorCodes;
 import com.humanize.server.exception.UserCreationException;
 import com.humanize.server.exception.UserNotFoundException;
 import com.humanize.server.helper.EmailHelper;
@@ -35,7 +36,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private SaltedHashPasswordService saltedHashPassword;
 	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+	private static final String TAG = UserServiceImpl.class.getSimpleName();
 
 	public String login(LoginUser loginUser) throws UserNotFoundException {
 		try {
@@ -45,12 +47,11 @@ public class UserServiceImpl implements UserService {
 				return JsonWebTokenServiceImpl.getInstance().createToken(loginUser.getEmailId());
 			}
 		} catch (Exception exception) {
-			exception.printStackTrace();
-			throw new UserNotFoundException(0, null);
+			logger.error(TAG, exception);
+			throw new UserNotFoundException(ErrorCodes.USER_NOT_FOUND_ERROR);
 		}
 		
-		
-		throw new UserNotFoundException(0, null);
+		throw new UserNotFoundException(ErrorCodes.USER_NOT_FOUND_ERROR);
 	}
 
 
@@ -63,7 +64,8 @@ public class UserServiceImpl implements UserService {
 			user.setInvitedBy("kamal@humannize.com");
 			return repositoryService.create(user);
 		} catch (Exception exception) {
-			throw new UserCreationException(0, null);
+			logger.error(TAG, exception);
+			throw new UserCreationException(ErrorCodes.USER_CREATION_ERROR);
 		}
 	}
 	
@@ -71,7 +73,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			return emailService.sendEmail(emailHelper.createInviteFriendMail(inviteFriend));
 		} catch (Exception exception) {
-			logger.error(exception.toString());
+			logger.error(TAG, exception);
 		}
 		
 		return false;
@@ -81,7 +83,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			return emailService.sendEmail(emailHelper.createSuggestArticleMail(suggestArticle));
 		} catch (Exception exception) {
-			
+			logger.error(TAG, exception);
 		}
 		
 		return false;
@@ -91,8 +93,9 @@ public class UserServiceImpl implements UserService {
 		try {
 			return emailService.sendEmail(emailHelper.createContactUsMail(contactUs));
 		} catch (Exception exception) {
-			
+			logger.error(TAG, exception);
 		}
+		
 		return false;
 	}
 }

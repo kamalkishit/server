@@ -16,6 +16,7 @@ import com.humanize.server.data.ContentSearchParams;
 import com.humanize.server.data.Contents;
 import com.humanize.server.exception.ContentCreationException;
 import com.humanize.server.exception.ContentNotFoundException;
+import com.humanize.server.exception.ErrorCodes;
 
 @Service
 public class ContentServiceImpl implements ContentService {
@@ -35,7 +36,8 @@ public class ContentServiceImpl implements ContentService {
 	@Autowired
 	ExcelToJsonService excelToJson;
 	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final Logger logger = LoggerFactory.getLogger(ContentServiceImpl.class);
+	private static final String TAG = ContentServiceImpl.class.getSimpleName();
 
 	public Content create(String token, Content content) throws ContentCreationException {
 		try {
@@ -45,10 +47,11 @@ public class ContentServiceImpl implements ContentService {
 			amazonS3Service.putImage(content);
 			return repositoryService.create(content);
 		} catch (ContentCreationException exception) {
+			logger.error(TAG, exception);
 			throw exception;
 		} catch (Exception exception) {
-			exception.printStackTrace();
-			throw new ContentCreationException(0, null);
+			logger.error(TAG, exception);
+			throw new ContentCreationException(ErrorCodes.CONTENT_CREATION_ERROR);
 		}
 	}
 	
@@ -60,7 +63,7 @@ public class ContentServiceImpl implements ContentService {
 				createInBulk(token, content);
 			}
 		} catch (Exception exception) {
-			exception.printStackTrace();
+			logger.error(TAG, exception);
 			return false;
 		}
 		
@@ -92,7 +95,7 @@ public class ContentServiceImpl implements ContentService {
 			amazonS3Service.putImage(content);
 			repositoryService.create(content);
 		} catch (Exception exception) {
-			
+			logger.error(TAG, exception);
 		}
 	}
 }

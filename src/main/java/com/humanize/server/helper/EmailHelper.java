@@ -12,14 +12,18 @@ import javax.mail.internet.MimeMessage;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.humanize.server.config.Config;
+import com.humanize.server.dao.UserRepositoryServiceImpl;
 import com.humanize.server.data.ContactUs;
 import com.humanize.server.data.InviteUser;
 import com.humanize.server.data.SuggestArticle;
 import com.humanize.server.exception.EmailSendingException;
+import com.humanize.server.exception.ErrorCodes;
 
 @Component
 public class EmailHelper {
@@ -32,6 +36,9 @@ public class EmailHelper {
 	
 	@Autowired
 	private VelocityEngine velocityEngine;
+	
+	private static final Logger logger = LoggerFactory.getLogger(EmailHelper.class);
+	private static final String TAG = EmailHelper.class.getSimpleName();
 	
 	public EmailHelper() {
 		initialize();
@@ -76,8 +83,8 @@ public class EmailHelper {
 			
 			return mimeMessage;
 		} catch (MessagingException exception) {
-			exception.printStackTrace();
-			throw new EmailSendingException(0, null);
+			logger.error(TAG, exception);
+			throw new EmailSendingException(ErrorCodes.EMAIL_SENDING_ERROR);
 		}
 	}
 	
@@ -91,8 +98,8 @@ public class EmailHelper {
 			
 			return mimeMessage;
 		} catch (MessagingException exception) {
-			exception.printStackTrace();
-			throw new EmailSendingException(0, null);
+			logger.error(TAG, exception);
+			throw new EmailSendingException(ErrorCodes.EMAIL_SENDING_ERROR);
 		}
 	}
 	
@@ -106,8 +113,8 @@ public class EmailHelper {
 			
 			return mimeMessage;
 		} catch (MessagingException exception) {
-			exception.printStackTrace();
-			throw new EmailSendingException(0, null);
+			logger.error(TAG, exception);
+			throw new EmailSendingException(ErrorCodes.EMAIL_SENDING_ERROR);
 		}
 	}
 }

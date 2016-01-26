@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.humanize.server.config.Config;
 import com.humanize.server.data.Content;
+import com.humanize.server.exception.ErrorCodes;
 import com.humanize.server.exception.HtmlPropertyContentNotFoundException;
 import com.humanize.server.exception.HtmlPropertyNotFoundException;
 import com.humanize.server.exception.HtmlScrapException;
@@ -36,7 +37,8 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 	@Autowired
 	InternetHelper internetHelper;
 	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final Logger logger = LoggerFactory.getLogger(HtmlScraperServiceImpl.class);
+	private static final String TAG = HtmlScraperServiceImpl.class.getSimpleName();
 	
 	public Content scrapHtml(Content content) throws HtmlScrapException {
 		try {
@@ -51,8 +53,8 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 			content.setOriginalImageUrl(scrapImageURL());
 			return content;
 		} catch (Exception exception) {
-			exception.printStackTrace();
-			throw new HtmlScrapException(0, null);
+			logger.error(TAG, exception);
+			throw new HtmlScrapException(ErrorCodes.HTML_SCRAP_ERROR);
 		}
 	}
 	
@@ -68,19 +70,14 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 	
 	private long createUniqueId() {
 		long uniqueId = new Timestamp(new Date().getTime()).getTime();
-		System.out.println(uniqueId);
 		int randomNumber = randomNumberGenerator.randInt(0, 9)%10;
-		System.out.println(randomNumber);
 		int ipDigits = internetHelper.getIpAddressIntValue()%100;
 		
 		if (ipDigits < 10) {
 			ipDigits = ipDigits*10;
 		}
 		
-		System.out.println(ipDigits);
 		uniqueId = uniqueId*1000 + randomNumber*100 + ipDigits;
-		
-		System.out.println(uniqueId);
 		
 		return uniqueId;
 	}
@@ -100,46 +97,41 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 		try {
 			document = Jsoup.connect(url).userAgent("Mozilla").get();
 		} catch (Exception exception) {
-			logger.error("", exception);
+			logger.error(TAG, exception);
 			throw exception;
 		}
 	}
 	
-	private String scrapProperty(Document document, String property) 
-			throws Exception {
+	private String scrapProperty(String property) throws Exception {
 		try {
 			Elements element = document.select(property);
 			
 			if (element != null && element.first() != null) {
 				return element.first().attr("content");
 			} else if (element != null){
-				throw new HtmlPropertyContentNotFoundException(0, null);
+				throw new HtmlPropertyContentNotFoundException(ErrorCodes.HTML_PROPERTY_CONTENT_NOT_FOUND_ERROR);
 			} else {
-				throw new HtmlPropertyNotFoundException(0, null);
+				throw new HtmlPropertyNotFoundException(ErrorCodes.HTML_PROPERTY_NOT_FOUND_ERROR);
 			}
 		} catch (Exception exception) {
-			logger.error("", exception);
+			logger.error(TAG, exception);
 			throw exception;
 		}
 	}
 	
-	private String scrapTitle() 
-			throws Exception {
-		return scrapProperty(document, "meta[property=og:title]");
+	private String scrapTitle() throws Exception {
+		return scrapProperty("meta[property=og:title]");
 	}
 	
-	private String scrapDescription() 
-			throws Exception {
-		return scrapProperty(document, "meta[property=og:description]");
+	private String scrapDescription() throws Exception {
+		return scrapProperty("meta[property=og:description]");
 	}
 	
-	private String scrapSource() 
-			throws Exception {
-		return scrapProperty(document, "meta[property=og:site_name]");
+	private String scrapSource() throws Exception {
+		return scrapProperty("meta[property=og:site_name]");
 	}
 	
-	private String scrapImageURL() 
-			throws Exception {
-		return scrapProperty(document, "meta[property=og:image]");
+	private String scrapImageURL() throws Exception {
+		return scrapProperty("meta[property=og:image]");
 	}
 }

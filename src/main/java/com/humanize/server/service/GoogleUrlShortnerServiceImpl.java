@@ -2,6 +2,8 @@ package com.humanize.server.service;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.config.Config;
@@ -15,6 +17,9 @@ import okhttp3.Response;
 
 @Service
 public class GoogleUrlShortnerServiceImpl implements UrlShortnerService {
+	
+	private static final Logger logger = LoggerFactory.getLogger(GoogleUrlShortnerServiceImpl.class);
+	private static final String TAG = GoogleUrlShortnerServiceImpl.class.getSimpleName();
 
 	public String getShortUrl(String longUrl) {
 		try {
@@ -34,6 +39,7 @@ public class GoogleUrlShortnerServiceImpl implements UrlShortnerService {
 		    GoogleUrlShortnerResponse response2 = new GoogleJsonParserServiceImpl().fromJson(response.body().string().toString(), GoogleUrlShortnerResponse.class);
 		    return response2.getId();
 		} catch (Exception exception) {
+			logger.error(TAG, exception);
 			exception.printStackTrace();
 		}
 		

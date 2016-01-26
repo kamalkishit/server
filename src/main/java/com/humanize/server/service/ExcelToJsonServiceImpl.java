@@ -6,21 +6,24 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.data.Content;
+import com.humanize.server.exception.ErrorCodes;
 import com.humanize.server.exception.ExcelToJsonConversionException;
 
 @Service
 public class ExcelToJsonServiceImpl implements ExcelToJsonService {
 
-	private static Logger logger = Logger.getLogger(ExcelToJsonService.class);
+	private static final Logger logger = LoggerFactory.getLogger(ExcelToJsonServiceImpl.class);
+	private static final String TAG = ExcelToJsonServiceImpl.class.getSimpleName();
 
 	public List<Content> toJson(String excelFile) throws ExcelToJsonConversionException {
 		FileInputStream fileInputStream = null;
@@ -36,23 +39,23 @@ public class ExcelToJsonServiceImpl implements ExcelToJsonService {
 				return toJson(sheet, rowCount);
 			} 
 		} catch (FileNotFoundException exception) {
-			exception.printStackTrace();
-			throw new ExcelToJsonConversionException(0, null);
+			logger.error(TAG, exception);
+			throw new ExcelToJsonConversionException(ErrorCodes.EXCEL_TO_JSON_CONVERSION_ERROR);
 		} catch (InvalidFormatException exception) {
-			exception.printStackTrace();
-			throw new ExcelToJsonConversionException(0, null);
+			logger.error(TAG, exception);
+			throw new ExcelToJsonConversionException(ErrorCodes.EXCEL_TO_JSON_CONVERSION_ERROR);
 		} catch (IOException exception) {
-			exception.printStackTrace();
-			throw new ExcelToJsonConversionException(0, null);
+			logger.error(TAG, exception);
+			throw new ExcelToJsonConversionException(ErrorCodes.EXCEL_TO_JSON_CONVERSION_ERROR);
 		} finally {
 			try {
 				fileInputStream.close();
 			} catch (IOException exception) {
-
+				logger.error(TAG, exception);
 			} 
 		}
 		
-		throw new ExcelToJsonConversionException(0, null);
+		throw new ExcelToJsonConversionException(ErrorCodes.EXCEL_TO_JSON_CONVERSION_ERROR);
 	}
 	
 	private List<Content> toJson(Sheet sheet, int rowCount) throws ExcelToJsonConversionException {
@@ -70,12 +73,12 @@ public class ExcelToJsonServiceImpl implements ExcelToJsonService {
 					content.setCategory(row.getCell(1).getStringCellValue());
 					contents.add(content);
 				} else {
-					System.out.println("column count less than 2");
-					throw new ExcelToJsonConversionException(0, null);
+					logger.error("column count less than 2");
+					throw new ExcelToJsonConversionException(ErrorCodes.EXCEL_TO_JSON_CONVERSION_ERROR);
 				}
 			} else {
-				System.out.println("null row");
-				throw new ExcelToJsonConversionException(0, null);
+				logger.error("null row");
+				throw new ExcelToJsonConversionException(ErrorCodes.EXCEL_TO_JSON_CONVERSION_ERROR);
 			}
 		}
 		

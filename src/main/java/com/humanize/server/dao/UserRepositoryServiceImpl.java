@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.humanize.server.data.User;
+import com.humanize.server.exception.ErrorCodes;
 import com.humanize.server.exception.UserCreationException;
 import com.humanize.server.exception.UserDeletionException;
 import com.humanize.server.exception.UserNotFoundException;
@@ -17,7 +18,8 @@ public class UserRepositoryServiceImpl implements UserRepositoryService {
 	@Autowired
 	private UserRepository repository;
 	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final Logger logger = LoggerFactory.getLogger(UserRepositoryServiceImpl.class);
+	private static final String TAG = UserRepositoryServiceImpl.class.getSimpleName();
 	
 	public User create(User user) throws UserCreationException {
 		user = repository.save(user);
@@ -26,7 +28,7 @@ public class UserRepositoryServiceImpl implements UserRepositoryService {
 			return user;
 		}
 		
-		throw new UserCreationException(0, null);
+		throw new UserCreationException(ErrorCodes.USER_CREATION_ERROR);
 	}
 	
 	public User update(User user) throws UserUpdateException {
@@ -39,9 +41,10 @@ public class UserRepositoryServiceImpl implements UserRepositoryService {
 				return user;
 			}
 			
-			throw new UserUpdateException(0, null);
+			throw new UserUpdateException(ErrorCodes.USER_UPDATE_ERROR);
 		} catch (UserNotFoundException exception) {
-			throw new UserUpdateException(0, null);
+			logger.error(TAG, exception);
+			throw new UserUpdateException(ErrorCodes.USER_UPDATE_ERROR);
 		}
 	}
 	
@@ -49,7 +52,8 @@ public class UserRepositoryServiceImpl implements UserRepositoryService {
 		try {
 			return repository.findOne(contentId);
 		} catch (Exception exception) {
-			throw new UserNotFoundException(0, null);
+			logger.error(TAG, exception);
+			throw new UserNotFoundException(ErrorCodes.USER_NOT_FOUND_ERROR);
 		}
 	}
 	
@@ -60,7 +64,7 @@ public class UserRepositoryServiceImpl implements UserRepositoryService {
 			return user;
 		}
 		
-		throw new UserNotFoundException(0, null);
+		throw new UserNotFoundException(ErrorCodes.USER_NOT_FOUND_ERROR);
 	}
 	
 	public void deleteByEmailId(String emailId) throws UserDeletionException {
@@ -68,8 +72,8 @@ public class UserRepositoryServiceImpl implements UserRepositoryService {
 			User user = findByEmailId(emailId);
 			repository.delete(user);
 		} catch (Exception exception) {
-			logger.error("", exception);
-			throw new UserDeletionException(0, null);
+			logger.error(TAG, exception);
+			throw new UserDeletionException(ErrorCodes.USER_DELETION_ERROR);
 		}
 		
 	}

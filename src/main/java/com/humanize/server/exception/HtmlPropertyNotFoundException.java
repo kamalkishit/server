@@ -2,8 +2,8 @@ package com.humanize.server.exception;
 
 public class HtmlPropertyNotFoundException extends ServerException {
 	
-	public HtmlPropertyNotFoundException(int errorCode, String errorMsg) {
-		this.errorCode = errorCode;
-		this.errorMsg = errorMsg;
+	public HtmlPropertyNotFoundException(ErrorCodes errorCodes) {
+		this.errorCode = errorCodes.getErrorCode();
+		this.errorMsg = errorCodes.getErrorMsg();
 	}
 }

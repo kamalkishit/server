@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import com.humanize.server.config.Config;
 import com.humanize.server.data.Content;
+import com.humanize.server.exception.ErrorCodes;
 import com.humanize.server.exception.ImageDownloadException;
 
 @Service
@@ -28,7 +29,8 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 	private URL url;
 	private URLConnection urlConnection;
 	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static final Logger logger = LoggerFactory.getLogger(ImageDownloaderServiceImpl.class);
+	private static final String TAG = ImageDownloaderServiceImpl.class.getSimpleName();
 	
 	public boolean downloadImage(Content content) throws ImageDownloadException {
 		try {
@@ -42,8 +44,8 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 			content.setImageId(content.getContentId() + "." + getExtension(imageFilename));
 			content.setImageURL(Config.URL_IMAGES + content.getImageId());
 		} catch (Exception exception) {
-			exception.printStackTrace();
-			throw new ImageDownloadException(0, null);
+			logger.error(TAG, exception);
+			throw new ImageDownloadException(ErrorCodes.IMAGE_DOWNLOAD_ERROR);
 		}
 		
 		return true;
@@ -55,7 +57,7 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 			urlConnection = url.openConnection();
 			urlConnection.setRequestProperty(Config.USER_AGENT, Config.MOZILLA);
 		} catch (Exception exception) {
-			logger.error("", exception);
+			logger.error(TAG, exception);
 			throw exception;
 		}
 	}
@@ -84,14 +86,14 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 				outputStream.write(i);
 			}
 		} catch (Exception exception) {
-			logger.error("", exception);
+			logger.error(TAG, exception);
 			throw exception;
 		} finally {
 			try {
 				inputStream.close();
 				outputStream.close();
 			} catch (IOException exception) {
-				logger.error("", exception);
+				logger.error(TAG, exception);
 				throw exception;
 			}
 		}
@@ -108,7 +110,7 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 			outputImage = ImageIO.read(inputFile);
 			outputImage = Scalr.resize(inputImage, Scalr.Method.ULTRA_QUALITY, Scalr.Mode.AUTOMATIC, Config.IMAGE_SIZE, Scalr.OP_ANTIALIAS);
 		} catch (Exception exception) {
-			logger.error("", exception);
+			logger.error(TAG, exception);
 			throw exception;
 		} 
 		
@@ -126,7 +128,7 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 		try {
 			ImageIO.write(bufferedImage, extension, new File(imageFilename));
 		} catch (IOException exception) {
-			logger.error("", exception);
+			logger.error(TAG, exception);
 			throw exception;
 		}
 	}

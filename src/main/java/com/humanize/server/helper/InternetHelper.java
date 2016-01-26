@@ -3,6 +3,8 @@ package com.humanize.server.helper;
 import java.net.InetAddress;
 import java.util.StringTokenizer;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,6 +13,9 @@ public class InternetHelper {
 	
 	@Autowired
 	RandomNumberGenerator randomNumberGenerator;
+	
+	private static final Logger logger = LoggerFactory.getLogger(InternetHelper.class);
+	private static final String TAG = InternetHelper.class.getSimpleName();
 	
 	public int getIpAddressIntValue() {
 		String string = getIpAddress();
@@ -33,6 +38,7 @@ public class InternetHelper {
 		try {
 			return InetAddress.getLocalHost().getHostAddress();
 		} catch(Exception exception) {
+			logger.error(TAG, exception);
 			return null;
 		}	
 	}

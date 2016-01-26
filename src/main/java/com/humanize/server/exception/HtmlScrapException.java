@@ -2,8 +2,8 @@ package com.humanize.server.exception;
 
 public class HtmlScrapException extends ServerException {
 	
-	public HtmlScrapException(int errorCode, String errorMsg) {
-		this.errorCode = errorCode;
-		this.errorMsg = errorMsg;
+	public HtmlScrapException(ErrorCodes errorCodes) {
+		this.errorCode = errorCodes.getErrorCode();
+		this.errorMsg = errorCodes.getErrorMsg();
 	}
 }

@@ -2,8 +2,8 @@ package com.humanize.server.exception;
 
 public class ExcelToJsonConversionException extends ServerException {
 	
-	public ExcelToJsonConversionException(int errorCode, String errorMsg) {
-		this.errorCode = errorCode;
-		this.errorMsg = errorMsg;
+	public ExcelToJsonConversionException(ErrorCodes errorCodes) {
+		this.errorCode = errorCodes.getErrorCode();
+		this.errorMsg = errorCodes.getErrorMsg();
 	}
 }
