@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.humanize.server.data.Content;
 import com.humanize.server.data.ContentSearchParams;
+import com.humanize.server.data.ContentUpdateParams;
 import com.humanize.server.data.Contents;
 import com.humanize.server.exception.ContentCreationException;
 import com.humanize.server.exception.ContentNotFoundException;
+import com.humanize.server.exception.ContentUpdateException;
 import com.humanize.server.service.ContentService;
 
 @RestController
@@ -41,6 +43,11 @@ public class ContentController {
 	@RequestMapping("/api/content/find")
 	public ResponseEntity<Contents> find(@RequestBody ContentSearchParams contentSearchParams) throws ContentNotFoundException {
 		return new ResponseEntity<Contents>(contentService.find(contentSearchParams), HttpStatus.OK);
+	}
+	
+	@RequestMapping("/api/content/update")
+	public ResponseEntity<Boolean> update(@RequestBody ContentUpdateParams contentUpdateParams) throws ContentUpdateException {
+		return new ResponseEntity<Boolean>(contentService.update(contentUpdateParams), HttpStatus.OK);
 	}
 	
 	@CrossOrigin

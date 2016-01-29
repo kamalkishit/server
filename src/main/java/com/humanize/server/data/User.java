@@ -2,6 +2,8 @@ package com.humanize.server.data;
 
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -10,7 +12,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document
-public class User {
+public class User /*implements UserDetails*/ {
 
 	@Id
 	private String id;
@@ -35,7 +37,9 @@ public class User {
 
 	private List<String> bookmarked;
 
-	private List<String> created; 
+	private List<String> created;
+	
+	//private Set<UserAuthority> authorities;
 	
 	private boolean isVerified;
 	
@@ -48,6 +52,18 @@ public class User {
 
 	@LastModifiedDate
 	private long lastModifiedDate;
+	
+	@NotNull
+	private boolean accountExpired;
+
+	@NotNull
+	private boolean accountLocked;
+
+	@NotNull
+	private boolean credentialsExpired;
+
+	@NotNull
+	private boolean accountEnabled;
 	
 	public String getId() {
 		return id;
@@ -129,6 +145,14 @@ public class User {
 		this.created = created;
 	}
 
+	/*public Set<UserAuthority> getAuthorities() {
+		return authorities;
+	}
+
+	public void setAuthorities(Set<UserAuthority> authorities) {
+		this.authorities = authorities;
+	} */
+
 	public long getCreatedDate() {
 		return createdDate;
 	}
@@ -168,4 +192,33 @@ public class User {
 	public void setIsDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
 	}
+	
+	/*@Override
+	public String getUsername() {
+		return emailId;
+	}
+	
+	@Override
+	@JsonIgnore
+	public boolean isAccountNonExpired() {
+		return !accountExpired;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isAccountNonLocked() {
+		return !accountLocked;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isCredentialsNonExpired() {
+		return !credentialsExpired;
+	}
+
+	@Override
+	@JsonIgnore
+	public boolean isEnabled() {
+		return !accountEnabled;
+	} */
 }

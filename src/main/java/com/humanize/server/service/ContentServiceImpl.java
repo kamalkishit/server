@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 import com.humanize.server.config.Config;
 import com.humanize.server.dao.ContentRepositoryService;
 import com.humanize.server.data.Content;
-import com.humanize.server.data.ContentParams;
 import com.humanize.server.data.ContentSearchParams;
+import com.humanize.server.data.ContentUpdateOperations;
+import com.humanize.server.data.ContentUpdateParams;
 import com.humanize.server.data.Contents;
 import com.humanize.server.exception.ContentCreationException;
 import com.humanize.server.exception.ContentNotFoundException;
+import com.humanize.server.exception.ContentUpdateException;
 import com.humanize.server.exception.ErrorCodes;
 
 @Service
@@ -80,11 +82,49 @@ public class ContentServiceImpl implements ContentService {
 		}
 	}
 	
+	public boolean update(ContentUpdateParams contentUpdateParams) throws ContentUpdateException {
+		switch (contentUpdateParams.getContentUpdateOperations()) {
+			case VIEW:
+				return incrViewedCount(contentUpdateParams.getContentId());
+			case SHARE:
+				return incrSharedCount(contentUpdateParams.getContentId());
+			default: 
+				return false;
+		}
+	}
+	
 	public Contents findByUrlId(String contentId) throws ContentNotFoundException {
 		Content content = repositoryService.findByUrlId(contentId);
 		List<Content> contents = new ArrayList<>();
 		contents.add(content);
 		return new Contents(contents);
+	}
+	
+	public boolean incrViewedCount(String contentId) throws ContentUpdateException {
+		try {
+			Content content = repositoryService.findOne(contentId);
+			content.setViewedCount(content.getViewedCount() + 1);
+			repositoryService.update(content);
+			return true;
+		} catch (ContentNotFoundException exception) {
+			throw new ContentUpdateException(ErrorCodes.CONTENT_UPDATE_ERROR);
+		} catch (Exception exception) {
+			throw new ContentUpdateException(ErrorCodes.CONTENT_UPDATE_ERROR);
+		}
+	}
+	
+	public boolean incrSharedCount(String contentId) throws ContentUpdateException {
+		try {
+			Content content = repositoryService.findOne(contentId);
+			content.setSharedCount(content.getSharedCount() + 1);
+			content.setViewedCount(content.getViewedCount() + 1);
+			repositoryService.update(content);
+			return true;
+		} catch (ContentNotFoundException exception) {
+			throw new ContentUpdateException(ErrorCodes.CONTENT_UPDATE_ERROR);
+		} catch (Exception exception) {
+			throw new ContentUpdateException(ErrorCodes.CONTENT_UPDATE_ERROR);
+		}
 	}
 	
 	private void createInBulk(String token, Content content) {

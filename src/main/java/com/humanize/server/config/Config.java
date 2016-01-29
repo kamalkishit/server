@@ -27,7 +27,7 @@ public class Config {
 	
 	public static final String HELLO_EMAIL_ID = "hello@humannize.com";
 	public static final String CONTACT_EMAIL_ID = "contact@humannize.com";
-	public static final String INVITATION_SUBJECT = "Invited to HUMANIZE";
+	public static final String INVITATION_SUBJECT = "Join HUMANIZE - Check out HUMANIZE app to know what good is happening around";
 	public static final String ADMIN_EMAIL_ID = "kamal@humannize.com";
 	public static final String SUBMIT_ARTICLE_SUBJECT = "Submitted article";
 	public static final String CONTACT_US_SUBJECT = "Feedback";
