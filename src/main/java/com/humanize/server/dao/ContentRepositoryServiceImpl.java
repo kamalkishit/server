@@ -33,7 +33,6 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 			content = repository.save(content);
 			
 			if (content == null) {
-				logger.error("content is null");
 				throw new ContentCreationException(ErrorCodes.CONTENT_CREATION_ERROR);
 			}
 			
@@ -75,6 +74,7 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 		try {
 			return repository.findOne(contentId);
 		} catch (Exception exception) {
+			logger.error(TAG, exception);
 			throw new ContentNotFoundException(ErrorCodes.CONTENT_NOT_FOUND_ERROR);
 		}
 	}
@@ -136,8 +136,7 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 	}
 	
 	private Pageable createPagination(Direction direction, String field) {
-		Pageable pageRequest = new PageRequest(0, 20, new Sort(direction,
-				field));
+		Pageable pageRequest = new PageRequest(0, 20, new Sort(direction, field));
 		
 		return pageRequest;
 	}

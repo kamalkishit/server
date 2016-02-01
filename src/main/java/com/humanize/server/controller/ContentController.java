@@ -27,8 +27,6 @@ public class ContentController {
 	
 	@Autowired
 	private ContentService contentService;
-	
-	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	@RequestMapping("/api/content/create")
 	public ResponseEntity<Content> create(@RequestHeader(value="token") String token, @RequestBody Content content) throws ContentCreationException {

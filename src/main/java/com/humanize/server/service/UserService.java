@@ -14,6 +14,7 @@ public interface UserService {
 
 	String login(LoginUser loginUser) throws UserNotFoundException;
 	User signup(SignupUser user) throws UserCreationException;
+	User findByEmailId(String emailId) throws UserNotFoundException;
 	boolean invite(InviteUser inviteUser) throws EmailSendingException;
 	boolean suggest(SuggestArticle suggestArticle) throws EmailSendingException;
 	boolean contactUs(ContactUs contactUs) throws EmailSendingException;

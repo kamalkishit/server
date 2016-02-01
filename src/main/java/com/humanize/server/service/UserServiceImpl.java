@@ -54,7 +54,10 @@ public class UserServiceImpl implements UserService {
 		throw new UserNotFoundException(ErrorCodes.USER_NOT_FOUND_ERROR);
 	}
 
-
+	public User findByEmailId(String emailId) throws UserNotFoundException {
+		return repositoryService.findByEmailId(emailId);
+	}
+	
 	public User signup(SignupUser signupUser) throws UserCreationException {
 		try {
 			User user = new User();

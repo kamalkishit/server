@@ -29,7 +29,7 @@ public class AmazonS3ServiceImpl implements AmazonS3Service {
 	private static final String TAG = AmazonS3ServiceImpl.class.getSimpleName();
 
 	public AmazonS3ServiceImpl() {
-		s3Client = new AmazonS3Client(new BasicAWSCredentials("AKIAILGFWMFKMZVXRGIQ", "mcftDmizMAGfPL9vdEmP7G9Zl1wBvAnCcPJGpFmu"));
+		s3Client = new AmazonS3Client(new BasicAWSCredentials(Config.ACCESS_KEY, Config.SECRET_KEY));
 	}
 	
 	public void putImage(Content content) throws S3ImageCreationException {
@@ -48,7 +48,7 @@ public class AmazonS3ServiceImpl implements AmazonS3Service {
 	
 	public void getImage(Content content) throws S3ImageNotFoundException {
 		try {
-			S3Object s3Object = s3Client.getObject(Config.S3_BUCKET_IMAGES, content.getImageURL());
+			s3Client.getObject(Config.S3_BUCKET_IMAGES, content.getImageURL());
 		} catch (AmazonServiceException exception) {
 			logger.error(TAG, exception);
 			throw new S3ImageNotFoundException(ErrorCodes.S3_IMAGE_NOT_FOUND_ERROR);
@@ -59,15 +59,11 @@ public class AmazonS3ServiceImpl implements AmazonS3Service {
 	}
 	
 	public InputStream getImage(String imageName) throws S3ImageNotFoundException {
-		S3Object s3Object = null;
-		
 		try {
-			s3Object = s3Client.getObject(Config.S3_BUCKET_IMAGES, imageName);
+			return s3Client.getObject(Config.S3_BUCKET_IMAGES, imageName).getObjectContent();
 		} catch (Exception exception) {
 			logger.error(TAG, exception);
 			throw new S3ImageNotFoundException(ErrorCodes.S3_IMAGE_NOT_FOUND_ERROR);
 		}
-		
-		return s3Object.getObjectContent();
 	}
 }

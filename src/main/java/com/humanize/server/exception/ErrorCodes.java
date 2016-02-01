@@ -24,7 +24,12 @@ public enum ErrorCodes {
 	S3_IMAGE_CREATION_ERROR(10016, "S3 image creation error"),
 	S3_IMAGE_NOT_FOUND_ERROR(10017, "S3 image not found error"),
 	
-	EXCEL_TO_JSON_CONVERSION_ERROR(10018, "Excel to json conversion error");
+	EXCEL_TO_JSON_CONVERSION_ERROR(10018, "Excel to json conversion error"),
+	
+	USER_DEVICE_CREATION_ERROR(10019, "User device info creation error"),
+	USER_DEVICE_NOT_FOUND_ERROR(10020, "User device info not found error"),
+	USER_DEVICE_UPDATE_ERROR(10021, "User device info update error"),
+	USER_DEVICE_DELETION_ERROR(10022, "User device deletion error");
 	
 	private final int errorCode;
 	private final String errorMsg;

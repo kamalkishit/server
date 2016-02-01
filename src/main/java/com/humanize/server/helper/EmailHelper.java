@@ -18,7 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.humanize.server.config.Config;
-import com.humanize.server.dao.UserRepositoryServiceImpl;
 import com.humanize.server.data.ContactUs;
 import com.humanize.server.data.InviteUser;
 import com.humanize.server.data.SuggestArticle;
@@ -68,7 +67,7 @@ public class EmailHelper {
 		try {
 			Template template = velocityEngine.getTemplate("./InviteFriend.vm");
 			VelocityContext velocityContext = new VelocityContext();
-			velocityContext.put("email", inviteFriend.getEmailId());
+			velocityContext.put(Config.EMAIL_STR, inviteFriend.getEmailId());
 			   
 			StringWriter stringWriter = new StringWriter();
 			  

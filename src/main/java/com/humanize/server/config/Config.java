@@ -37,5 +37,10 @@ public class Config {
 	public static final String USER_AGENT = "User-Agent";
 	public static final String MOZILLA = "Mozilla";
 	
+	public static final String EMAIL_STR = "email";
+	
+	public static final String ACCESS_KEY = "AKIAILGFWMFKMZVXRGIQ";
+	public static final String SECRET_KEY = "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";
+	
 	public static final int IMAGE_SIZE = 512;
 }
