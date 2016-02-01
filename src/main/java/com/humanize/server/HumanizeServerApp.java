@@ -25,7 +25,6 @@ public class HumanizeServerApp extends SpringBootServletInitializer {
 			HumanizeServerApp.run(args);
 		} catch (Exception exception) {
 			logger.error(TAG, exception);
-			exception.printStackTrace();
 		}
 
 		SpringApplication.run(HumanizeServerApp.class, args);
