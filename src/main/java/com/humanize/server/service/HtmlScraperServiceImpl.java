@@ -119,6 +119,21 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 		}
 	}
 	
+	private String scrapPropertyWithoutException(String property) {
+		try {
+			Elements element = document.select(property);
+			
+			if (element != null && element.first() != null) {
+				return element.first().attr("content");
+			} 
+			
+			return null;
+		} catch (Exception exception) {
+			logger.error(TAG, exception);
+			return null;
+		}
+	}
+	
 	private String scrapTitle() throws Exception {
 		return scrapProperty("meta[property=og:title]");
 	}
@@ -127,8 +142,8 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 		return scrapProperty("meta[property=og:description]");
 	}
 	
-	private String scrapSource() throws Exception {
-		return scrapProperty("meta[property=og:site_name]");
+	private String scrapSource() {
+		return scrapPropertyWithoutException("meta[property=og:site_name]");
 	}
 	
 	private String scrapImageURL() throws Exception {

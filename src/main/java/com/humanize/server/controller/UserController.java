@@ -34,6 +34,11 @@ public class UserController {
 		return new ResponseEntity<Boolean>(userService.suggest(suggestArticle), HttpStatus.OK);
 	}
 	
+	@RequestMapping("/api/user/submit")
+	public ResponseEntity<Boolean> submit(@RequestBody SuggestArticle suggestArticle) throws EmailSendingException {
+		return new ResponseEntity<Boolean>(userService.suggest(suggestArticle), HttpStatus.OK);
+	}
+	
 	@RequestMapping("/api/user/contactUs")
 	public ResponseEntity<Boolean> contactUs(@RequestBody ContactUs contactUs) throws EmailSendingException {
 		return new ResponseEntity<Boolean>(userService.contactUs(contactUs), HttpStatus.OK);
