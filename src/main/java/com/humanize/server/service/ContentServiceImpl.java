@@ -57,6 +57,22 @@ public class ContentServiceImpl implements ContentService {
 		}
 	}
 	
+	public Content createManually(String token, Content content) throws ContentCreationException {
+		try {
+			content = htmlScraperService.scrapHtmlManually(content);
+			content.setType(Config.POSITIVE);
+			imageDownloaderService.downloadImage(content);
+			amazonS3Service.putImage(content);
+			return repositoryService.create(content);
+		} catch (ContentCreationException exception) {
+			logger.error(TAG, exception);
+			throw exception;
+		} catch (Exception exception) {
+			logger.error(TAG, exception);
+			throw new ContentCreationException(ErrorCodes.CONTENT_CREATION_ERROR);
+		}
+	}
+	
 	public boolean upload(String token) throws Exception {
 		try {
 			List<Content> contents = excelToJson.toJson(Config.EXCEL_FILE_PATH);

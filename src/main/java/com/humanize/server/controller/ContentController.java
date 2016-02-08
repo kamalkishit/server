@@ -33,6 +33,11 @@ public class ContentController {
 		return new ResponseEntity<Content>(contentService.create(token, content), HttpStatus.OK);
 	}
 	
+	@RequestMapping("/api/content/manualCreate")
+	public ResponseEntity<Content> createManually(@RequestHeader(value="token") String token, @RequestBody Content content) throws ContentCreationException {
+		return new ResponseEntity<Content>(contentService.createManually(token, content), HttpStatus.OK);
+	}
+	
 	@RequestMapping("/api/content/upload")
 	public ResponseEntity<Boolean> upload(@RequestHeader(value="token") String token) throws Exception {
 		return new ResponseEntity<Boolean>(contentService.upload(token), HttpStatus.OK);

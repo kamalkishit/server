@@ -58,14 +58,17 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 		}
 	}
 	
-	public List<Content> scrapHtml(List<Content> contents) throws HtmlScrapException {
-		List<Content> contentList = new ArrayList<Content>();
-		
-		for (Content content : contents) {
-			contentList.add(scrapHtml(content));
+	public Content scrapHtmlManually(Content content) throws HtmlScrapException {
+		try {
+			content.setContentId(createUniqueId());
+			content.setUrlId(createUrl(content.getTitle(), content.getContentId()));
+			content.setUrl(Config.URL_CONTENT + content.getUrlId());
+			content.setShortUrl(urlShortner.getShortUrl(content.getUrl()));
+			return content;
+		} catch (Exception exception) {
+			logger.error(TAG, exception);
+			throw new HtmlScrapException(ErrorCodes.HTML_SCRAP_ERROR);
 		}
-		
-		return contentList;
 	}
 	
 	private long createUniqueId() {
@@ -83,6 +86,7 @@ public class HtmlScraperServiceImpl implements HtmlScraperService{
 	}
 	
 	private String createUrl(String str, long contentId) {
+		str = str.replaceAll("[;&?:,'’!]", "");
 		String delims = " ";
 		StringTokenizer stringTokenizer = new StringTokenizer(str, delims);
 		String urlString = "";

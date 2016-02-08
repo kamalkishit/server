@@ -11,6 +11,7 @@ import com.humanize.server.exception.ContentUpdateException;
 public interface ContentService {
 
 	Content create(String token, Content content) throws ContentCreationException;
+	Content createManually(String token, Content content) throws ContentCreationException;
 	boolean upload(String token) throws Exception;
 	Contents find(ContentSearchParams contentSearchParams) throws ContentNotFoundException;
 	boolean update(ContentUpdateParams contentUpdateParams) throws ContentUpdateException;

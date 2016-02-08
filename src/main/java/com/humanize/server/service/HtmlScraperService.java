@@ -8,5 +8,5 @@ import com.humanize.server.exception.HtmlScrapException;
 public interface HtmlScraperService {
 	
 	Content scrapHtml(Content content) throws HtmlScrapException;
-	List<Content> scrapHtml(List<Content> contents) throws HtmlScrapException;
+	Content scrapHtmlManually(Content content) throws HtmlScrapException;
 }
