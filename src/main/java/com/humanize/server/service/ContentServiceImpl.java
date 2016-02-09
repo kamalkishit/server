@@ -104,6 +104,10 @@ public class ContentServiceImpl implements ContentService {
 				return incrViewedCount(contentUpdateParams.getContentId());
 			case SHARE:
 				return incrSharedCount(contentUpdateParams.getContentId());
+			case UPVOTE:
+				return incrUpvotedCount(contentUpdateParams.getContentId());
+			case DOWNVOTE:
+				return decrUpvotedCount(contentUpdateParams.getContentId());
 			default: 
 				return false;
 		}
@@ -116,10 +120,11 @@ public class ContentServiceImpl implements ContentService {
 		return new Contents(contents);
 	}
 	
-	public boolean incrViewedCount(String contentId) throws ContentUpdateException {
+	private boolean incrViewedCount(String contentId) throws ContentUpdateException {
 		try {
 			Content content = repositoryService.findOne(contentId);
 			content.setViewedCount(content.getViewedCount() + 1);
+			content.setContentWeight(content.getContentWeight() + Config.VIEW_WEIGHT);
 			repositoryService.update(content);
 			return true;
 		} catch (ContentNotFoundException exception) {
@@ -129,11 +134,43 @@ public class ContentServiceImpl implements ContentService {
 		}
 	}
 	
-	public boolean incrSharedCount(String contentId) throws ContentUpdateException {
+	private boolean incrUpvotedCount(String contentId) throws ContentUpdateException {
+		try {
+			Content content = repositoryService.findOne(contentId);
+			content.setUpvotedCount(content.getUpvotedCount() + 1);
+			content.setViewedCount(content.getViewedCount() + 1);
+			content.setContentWeight(content.getContentWeight() + Config.UPVOTE_WEIGHT + Config.VIEW_WEIGHT);
+			repositoryService.update(content);
+			return true;
+		} catch (ContentNotFoundException exception) {
+			throw new ContentUpdateException(ErrorCodes.CONTENT_UPDATE_ERROR);
+		} catch (Exception exception) {
+			throw new ContentUpdateException(ErrorCodes.CONTENT_UPDATE_ERROR);
+		}
+	}
+	
+	private boolean decrUpvotedCount(String contentId) throws ContentUpdateException {
+		try {
+			Content content = repositoryService.findOne(contentId);
+			content.setUpvotedCount(content.getUpvotedCount() - 1);
+			if ((content.getContentWeight() - Config.UPVOTE_WEIGHT) > 0) {
+				content.setContentWeight(content.getContentWeight() - Config.UPVOTE_WEIGHT);
+			}
+			repositoryService.update(content);
+			return true;
+		} catch (ContentNotFoundException exception) {
+			throw new ContentUpdateException(ErrorCodes.CONTENT_UPDATE_ERROR);
+		} catch (Exception exception) {
+			throw new ContentUpdateException(ErrorCodes.CONTENT_UPDATE_ERROR);
+		}
+	}
+	
+	private boolean incrSharedCount(String contentId) throws ContentUpdateException {
 		try {
 			Content content = repositoryService.findOne(contentId);
 			content.setSharedCount(content.getSharedCount() + 1);
 			content.setViewedCount(content.getViewedCount() + 1);
+			content.setContentWeight(content.getContentWeight() + Config.SHARE_WEIGHT + Config.VIEW_WEIGHT);
 			repositoryService.update(content);
 			return true;
 		} catch (ContentNotFoundException exception) {
