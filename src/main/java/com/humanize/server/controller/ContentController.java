@@ -48,6 +48,11 @@ public class ContentController {
 		return new ResponseEntity<Contents>(contentService.find(contentSearchParams), HttpStatus.OK);
 	}
 	
+	@RequestMapping("/api/content/trends")
+	public ResponseEntity<Contents> trends() throws ContentNotFoundException {
+		return new ResponseEntity<Contents>(contentService.trends(), HttpStatus.OK);
+	}
+	
 	@RequestMapping("/api/content/update")
 	public ResponseEntity<Boolean> update(@RequestBody ContentUpdateParams contentUpdateParams) throws ContentUpdateException {
 		return new ResponseEntity<Boolean>(contentService.update(contentUpdateParams), HttpStatus.OK);

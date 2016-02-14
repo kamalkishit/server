@@ -15,13 +15,16 @@ public interface ContentRepository extends MongoRepository<Content, String> {
 	@Query("{ 'category': { $in: ?0 }}")
 	List<Content> findByCategories(List<String> categories, Pageable pageRequest);
 	
-	@Query("{ 'category': { $in: ?0 }, 'createdDate': { $gt : ?1 }}")
+	@Query("{ 'category': { $in: ?0 }, 'createdDate': { $gt: ?1 }}")
 	List<Content> findNewByCategories(List<String> categories, long createdDate,
 			Pageable pageRequest);
 	
-	@Query("{ 'category': { $in: ?0 }, 'createdDate': { $lt : ?1 }}")
+	@Query("{ 'category': { $in: ?0 }, 'createdDate': { $lt: ?1 }}")
 	List<Content> findMoreByCategories(List<String> categories, long createdDate,
 			Pageable pageRequest);
+	
+	@Query("{ 'createdDate': { $gt: ?0 }}")
+	List<Content> trends(long createdDate, Pageable pageRequest);
 	
 	List<Content> findAll(Iterable<String> ids);
 	

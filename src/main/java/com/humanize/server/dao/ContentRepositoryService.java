@@ -14,6 +14,7 @@ public interface ContentRepositoryService {
 	Content create(Content content) throws ContentCreationException;
 	List<Content> create(List<Content> contents) throws ContentCreationException;
 	Content update(Content content) throws ContentUpdateException;
+	Contents trends(long createdDate) throws ContentNotFoundException;
 	Content findOne(String contentId) throws ContentNotFoundException;
 	Contents findByCategories(List<String> categories) throws ContentNotFoundException;
 	Contents findNewByCategories(List<String> categories, long createdDate) throws ContentNotFoundException;

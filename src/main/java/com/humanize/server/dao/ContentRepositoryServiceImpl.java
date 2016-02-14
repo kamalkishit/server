@@ -70,6 +70,17 @@ public class ContentRepositoryServiceImpl implements ContentRepositoryService {
 		}
 	}
 	
+	public Contents trends(long createdDate) throws ContentNotFoundException {
+		Pageable pageRequest = new PageRequest(0, 10, new Sort(Direction.DESC, "contentWeight"));
+		List<Content> contents = repository.trends(createdDate, pageRequest);
+		
+		if (contents != null && contents.size() > 0) {
+			return new Contents(contents);
+		}
+		
+		throw new ContentNotFoundException(ErrorCodes.CONTENT_NOT_FOUND_ERROR);
+	}
+	
 	public Content findOne(String contentId) throws ContentNotFoundException {
 		try {
 			return repository.findOne(contentId);

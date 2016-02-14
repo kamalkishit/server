@@ -1,6 +1,7 @@
 package com.humanize.server.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -12,7 +13,6 @@ import com.humanize.server.config.Config;
 import com.humanize.server.dao.ContentRepositoryService;
 import com.humanize.server.data.Content;
 import com.humanize.server.data.ContentSearchParams;
-import com.humanize.server.data.ContentUpdateOperations;
 import com.humanize.server.data.ContentUpdateParams;
 import com.humanize.server.data.Contents;
 import com.humanize.server.exception.ContentCreationException;
@@ -96,6 +96,15 @@ public class ContentServiceImpl implements ContentService {
 		} else {
 			return repositoryService.findByCategories(contentSearchParams.getCategories());
 		}
+	}
+	
+	public Contents trends() throws ContentNotFoundException {
+		Calendar calendar = Calendar.getInstance();
+		calendar.add(Calendar.DAY_OF_YEAR, -5);
+		long createdDate = calendar.getTimeInMillis();
+		
+		return repositoryService.trends(createdDate);
+		
 	}
 	
 	public boolean update(ContentUpdateParams contentUpdateParams) throws ContentUpdateException {
