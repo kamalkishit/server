@@ -100,7 +100,7 @@ public class ContentServiceImpl implements ContentService {
 	
 	public Contents trends() throws ContentNotFoundException {
 		Calendar calendar = Calendar.getInstance();
-		calendar.add(Calendar.DAY_OF_YEAR, -5);
+		calendar.add(Calendar.DAY_OF_YEAR, -3);
 		long createdDate = calendar.getTimeInMillis();
 		
 		return repositoryService.trends(createdDate);
