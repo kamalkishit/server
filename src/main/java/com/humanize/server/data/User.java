@@ -1,5 +1,6 @@
 package com.humanize.server.data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -11,9 +12,15 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.humanize.server.authentication.UserAuthority;
+import com.humanize.server.config.Config;
+import com.humanize.server.config.StringConstants;
 
 @Document
-public class User /*implements UserDetails*/ {
+public class User implements UserDetails {
 
 	@Id
 	private String id;
@@ -27,24 +34,29 @@ public class User /*implements UserDetails*/ {
 	@NotEmpty
 	private String password;
 	
-	@NotEmpty
-	private String invitedBy;
+	private String firstName;
 	
-	private List<String> typeOfArticles;
+	private String lastName;
+	
+	private String originalCity;
+	
+	private String currentCity;
+	
+    private PaperTime paperTime;
+    
+    private boolean notification;
 	
 	private List<String> categories;
 
-	private List<String> recommended;
+	private List<String> upvotes;
 
-	private List<String> bookmarked;
+	private List<String> bookmarks;
 
-	private List<String> created;
+	private List<String> posts;
 	
-	//private Set<UserAuthority> authorities;
+	private Set<UserAuthority> authorities;
 	
 	private boolean isVerified;
-	
-	private boolean isConfigured;
 	
 	private boolean isDeleted;
 	
@@ -65,6 +77,31 @@ public class User /*implements UserDetails*/ {
 
 	@NotNull
 	private boolean accountEnabled;
+	
+    public User() {
+        categories = new ArrayList<>();
+        bookmarks = new ArrayList<>();
+        upvotes = new ArrayList<>();
+        paperTime = new PaperTime(Config.PAPER_HOUR, Config.PAPER_MINUTE);
+        notification = true;
+
+        categories.add(StringConstants.ACHIEVERS);
+        categories.add(StringConstants.BEAUTIFUL);
+        categories.add(StringConstants.CHANGEMAKERS);
+        categories.add(StringConstants.EDUCATION);
+        categories.add(StringConstants.EMPOWERMENT);
+        categories.add(StringConstants.ENVIRONMENT);
+        categories.add(StringConstants.GOVERNANCE);
+        categories.add(StringConstants.HEALTH);
+        categories.add(StringConstants.HUMANITY);
+        categories.add(StringConstants.INSPIRING);
+        categories.add(StringConstants.KINDNESS);
+        categories.add(StringConstants.LAW_AND_JUSTICE);
+        categories.add(StringConstants.REAL_HEROES);
+        categories.add(StringConstants.SCIENCE_AND_TECH);
+        categories.add(StringConstants.SMILE);
+        categories.add(StringConstants.SPORTS);
+    }
 	
 	public String getId() {
 		return id;
@@ -98,22 +135,6 @@ public class User /*implements UserDetails*/ {
 		this.password = password;
 	}
 
-	public String getInvitedBy() {
-		return invitedBy;
-	}
-
-	public void setInvitedBy(String invitedBy) {
-		this.invitedBy = invitedBy;
-	}
-
-	public List<String> getTypeOfArticles() {
-		return typeOfArticles;
-	}
-
-	public void setTypeOfArticles(List<String> typeOfArticles) {
-		this.typeOfArticles = typeOfArticles;
-	}
-
 	public List<String> getCategories() {
 		return categories;
 	}
@@ -122,37 +143,37 @@ public class User /*implements UserDetails*/ {
 		this.categories = categories;
 	}
 
-	public List<String> getRecommended() {
-		return recommended;
-	}
-
-	public void setRecommended(List<String> recommended) {
-		this.recommended = recommended;
-	}
-
-	public List<String> getBookmarked() {
-		return bookmarked;
-	}
-
-	public void setBookmarked(List<String> bookmarked) {
-		this.bookmarked = bookmarked;
-	}
-
-	public List<String> getCreated() {
-		return created;
-	}
-
-	public void setCreated(List<String> created) {
-		this.created = created;
-	}
-
-	/*public Set<UserAuthority> getAuthorities() {
+	public Set<UserAuthority> getAuthorities() {
 		return authorities;
 	}
 
 	public void setAuthorities(Set<UserAuthority> authorities) {
 		this.authorities = authorities;
-	} */
+	}
+
+	public List<String> getUpvotes() {
+		return upvotes;
+	}
+
+	public void setUpvotes(List<String> upvotes) {
+		this.upvotes = upvotes;
+	}
+
+	public List<String> getBookmarks() {
+		return bookmarks;
+	}
+
+	public void setBookmarks(List<String> bookmarks) {
+		this.bookmarks = bookmarks;
+	}
+
+	public List<String> getPosts() {
+		return posts;
+	}
+
+	public void setPosts(List<String> posts) {
+		this.posts = posts;
+	}
 
 	public long getCreatedDate() {
 		return createdDate;
@@ -178,14 +199,6 @@ public class User /*implements UserDetails*/ {
 		this.isVerified = isVerified;
 	}
 
-	public boolean getIsConfigured() {
-		return isConfigured;
-	}
-
-	public void setIsConfigured(boolean isConfigured) {
-		this.isConfigured = isConfigured;
-	}
-
 	public boolean getIsDeleted() {
 		return isDeleted;
 	}
@@ -194,11 +207,11 @@ public class User /*implements UserDetails*/ {
 		this.isDeleted = isDeleted;
 	}
 	
-	/*@Override
+	@Override
 	public String getUsername() {
 		return emailId;
 	}
-	
+
 	@Override
 	@JsonIgnore
 	public boolean isAccountNonExpired() {
@@ -221,5 +234,5 @@ public class User /*implements UserDetails*/ {
 	@JsonIgnore
 	public boolean isEnabled() {
 		return !accountEnabled;
-	} */
+	}
 }

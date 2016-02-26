@@ -47,4 +47,7 @@ public class Config {
 	public static final int SHARE_WEIGHT = 4;
 	public static final int UPVOTE_WEIGHT = 2;
 	public static final int VIEW_WEIGHT = 1;
+	
+    public static int PAPER_HOUR = 8;
+    public static int PAPER_MINUTE = 0;
 }

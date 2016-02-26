@@ -9,7 +9,6 @@ public class SignupUser {
 	
 	@Email
 	private String emailId;
-	private String invitationCode;
 	private String password;
 	
 	public String getEmailId() {
@@ -19,15 +18,6 @@ public class SignupUser {
 	@Required
 	public void setEmailId(String emailId) {
 		this.emailId = emailId;
-	}
-	
-	public String getInvitationCode() {
-		return invitationCode;
-	}
-	
-	@Required
-	public void setInvitationCode(String invitationCode) {
-		this.invitationCode = invitationCode;
 	}
 	
 	public String getPassword() {

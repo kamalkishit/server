@@ -12,6 +12,7 @@ import com.humanize.server.dao.UserRepositoryService;
 import com.humanize.server.data.ContactUs;
 import com.humanize.server.data.InviteUser;
 import com.humanize.server.data.LoginUser;
+import com.humanize.server.data.ResetPasswordUser;
 import com.humanize.server.data.SignupUser;
 import com.humanize.server.data.SuggestArticle;
 import com.humanize.server.data.User;
@@ -58,18 +59,34 @@ public class UserServiceImpl implements UserService {
 		return repositoryService.findByEmailId(emailId);
 	}
 	
+	public User findByToken(String token) throws UserNotFoundException {
+		try {
+			String emailId = JsonWebTokenServiceImpl.getInstance().validateToken(token);
+			return findByEmailId(emailId);
+		} catch (Exception exception) {
+			throw new UserNotFoundException(ErrorCodes.USER_NOT_FOUND_ERROR);
+		}
+	}
+	
 	public User signup(SignupUser signupUser) throws UserCreationException {
 		try {
 			User user = new User();
 			user.setEmailId(signupUser.getEmailId());
 			user.setPassword(saltedHashPassword.getSaltedHash(signupUser.getPassword()));
 			user.setUserId(new Timestamp(new Date().getTime()).getTime());
-			user.setInvitedBy("kamal@humannize.com");
 			return repositoryService.create(user);
 		} catch (Exception exception) {
 			logger.error(TAG, exception);
 			throw new UserCreationException(ErrorCodes.USER_CREATION_ERROR);
 		}
+	}
+	
+	public boolean forgotPassword(String emailId) throws EmailSendingException {
+		return true;
+	}
+	
+	public boolean resetPassword(ResetPasswordUser resetPasswordUser) throws Exception {
+		return true;
 	}
 	
 	public boolean invite(InviteUser inviteFriend) throws EmailSendingException {
