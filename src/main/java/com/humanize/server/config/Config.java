@@ -42,7 +42,7 @@ public class Config {
 	public static final String ACCESS_KEY = "AKIAILGFWMFKMZVXRGIQ";
 	public static final String SECRET_KEY = "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";
 	
-	public static final int IMAGE_SIZE = 512;
+	public static final int IMAGE_SIZE = 1024;
 	
 	public static final int SHARE_WEIGHT = 4;
 	public static final int UPVOTE_WEIGHT = 2;

@@ -2,7 +2,6 @@ package com.humanize.server.data;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
@@ -12,15 +11,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.humanize.server.authentication.UserAuthority;
 import com.humanize.server.config.Config;
 import com.humanize.server.config.StringConstants;
 
 @Document
-public class User implements UserDetails {
+public class User {
 
 	@Id
 	private String id;
@@ -53,8 +49,6 @@ public class User implements UserDetails {
 	private List<String> bookmarks;
 
 	private List<String> posts;
-	
-	private Set<UserAuthority> authorities;
 	
 	private boolean isVerified;
 	
@@ -143,14 +137,6 @@ public class User implements UserDetails {
 		this.categories = categories;
 	}
 
-	public Set<UserAuthority> getAuthorities() {
-		return authorities;
-	}
-
-	public void setAuthorities(Set<UserAuthority> authorities) {
-		this.authorities = authorities;
-	}
-
 	public List<String> getUpvotes() {
 		return upvotes;
 	}
@@ -205,34 +191,5 @@ public class User implements UserDetails {
 
 	public void setIsDeleted(boolean isDeleted) {
 		this.isDeleted = isDeleted;
-	}
-	
-	@Override
-	public String getUsername() {
-		return emailId;
-	}
-
-	@Override
-	@JsonIgnore
-	public boolean isAccountNonExpired() {
-		return !accountExpired;
-	}
-
-	@Override
-	@JsonIgnore
-	public boolean isAccountNonLocked() {
-		return !accountLocked;
-	}
-
-	@Override
-	@JsonIgnore
-	public boolean isCredentialsNonExpired() {
-		return !credentialsExpired;
-	}
-
-	@Override
-	@JsonIgnore
-	public boolean isEnabled() {
-		return !accountEnabled;
 	}
 }
