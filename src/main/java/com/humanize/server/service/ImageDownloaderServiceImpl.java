@@ -126,7 +126,7 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 	private void saveImage(BufferedImage bufferedImage, String extension, String imageFilename) 
 		throws Exception {
 		try {
-			if (!extension.equals("jpeg")) {
+			if (!extension.equals("jpeg") && !extension.equals("png")) {
 				ImageIO.write(bufferedImage, "jpg", new File(imageFilename));
 			} else {
 				ImageIO.write(bufferedImage, extension, new File(imageFilename));
