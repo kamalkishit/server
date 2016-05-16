@@ -63,13 +63,26 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 	}
 	
 	private String getTempImageFilename(Content content) {
-		String tempImageFilename = Config.TEMP_IMAGE_FOLDER + content.getContentId() + content.getOriginalImageUrl().substring(content.getOriginalImageUrl().lastIndexOf('.'));
+		String extension = content.getOriginalImageUrl().substring(content.getOriginalImageUrl().lastIndexOf('.'));
+		
+		if (extension.lastIndexOf('?') != -1 ) {
+			extension = extension.substring(0, extension.lastIndexOf('?'));
+		}
+		
+		String tempImageFilename = Config.TEMP_IMAGE_FOLDER + content.getContentId() + extension;
 		
 		return tempImageFilename;
 	}
 	
 	private String getImageFilename(Content content) {
-		String imageFilename = Config.IMAGE_FOLDER + content.getContentId() + content.getOriginalImageUrl().substring(content.getOriginalImageUrl().lastIndexOf('.'));
+		String extension = content.getOriginalImageUrl().substring(content.getOriginalImageUrl().lastIndexOf('.'));
+		
+		if (extension.lastIndexOf('?') != -1 ) {
+			extension = extension.substring(0, extension.lastIndexOf('?'));
+		}
+		
+		System.out.println(extension);
+		String imageFilename = Config.IMAGE_FOLDER + content.getContentId() + extension;
 		
 		return imageFilename;
 	}
@@ -118,9 +131,7 @@ public class ImageDownloaderServiceImpl implements ImageDownloaderService{
 	}
 	
 	private String getExtension(String imageFilename) {
-		String extension = imageFilename.substring(imageFilename.lastIndexOf('.') + 1);
-		
-		return extension;
+		return imageFilename.substring(imageFilename.lastIndexOf('.') + 1);
 	}
 	
 	private void saveImage(BufferedImage bufferedImage, String extension, String imageFilename) 
